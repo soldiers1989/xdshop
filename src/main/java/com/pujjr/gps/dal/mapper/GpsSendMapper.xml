@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pujjr.gps.dal.dao.GpsSendMapper">
+  <resultMap id="BaseResultMap" type="com.pujjr.gps.dal.domain.GpsSend">
+    <id column="send_id" jdbcType="VARCHAR" property="sendId" />
+    <result column="detail_id" jdbcType="VARCHAR" property="detailId" />
+    <result column="brand_id" jdbcType="VARCHAR" property="brandId" />
+    <result column="outstore_id" jdbcType="VARCHAR" property="outstoreId" />
+    <result column="gps_id" jdbcType="VARCHAR" property="gpsId" />
+    <result column="gps_category" jdbcType="VARCHAR" property="gpsCategory" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="send_time" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="consigner" jdbcType="VARCHAR" property="consigner" />
+    <result column="is_send" jdbcType="INTEGER" property="isSend" />
+    <result column="express_company" jdbcType="VARCHAR" property="expressCompany" />
+    <result column="express_no" jdbcType="VARCHAR" property="expressNo" />
+    <result column="supplier_id" jdbcType="VARCHAR" property="supplierId" />
+    <result column="apply_id" jdbcType="VARCHAR" property="applyId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    send_id, detail_id, brand_id, outstore_id, gps_id, gps_category, create_time, send_time, 
+    consigner, is_send, express_company, express_no, supplier_id,apply_id
+  </sql>
+  
+  <select id="selectAllSendByIsSend" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/>
+  	from t_gps_send
+  	where is_send = #{isSend}
+  </select>
+</mapper>

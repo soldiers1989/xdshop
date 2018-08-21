@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pujjr.gps.dal.dao.GpsInstoreBranchMapper">
+  <resultMap id="BaseResultMap" type="com.pujjr.gps.dal.domain.GpsInstoreBranch">
+    <id column="instore_id" jdbcType="VARCHAR" property="instoreId" />
+    <result column="gps_id" jdbcType="VARCHAR" property="gpsId" />
+    <result column="branch_id" jdbcType="VARCHAR" property="branchId" />
+    <result column="branch_name" jdbcType="VARCHAR" property="branchName" />
+    <result column="brand_id" jdbcType="VARCHAR" property="brandId" />
+    <result column="gps_category" jdbcType="VARCHAR" property="gpsCategory" />
+    <result column="create_account_id" jdbcType="VARCHAR" property="createAccountId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    instore_id, gps_id, branch_id, branch_name, brand_id, gps_category, create_account_id, 
+    create_time
+  </sql>
+ 
+</mapper>

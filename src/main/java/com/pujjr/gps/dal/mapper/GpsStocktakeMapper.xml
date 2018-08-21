@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pujjr.gps.dal.dao.GpsStocktakeMapper">
+  <resultMap id="BaseResultMap" type="com.pujjr.gps.dal.domain.GpsStocktake">
+    <id column="stocktake_id" jdbcType="VARCHAR" property="stocktakeId" />
+    <result column="used_wire_num" jdbcType="INTEGER" property="usedWireNum" />
+    <result column="used_wireless_num" jdbcType="INTEGER" property="usedWirelessNum" />
+    <result column="total_wire_num" jdbcType="INTEGER" property="totalWireNum" />
+    <result column="total_wireless_num" jdbcType="INTEGER" property="totalWirelessNum" />
+    <result column="apply_wire_num" jdbcType="INTEGER" property="applyWireNum" />
+    <result column="apply_wireless_num" jdbcType="INTEGER" property="applyWirelessNum" />
+    <result column="branch_id" jdbcType="VARCHAR" property="branchId" />
+    <result column="branch_name" jdbcType="VARCHAR" property="branchName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="stocktake_type" jdbcType="VARCHAR" property="stocktakeType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    stocktake_id, used_wire_num, used_wireless_num, total_wire_num, total_wireless_num, 
+    apply_wire_num, apply_wireless_num, branch_id, branch_name, create_time,stocktake_type
+  </sql>
+
+	<select id="selectGpsStoreTake" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from t_gps_stocktake t
+		where 1=1
+		<if test="stocktakeParam.branchId != null and stocktakeParam.branchId != ''">
+			and t.branch_id = #{stocktakeParam.branchId} 
+		</if>
+		<if test="stocktakeParam.timeBegin != null and stocktakeParam.timeBegin != ''">
+ 			and t.create_time <![CDATA[>=]]> #{stocktakeParam.timeBegin}
+ 		</if>
+ 		<if test="stocktakeParam.timeEnd != null and stocktakeParam.timeEnd != ''">
+ 			and t.create_time <![CDATA[<]]> #{stocktakeParam.timeEnd}
+ 		</if>
+ 		and t.stocktake_type = 'batch'
+	</select>
+	
+	<select id="selectGpsStocktakeById" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from t_gps_stocktake t
+		where stocktake_id = #{stocktakeId}
+	</select>
+	
+	
+</mapper>

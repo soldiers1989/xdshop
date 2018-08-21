@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pujjr.gps.dal.dao.GpsOrderMapper">
+  <resultMap id="BaseResultMap" type="com.pujjr.gps.dal.domain.GpsOrder">
+    <id column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="supplier_id" jdbcType="VARCHAR" property="supplierId" />
+    <result column="order_time" jdbcType="TIMESTAMP" property="orderTime" />
+    <result column="wire_num" jdbcType="INTEGER" property="wireNum" />
+    <result column="wireless_num" jdbcType="INTEGER" property="wirelessNum" />
+    <result column="total_num" jdbcType="INTEGER" property="totalNum" />
+    <result column="create_account_id" jdbcType="VARCHAR" property="createAccountId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    order_id, supplier_id, order_time, wire_num, wireless_num, total_num, create_account_id, 
+    create_time, order_status
+  </sql>
+</mapper>

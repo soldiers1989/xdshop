@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pujjr.gps.dal.dao.GpsOutstorePjMapper">
+  <resultMap id="BaseResultMap" type="com.pujjr.gps.dal.domain.GpsOutstorePj">
+    <id column="outstore_id" jdbcType="VARCHAR" property="outstoreId" />
+    <result column="gps_id" jdbcType="VARCHAR" property="gpsId" />
+    <result column="create_account_id" jdbcType="VARCHAR" property="createAccountId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    outstore_id, gps_id, create_account_id, create_time
+  </sql>
+
+</mapper>

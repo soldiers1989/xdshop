@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pujjr.gps.dal.dao.GpsApplybackMapper">
+  <resultMap id="BaseResultMap" type="com.pujjr.gps.dal.domain.GpsApplyback">
+    <id column="applyback_id" jdbcType="VARCHAR" property="applybackId" />
+    <result column="branch_id" jdbcType="VARCHAR" property="branchId" />
+    <result column="branch_name" jdbcType="VARCHAR" property="branchName" />
+    <result column="acreate_ccount_id" jdbcType="VARCHAR" property="acreateCcountId" />
+    <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime" />
+    <result column="applyback_status" jdbcType="VARCHAR" property="applybackStatus" />
+    <result column="applyback_note" jdbcType="VARCHAR" property="applybackNote" />
+    <result column="express_company" jdbcType="VARCHAR" property="expressCompany" />
+    <result column="express_no" jdbcType="VARCHAR" property="expressNo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    applyback_id, branch_id, branch_name, acreate_ccount_id, apply_time, applyback_status, 
+    applyback_note,express_no,express_company
+  </sql>
+  
+  <select id="selectNotFinishApplyback" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_gps_applyback
+    where applyback_status in('00','01')
+  </select>
+  
+  
+
+</mapper>

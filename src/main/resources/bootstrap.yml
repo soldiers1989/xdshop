@@ -1,0 +1,54 @@
+#应用配置
+server:
+  port: 9090
+  #编码相关设值
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+  server.tomcat.uri-encoding: UTF-8
+#mybatis数据库扫描包路径及mapper文件路径
+mybatis:
+  type-aliases-package: com.pujjr.gps.dal.domain
+  mapper-locations: com/pujjr/gps/dal/mapper/*.xml
+  configuration:
+    mapUnderscoreToCamelCase: true
+#说明
+info:
+  artifactId: "@pom.artifactId@"
+  name: "@project.name@"
+  version: "@project.version@"
+  description: "@project.description@"
+  groupId: "@project.groupId@"
+#日志配置
+logging:
+  path: pujjr_gps_log
+#spring配置
+spring:
+  http: 
+    multipart:
+      maxFileSize: 20Mb  
+      maxRequestSize: 100Mb 
+  application:
+    name: "@pom.artifactId@"
+  # 默认的 profile 为 dev，其他环境通过指定启动参数使用不同的 profile，比如：  
+  #生产环境：java -jar icbc-mq-server-1.0.3.jar --config.profile=prod &
+  #生产环境：java -jar icbc-mq-server.jar --spring.profiles.active=prod &
+  #maven方式:mvn clean package -Dmaven.test.skip=true -P prod
+  #默认使用maven的环境
+  profiles:  
+    active: ${config.profile:@profiles.active@}
+  datasource:
+    #验证连接的有效性
+    test-while-idle: true
+    #获取连接时候验证，会影响性能
+    test-on-borrow: true
+    #验证语句
+    validation-query: SELECT 'x'
+    #空闲连接回收的时间间隔，与test-while-idle一起使用，设置5分钟
+    time-between-eviction-runs-millis: 300000
+    #连接池空闲连接的有效时间 ，设置30分钟
+    min-evictable-idle-time-millis: 1800000
+
+

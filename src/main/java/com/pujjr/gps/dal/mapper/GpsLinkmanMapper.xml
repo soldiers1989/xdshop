@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pujjr.gps.dal.dao.GpsLinkmanMapper">
+  <resultMap id="BaseResultMap" type="com.pujjr.gps.dal.domain.GpsLinkman">
+    <id column="linkman_id" jdbcType="VARCHAR" property="linkmanId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="mobile1" jdbcType="VARCHAR" property="mobile1" />
+    <result column="mobile2" jdbcType="VARCHAR" property="mobile2" />
+    <result column="branch_id" jdbcType="VARCHAR" property="branchId" />
+    <result column="addr_province" jdbcType="VARCHAR" property="addrProvince" />
+    <result column="addr_province_name" jdbcType="VARCHAR" property="addrProvinceName" />
+    <result column="addr_city" jdbcType="VARCHAR" property="addrCity" />
+    <result column="addr_city_name" jdbcType="VARCHAR" property="addrCityName" />
+    <result column="addr_district" jdbcType="VARCHAR" property="addrDistrict" />
+    <result column="addr_district_name" jdbcType="VARCHAR" property="addrDistrictName" />
+    <result column="addr_detail" jdbcType="VARCHAR" property="addrDetail" />
+    <result column="branch_name" jdbcType="VARCHAR" property="branchName" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="is_default" jdbcType="BIT" property="isDefault" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    linkman_id, name, mobile1, mobile2, branch_id, addr_province, addr_province_name, 
+    addr_city, addr_city_name, addr_district, addr_district_name, addr_detail, branch_name, 
+    email, is_default
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_gps_linkman
+    where linkman_id = #{linkmanId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_gps_linkman
+    where linkman_id = #{linkmanId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pujjr.gps.dal.domain.GpsLinkman">
+    insert into t_gps_linkman (linkman_id, name, mobile1, 
+      mobile2, branch_id, addr_province, 
+      addr_province_name, addr_city, addr_city_name, 
+      addr_district, addr_district_name, addr_detail, 
+      branch_name, email, is_default
+      )
+    values (#{linkmanId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{mobile1,jdbcType=VARCHAR}, 
+      #{mobile2,jdbcType=VARCHAR}, #{branchId,jdbcType=VARCHAR}, #{addrProvince,jdbcType=VARCHAR}, 
+      #{addrProvinceName,jdbcType=VARCHAR}, #{addrCity,jdbcType=VARCHAR}, #{addrCityName,jdbcType=VARCHAR}, 
+      #{addrDistrict,jdbcType=VARCHAR}, #{addrDistrictName,jdbcType=VARCHAR}, #{addrDetail,jdbcType=VARCHAR}, 
+      #{branchName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{isDefault,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pujjr.gps.dal.domain.GpsLinkman">
+    insert into t_gps_linkman
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="linkmanId != null">
+        linkman_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="mobile1 != null">
+        mobile1,
+      </if>
+      <if test="mobile2 != null">
+        mobile2,
+      </if>
+      <if test="branchId != null">
+        branch_id,
+      </if>
+      <if test="addrProvince != null">
+        addr_province,
+      </if>
+      <if test="addrProvinceName != null">
+        addr_province_name,
+      </if>
+      <if test="addrCity != null">
+        addr_city,
+      </if>
+      <if test="addrCityName != null">
+        addr_city_name,
+      </if>
+      <if test="addrDistrict != null">
+        addr_district,
+      </if>
+      <if test="addrDistrictName != null">
+        addr_district_name,
+      </if>
+      <if test="addrDetail != null">
+        addr_detail,
+      </if>
+      <if test="branchName != null">
+        branch_name,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="isDefault != null">
+        is_default,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="linkmanId != null">
+        #{linkmanId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile1 != null">
+        #{mobile1,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile2 != null">
+        #{mobile2,jdbcType=VARCHAR},
+      </if>
+      <if test="branchId != null">
+        #{branchId,jdbcType=VARCHAR},
+      </if>
+      <if test="addrProvince != null">
+        #{addrProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="addrProvinceName != null">
+        #{addrProvinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="addrCity != null">
+        #{addrCity,jdbcType=VARCHAR},
+      </if>
+      <if test="addrCityName != null">
+        #{addrCityName,jdbcType=VARCHAR},
+      </if>
+      <if test="addrDistrict != null">
+        #{addrDistrict,jdbcType=VARCHAR},
+      </if>
+      <if test="addrDistrictName != null">
+        #{addrDistrictName,jdbcType=VARCHAR},
+      </if>
+      <if test="addrDetail != null">
+        #{addrDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="branchName != null">
+        #{branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefault != null">
+        #{isDefault,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pujjr.gps.dal.domain.GpsLinkman">
+    update t_gps_linkman
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile1 != null">
+        mobile1 = #{mobile1,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile2 != null">
+        mobile2 = #{mobile2,jdbcType=VARCHAR},
+      </if>
+      <if test="branchId != null">
+        branch_id = #{branchId,jdbcType=VARCHAR},
+      </if>
+      <if test="addrProvince != null">
+        addr_province = #{addrProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="addrProvinceName != null">
+        addr_province_name = #{addrProvinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="addrCity != null">
+        addr_city = #{addrCity,jdbcType=VARCHAR},
+      </if>
+      <if test="addrCityName != null">
+        addr_city_name = #{addrCityName,jdbcType=VARCHAR},
+      </if>
+      <if test="addrDistrict != null">
+        addr_district = #{addrDistrict,jdbcType=VARCHAR},
+      </if>
+      <if test="addrDistrictName != null">
+        addr_district_name = #{addrDistrictName,jdbcType=VARCHAR},
+      </if>
+      <if test="addrDetail != null">
+        addr_detail = #{addrDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="branchName != null">
+        branch_name = #{branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefault != null">
+        is_default = #{isDefault,jdbcType=BIT},
+      </if>
+    </set>
+    where linkman_id = #{linkmanId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pujjr.gps.dal.domain.GpsLinkman">
+    update t_gps_linkman
+    set name = #{name,jdbcType=VARCHAR},
+      mobile1 = #{mobile1,jdbcType=VARCHAR},
+      mobile2 = #{mobile2,jdbcType=VARCHAR},
+      branch_id = #{branchId,jdbcType=VARCHAR},
+      addr_province = #{addrProvince,jdbcType=VARCHAR},
+      addr_province_name = #{addrProvinceName,jdbcType=VARCHAR},
+      addr_city = #{addrCity,jdbcType=VARCHAR},
+      addr_city_name = #{addrCityName,jdbcType=VARCHAR},
+      addr_district = #{addrDistrict,jdbcType=VARCHAR},
+      addr_district_name = #{addrDistrictName,jdbcType=VARCHAR},
+      addr_detail = #{addrDetail,jdbcType=VARCHAR},
+      branch_name = #{branchName,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      is_default = #{isDefault,jdbcType=BIT}
+    where linkman_id = #{linkmanId,jdbcType=VARCHAR}
+  </update>
+  
+  
+  <select id="selectGpsLinkmanByBranchId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_gps_linkman
+    <where>
+	    <if test="branchId != 'null' and branchId != '' and branchId != null">
+	    	branch_id = #{branchId,jdbcType=VARCHAR}
+	    </if>
+    </where>
+  </select>
+  
+  <select id="selectGpsLinkmanByParam" parameterType="com.pujjr.gps.dal.domain.GpsLinkman" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_gps_linkman
+    <where>
+	    <if test="gpsLinkmanParam.branchId != 'null' and gpsLinkmanParam.branchId != '' and gpsLinkmanParam.branchId != null">
+	    	branch_id = #{gpsLinkmanParam.branchId,jdbcType=VARCHAR}
+	    </if>
+    </where>
+    order by branch_name
+  </select>
+  
+  <select id="selectDefaultLinkmanByBranchId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_gps_linkman
+    where branch_id = #{branchId,jdbcType=VARCHAR} and is_default = 1
+  </select>
+  
+  <select id="selectAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_gps_linkman
+  </select>
+  
+  
+  
+</mapper>

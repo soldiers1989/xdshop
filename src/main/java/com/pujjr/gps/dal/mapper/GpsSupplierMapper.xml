@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pujjr.gps.dal.dao.GpsSupplierMapper">
+  <resultMap id="BaseResultMap" type="com.pujjr.gps.dal.domain.GpsSupplier">
+    <id column="supplier_code" jdbcType="VARCHAR" property="supplierCode" />
+    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="is_outstore_record" jdbcType="VARCHAR" property="isOutstoreRecord" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    supplier_code, supplier_name,is_outstore_record
+  </sql>
+
+</mapper>

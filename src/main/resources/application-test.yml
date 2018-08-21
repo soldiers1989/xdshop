@@ -1,0 +1,13 @@
+#日志配置
+logging:
+  level:
+    root: debug
+#数据库数据源
+druid:
+  url: jdbc:mysql://10.0.2.178:3306/icbcmq
+  username: pkms
+  password: pkms
+  initial-size: 1
+  min-idle: 1
+  max-active: 20
+  test-on-borrow: true

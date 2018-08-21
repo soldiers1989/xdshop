@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pujjr.gps.dal.dao.GpsApplyMapper">
+  <resultMap id="BaseResultMap" type="com.pujjr.gps.dal.domain.GpsApply">
+    <id column="apply_id" jdbcType="VARCHAR" property="applyId" />
+    <result column="linkman_id" jdbcType="VARCHAR" property="linkmanId" />
+    <result column="stocktake_id" jdbcType="VARCHAR" property="stocktakeId" />
+    <result column="branch_id" jdbcType="VARCHAR" property="branchId" />
+    <result column="branch_name" jdbcType="VARCHAR" property="branchName" />
+    <result column="wire_num" jdbcType="INTEGER" property="wireNum" />
+    <result column="wireless_num" jdbcType="INTEGER" property="wirelessNum" />
+    <result column="create_account_id" jdbcType="VARCHAR" property="createAccountId" />
+    <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime" />
+    <result column="apply_type" jdbcType="VARCHAR" property="applyType" />
+    <result column="apply_channel" jdbcType="VARCHAR" property="applyChannel" />
+    <result column="apply_status" jdbcType="VARCHAR" property="applyStatus" />
+    <result column="wait_receive_order_num" jdbcType="INTEGER" property="waitReceiveOrderNum" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="free_wire_num" jdbcType="INTEGER" property="freeWireNum" />
+    <result column="free_wireless_num" jdbcType="INTEGER" property="freeWirelessNum" />
+    <result column="used_wire_num" jdbcType="INTEGER" property="usedWireNum" />
+    <result column="used_wireless_num" jdbcType="INTEGER" property="usedWirelessNum" />
+    <result column="total_wire_num" jdbcType="INTEGER" property="totalWireNum" />
+    <result column="total_wireless_num" jdbcType="INTEGER" property="totalWirelessNum" />
+  </resultMap>
+  
+ <resultMap id="WaitApplyResultMap" type="com.pujjr.gps.dal.domain.GpsApplyDo">
+    <id column="apply_id" jdbcType="VARCHAR" property="applyId" />
+    <result column="linkman_id" jdbcType="VARCHAR" property="linkmanId" />
+    <result column="stocktake_id" jdbcType="VARCHAR" property="stocktakeId" />
+    <result column="branch_id" jdbcType="VARCHAR" property="branchId" />
+    <result column="branch_name" jdbcType="VARCHAR" property="branchName" />
+    <result column="stocktake_id" jdbcType="VARCHAR" property="stocktakeId" />
+    <result column="wire_num" jdbcType="INTEGER" property="wireNum" />
+    <result column="wireless_num" jdbcType="INTEGER" property="wirelessNum" />
+    <result column="create_account_id" jdbcType="VARCHAR" property="createAccountId" />
+    <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime" />
+    <result column="apply_type" jdbcType="VARCHAR" property="applyType" />
+    <result column="apply_channel" jdbcType="VARCHAR" property="applyChannel" />
+    <result column="apply_status" jdbcType="VARCHAR" property="applyStatus" />
+    <result column="wait_receive_order_num" jdbcType="INTEGER" property="waitReceiveOrderNum" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="wait_receive_order_num" jdbcType="INTEGER" property="waitReceiveOrderNum" />
+    <result column="free_wire_num" jdbcType="INTEGER" property="freeWireNum" />
+    <result column="free_wireless_num" jdbcType="INTEGER" property="freeWirelessNum" />
+    <result column="used_wire_num" jdbcType="INTEGER" property="usedWireNum" />
+    <result column="used_wireless_num" jdbcType="INTEGER" property="usedWirelessNum" />
+    <result column="unused_wire_num" jdbcType="INTEGER" property="unusedWireNum" />
+    <result column="unused_wireless_num" jdbcType="INTEGER" property="unusedWirelessNum" />
+    <result column="total_wire_num" jdbcType="INTEGER" property="totalWireNum" />
+    <result column="total_wireless_num" jdbcType="INTEGER" property="totalWirelessNum" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    apply_id, linkman_id, branch_id, branch_name,stocktake_id, wire_num, wireless_num, create_account_id, 
+    apply_time, apply_type, apply_channel, apply_status, wait_receive_order_num, remark,free_wire_num,free_wireless_num,
+    used_wire_num,used_wireless_num,total_wire_num,total_wireless_num
+  </sql>
+  <sql id="WaitApply_Column_List">
+    apply_id, linkman_id,stocktake_id, branch_id, branch_name, wire_num, wireless_num, create_account_id, 
+    apply_time, apply_type, apply_channel, apply_status, wait_receive_order_num, remark,unused_wire_num,unused_wireless_num
+    ,total_wire_num,total_wireless_num
+  </sql>
+
+ 	<select id="selectWaitApplyList" resultMap="WaitApplyResultMap">
+ 		select t.*,
+ 		t.free_wire_num as 'unused_wire_num',
+ 		t.free_wireless_num as 'unused_wireless_num'
+ 		from t_gps_apply t
+		<where>
+			(t.free_wire_num > 0 or t.free_wireless_num > 0) and t.apply_status in ('05','07')
+			<if test="applySearchParam.branchId != null and applySearchParam.branchId != ''">
+				and t.branch_id = #{applySearchParam.branchId}
+			</if>
+			<if test="applySearchParam.timeBegin != null">
+			   and t.apply_time <![CDATA[>=]]> #{applySearchParam.timeBegin}
+			</if>
+			<if test="applySearchParam.timeEnd != null">
+			   and t.apply_time <![CDATA[<]]> #{applySearchParam.timeEnd}
+			</if>
+			<if test="applySearchParam.applyId != null and applySearchParam.applyId != ''">
+			   and t.apply_id = #{applySearchParam.applyId}
+			</if>
+		</where>
+  	</select>
+  	
+  	
+  	<select id="selectAllUnFinishApply" parameterType="java.lang.String" resultMap="WaitApplyResultMap">
+ 		select 
+ 		<include refid="Base_Column_List" />
+ 		from t_gps_apply
+ 		where branch_id = #{branchId} and apply_status in ('02','03','05','07','08')
+  	</select>
+  	
+  	<select id="selectAllApplyByParamMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+ 		select 
+ 		<include refid="Base_Column_List"/>
+ 		from t_gps_apply
+ 		where 1=1
+ 		<if test="applySearchParam.applyId != null and applySearchParam.applyId != ''">
+ 			and apply_id = #{applySearchParam.applyId}
+ 		</if>
+ 		<if test="applySearchParam.branchId != null and applySearchParam.branchId != ''">
+ 			and branch_id = #{applySearchParam.branchId}
+ 		</if>
+ 		<if test="applySearchParam.timeBegin != null">
+ 			and apply_time <![CDATA[>=]]> #{applySearchParam.timeBegin}
+ 		</if>
+ 		<if test="applySearchParam.timeEnd != null">
+ 			and apply_time <![CDATA[<]]> #{applySearchParam.timeEnd}
+ 		</if>
+		<if test="statusList != null">
+			and apply_status in
+			<foreach item="item" index="index" collection="statusList" open="(" separator="," close=")">
+			#{item}   
+			</foreach>
+		</if>
+		order by apply_time desc
+  	</select>
+  	<select id="selectApplyByLinkmanId" parameterType="java.lang.String" resultMap="WaitApplyResultMap">
+ 		select 
+ 		<include refid="Base_Column_List" />
+ 		from t_gps_apply
+ 		where linkman_id = #{linkmanId}
+  	</select>
+
+	<select id="selectUnCommitApply" parameterType="java.lang.String" resultMap="WaitApplyResultMap">
+ 		select 
+ 		<include refid="Base_Column_List" />
+ 		from t_gps_apply
+ 		where branch_id = #{branchId} and apply_status in ('01')
+  	</select>
+
+</mapper>

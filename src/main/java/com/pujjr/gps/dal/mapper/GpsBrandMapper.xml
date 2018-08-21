@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pujjr.gps.dal.dao.GpsBrandMapper">
+  <!-- <resultMap id="BaseResultMap" type="com.pujjr.gps.dal.domain.GpsBrand">
+    <id column="brand_id" jdbcType="VARCHAR" property="brandId" />
+    <result column="brand_name" jdbcType="VARCHAR" property="brandName" />
+    <result column="apply_channel" jdbcType="VARCHAR" property="applyChannel" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    brand_id, brand_name, apply_channel
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_gps_brand
+    where brand_id = #{brandId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_gps_brand
+    where brand_id = #{brandId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pujjr.gps.dal.domain.GpsBrand">
+    insert into t_gps_brand (brand_id, brand_name, apply_channel
+      )
+    values (#{brandId,jdbcType=VARCHAR}, #{brandName,jdbcType=VARCHAR}, #{applyChannel,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pujjr.gps.dal.domain.GpsBrand">
+    insert into t_gps_brand
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="brandId != null">
+        brand_id,
+      </if>
+      <if test="brandName != null">
+        brand_name,
+      </if>
+      <if test="applyChannel != null">
+        apply_channel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="brandId != null">
+        #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null">
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyChannel != null">
+        #{applyChannel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pujjr.gps.dal.domain.GpsBrand">
+    update t_gps_brand
+    <set>
+      <if test="brandName != null">
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyChannel != null">
+        apply_channel = #{applyChannel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where brand_id = #{brandId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pujjr.gps.dal.domain.GpsBrand">
+    update t_gps_brand
+    set brand_name = #{brandName,jdbcType=VARCHAR},
+      apply_channel = #{applyChannel,jdbcType=VARCHAR}
+    where brand_id = #{brandId,jdbcType=VARCHAR}
+  </update> -->
+  <resultMap id="BaseResultMap" type="com.pujjr.gps.dal.domain.GpsBrand">
+    <id column="brand_id" jdbcType="VARCHAR" property="brandId" />
+    <result column="brand_name" jdbcType="VARCHAR" property="brandName" />
+    <result column="apply_channel" jdbcType="VARCHAR" property="applyChannel" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    brand_id, brand_name, apply_channel
+  </sql>
+  
+  <select id="selectAllGpsBrand" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_gps_brand
+  </select>
+</mapper>

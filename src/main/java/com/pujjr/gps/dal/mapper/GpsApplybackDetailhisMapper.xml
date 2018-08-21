@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pujjr.gps.dal.dao.GpsApplybackDetailhisMapper">
+  <resultMap id="BaseResultMap" type="com.pujjr.gps.dal.domain.GpsApplybackDetailhis">
+    <id column="applyback_detail_id" jdbcType="VARCHAR" property="applybackDetailId" />
+    <result column="brand_id" jdbcType="VARCHAR" property="brandId" />
+    <result column="applyback_id" jdbcType="VARCHAR" property="applybackId" />
+    <result column="gps_id" jdbcType="VARCHAR" property="gpsId" />
+    <result column="supplier_id" jdbcType="VARCHAR" property="supplierId" />
+    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="gps_status" jdbcType="VARCHAR" property="gpsStatus" />
+    <result column="gps_category" jdbcType="VARCHAR" property="gpsCategory" />
+    <result column="applyback_detail_status" jdbcType="VARCHAR" property="applybackDetailStatus" />
+    <result column="create_account_id" jdbcType="VARCHAR" property="createAccountId" />
+    <result column="oper_time" jdbcType="TIMESTAMP" property="operTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    applyback_detail_id, brand_id, applyback_id, gps_id, supplier_id, supplier_name, 
+    gps_status, gps_category, applyback_detail_status, create_account_id, oper_time, 
+    remark
+  </sql>
+</mapper>

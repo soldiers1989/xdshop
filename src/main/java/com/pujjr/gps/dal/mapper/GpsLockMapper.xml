@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pujjr.gps.dal.dao.GpsLockMapper">
+  <resultMap id="BaseResultMap" type="com.pujjr.gps.dal.domain.GpsLock">
+    <id column="gps_id" jdbcType="VARCHAR" property="gpsId" />
+    <result column="apply_id" jdbcType="VARCHAR" property="appId" />
+    <result column="lock_time" jdbcType="TIMESTAMP" property="lockTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    gps_id, apply_id, lock_time
+  </sql>
+
+</mapper>

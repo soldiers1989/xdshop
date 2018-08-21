@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pujjr.gps.dal.dao.GpsReceiveMapper">
+  <resultMap id="BaseResultMap" type="com.pujjr.gps.dal.domain.GpsReceive">
+    <id column="receive_id" jdbcType="VARCHAR" property="receiveId" />
+    <result column="detail_id" jdbcType="VARCHAR" property="detailId" />
+    <result column="brand_id" jdbcType="VARCHAR" property="brandId" />
+    <result column="gps_id" jdbcType="VARCHAR" property="gpsId" />
+    <result column="gps_category" jdbcType="VARCHAR" property="gpsCategory" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="receive_time" jdbcType="TIMESTAMP" property="receiveTime" />
+    <result column="consignee" jdbcType="VARCHAR" property="consignee" />
+    <result column="gps_status" jdbcType="VARCHAR" property="gpsStatus" />
+    <result column="express_company" jdbcType="VARCHAR" property="expressCompany" />
+    <result column="express_no" jdbcType="VARCHAR" property="expressNo" />
+    <result column="supplier_id" jdbcType="VARCHAR" property="supplierId" />
+    <result column="apply_id" jdbcType="VARCHAR" property="applyId" />
+  </resultMap>
+  
+  <resultMap id="ExpressReceiptResultMap" type="com.pujjr.gps.dal.domain.ExpressReceipt">
+  	<result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="express_no" jdbcType="VARCHAR" property="expressNo" />
+    <result column="express_company" jdbcType="VARCHAR" property="expressCompany" />
+    <result column="express_receipt_status" jdbcType="VARCHAR" property="expressReceiptStatus" />
+    <result column="wire_num" jdbcType="INTEGER" property="wireNum" />
+    <result column="wireless_num" jdbcType="INTEGER" property="wirelessNum" />
+    <result column="total_num" jdbcType="INTEGER" property="totalNum" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    receive_id, detail_id, brand_id, gps_id, gps_category, create_time, receive_time, 
+    consignee, gps_status, express_company, express_no, supplier_id, apply_id
+  </sql>
+  
+  
+  
+  <select id="selectExpressReceiptByApplyId" parameterType="java.lang.String" resultMap="ExpressReceiptResultMap">
+  	select * from (
+	    select t.supplier_name
+		  	,t.express_no
+			,t.express_company
+			,t.express_receipt_status
+			,sum(case when  t.gps_category = 'WIRE' then t.total_num else 0 end) as wire_num
+			,sum(case when  t.gps_category = 'WIRELESS' then t.total_num else 0 end) as wireless_num
+			,sum(case when  t.gps_category = 'WIRE' then t.total_num else 0 end) + sum(case when  t.gps_category = 'WIRELESS' then t.total_num else 0 end) as total_num
+		from (
+			select b.supplier_name,a.express_no,a.express_company,gps_category,count(*) as total_num,a.gps_status as 'express_receipt_status'  from t_gps_receive a 
+			left join t_gps_supplier b
+			on a.supplier_id = b.supplier_id
+			where a.apply_id = #{applyId,jdbcType=VARCHAR} 
+			<if test="gpsStatus != null and gpsStatus != ''">
+				and a.gps_status = #{gpsStatus,jdbcType=VARCHAR}
+			</if>
+			group by a.express_no,gps_category
+		) t
+		group by t.supplier_name,t.express_no,t.express_company,t.express_receipt_status
+	) t
+	where t.express_no is not null
+  </select>
+  
+  <select id="selectGpsRecieveListByExpressNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+ 		<include refid="Base_Column_List" /> 
+  	from t_gps_receive t
+	where t.express_no = #{expressNo,jdbcType=VARCHAR}
+  </select>
+  
+    <select id="selectGpsReceiveListByDetailId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+ 		<include refid="Base_Column_List" /> 
+  	from t_gps_receive t
+	where t.detail_id = #{detailId,jdbcType=VARCHAR} and t.gps_status = #{gpsStatus,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="selectGpsReceiveListByExpressNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+ 		<include refid="Base_Column_List" /> 
+  	from t_gps_receive t
+	where t.express_no = #{expressNo,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByGpsId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+ 		<include refid="Base_Column_List" /> 
+  	from t_gps_receive t
+	where t.gps_id = #{gpsId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByGpsIdAndBranchCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+ 		<include refid="Base_Column_List" /> 
+  	from t_gps_receive t
+	where t.gps_id = #{gpsId,jdbcType=VARCHAR}
+		and t.consignee = #{branchId,jdbcType=VARCHAR}
+  </select>
+  
+  
+  
+  
+<!--    <select id="selectGpsReceiveByExpressNo" parameterType="java.lang.String" resultMap="ExpressReceiptResultMap">
+   select * from t_gps_receive t
+	where t.express_no = #{expressNo,jdbcType=VARCHAR}
+  </select> -->
+  
+  
+  
+  
+  <!-- <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_gps_receive
+    where receive_id = #{receiveId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_gps_receive
+    where receive_id = #{receiveId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pujjr.gps.dal.domain.GpsReceive">
+    insert into t_gps_receive (receive_id, detail_id, brand_id, 
+      instore_id, gps_id, gps_category, 
+      create_time, receive_time, consignee, 
+      gps_status, express_company, express_no, 
+      supplier_id, apply_id)
+    values (#{receiveId,jdbcType=VARCHAR}, #{detailId,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR}, 
+      #{instoreId,jdbcType=VARCHAR}, #{gpsId,jdbcType=VARCHAR}, #{gpsCategory,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{receiveTime,jdbcType=TIMESTAMP}, #{consignee,jdbcType=VARCHAR}, 
+      #{gpsStatus,jdbcType=VARCHAR}, #{expressCompany,jdbcType=VARCHAR}, #{expressNo,jdbcType=VARCHAR}, 
+      #{supplierId,jdbcType=VARCHAR}, #{applyId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pujjr.gps.dal.domain.GpsReceive">
+    insert into t_gps_receive
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="receiveId != null">
+        receive_id,
+      </if>
+      <if test="detailId != null">
+        detail_id,
+      </if>
+      <if test="brandId != null">
+        brand_id,
+      </if>
+      <if test="instoreId != null">
+        instore_id,
+      </if>
+      <if test="gpsId != null">
+        gps_id,
+      </if>
+      <if test="gpsCategory != null">
+        gps_category,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="receiveTime != null">
+        receive_time,
+      </if>
+      <if test="consignee != null">
+        consignee,
+      </if>
+      <if test="gpsStatus != null">
+        gps_status,
+      </if>
+      <if test="expressCompany != null">
+        express_company,
+      </if>
+      <if test="expressNo != null">
+        express_no,
+      </if>
+      <if test="supplierId != null">
+        supplier_id,
+      </if>
+      <if test="applyId != null">
+        apply_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="receiveId != null">
+        #{receiveId,jdbcType=VARCHAR},
+      </if>
+      <if test="detailId != null">
+        #{detailId,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null">
+        #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="instoreId != null">
+        #{instoreId,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsId != null">
+        #{gpsId,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsCategory != null">
+        #{gpsCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveTime != null">
+        #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="consignee != null">
+        #{consignee,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsStatus != null">
+        #{gpsStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="expressCompany != null">
+        #{expressCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNo != null">
+        #{expressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="applyId != null">
+        #{applyId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pujjr.gps.dal.domain.GpsReceive">
+    update t_gps_receive
+    <set>
+      <if test="detailId != null">
+        detail_id = #{detailId,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null">
+        brand_id = #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="instoreId != null">
+        instore_id = #{instoreId,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsId != null">
+        gps_id = #{gpsId,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsCategory != null">
+        gps_category = #{gpsCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveTime != null">
+        receive_time = #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="consignee != null">
+        consignee = #{consignee,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsStatus != null">
+        gps_status = #{gpsStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="expressCompany != null">
+        express_company = #{expressCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNo != null">
+        express_no = #{expressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null">
+        supplier_id = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="applyId != null">
+        apply_id = #{applyId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where receive_id = #{receiveId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pujjr.gps.dal.domain.GpsReceive">
+    update t_gps_receive
+    set detail_id = #{detailId,jdbcType=VARCHAR},
+      brand_id = #{brandId,jdbcType=VARCHAR},
+      instore_id = #{instoreId,jdbcType=VARCHAR},
+      gps_id = #{gpsId,jdbcType=VARCHAR},
+      gps_category = #{gpsCategory,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      receive_time = #{receiveTime,jdbcType=TIMESTAMP},
+      consignee = #{consignee,jdbcType=VARCHAR},
+      gps_status = #{gpsStatus,jdbcType=VARCHAR},
+      express_company = #{expressCompany,jdbcType=VARCHAR},
+      express_no = #{expressNo,jdbcType=VARCHAR},
+      supplier_id = #{supplierId,jdbcType=VARCHAR},
+      apply_id = #{applyId,jdbcType=VARCHAR}
+    where receive_id = #{receiveId,jdbcType=VARCHAR}
+  </update>
+  <resultMap id="BaseResultMap" type="com.pujjr.gps.dal.domain.GpsReceive">
+    <id column="receive_id" jdbcType="VARCHAR" property="receiveId" />
+    <result column="detail_id" jdbcType="VARCHAR" property="detailId" />
+    <result column="brand_id" jdbcType="VARCHAR" property="brandId" />
+    <result column="instore_id" jdbcType="VARCHAR" property="instoreId" />
+    <result column="gps_id" jdbcType="VARCHAR" property="gpsId" />
+    <result column="gps_category" jdbcType="VARCHAR" property="gpsCategory" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="receive_time" jdbcType="TIMESTAMP" property="receiveTime" />
+    <result column="consignee" jdbcType="VARCHAR" property="consignee" />
+    <result column="gps_status" jdbcType="VARCHAR" property="gpsStatus" />
+    <result column="express_company" jdbcType="VARCHAR" property="expressCompany" />
+    <result column="express_no" jdbcType="VARCHAR" property="expressNo" />
+    <result column="supplier_id" jdbcType="VARCHAR" property="supplierId" />
+    <result column="apply_id" jdbcType="VARCHAR" property="applyId" />
+  </resultMap> -->
+
+</mapper>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pujjr.gps.dal.dao.GpsStorePjMapper" >
+  <resultMap id="BaseResultMap" type="com.pujjr.gps.dal.domain.GpsStorePj" >
+    <id column="store_id" property="storeId" jdbcType="VARCHAR" />
+    <result column="gps_id" property="gpsId" jdbcType="VARCHAR" />
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR" />
+    <result column="branch_id" property="branchId" jdbcType="VARCHAR" />
+    <result column="gps_category" property="gpsCategory" jdbcType="VARCHAR" />
+    <result column="gps_status" property="gpsStatus" jdbcType="VARCHAR" />
+    <result column="store_no" property="storeNo" jdbcType="VARCHAR" />
+    <result column="oper_time" property="operTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    store_id, gps_id, brand_id, branch_id, gps_category, gps_status, store_no,oper_time
+  </sql>
+  
+  <select id="selectStorePjByParams" parameterType="com.pujjr.gps.api.StorePjParam" resultMap="BaseResultMap">
+    select 
+    t.*
+    from t_gps_store_pj t
+    <where>
+    	<if test="storePjParam.brandId != null and storePjParam.brandId != ''">
+    		and t.brand_id = #{storePjParam.brandId}
+    	</if>
+    	<if test="storePjParam.gpsId != null and storePjParam.gpsId != ''">
+    		and t.gps_id like '%${storePjParam.gpsId}%' 
+    	</if>
+    	<if test="storePjParam.gpsStatus != null and storePjParam.gpsStatus != ''">
+    		and t.gps_status = #{storePjParam.gpsStatus}
+    	</if>
+    	<if test="storePjParam.gpsCategory != null and storePjParam.gpsCategory != ''">
+    		and t.gps_category = #{storePjParam.gpsCategory}
+    	</if>
+    </where>
+	order by t.oper_time desc
+  </select>
+  
+  <select id="selectStorePjByGpsId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_gps_store_pj t
+    <where>
+    	<if test="1==1">
+    		and t.gps_id = #{gpsId}
+    	</if>
+    </where>
+  </select>
+  
+  <insert id="batchAddStorePj" parameterType="java.util.List">
+  	insert into t_gps_store_pj(store_id,gps_id,brand_id,branch_id,gps_category,gps_status)
+	values
+	<foreach collection="list" item="item" index="index" separator=",">
+	(
+		#{item.storeId}
+		,#{item.gpsId}
+		,#{item.brandId}
+		,#{item.branchId}
+		,#{item.gpsCategory}
+		,#{item.gpsStatus}
+	)	
+	</foreach>
+  </insert>
+  
+  <insert id="batchAddInstorePj" parameterType="java.util.List">
+    insert into t_gps_instore_pj(instore_id,gps_id,gps_category,create_account_id,create_time,store_id)
+	values
+	<foreach collection="list" item="item" index="index" separator=",">
+	(
+		#{item.instoreId}
+		,#{item.gpsId}
+		,#{item.gpsCategory}
+		,#{item.createAccountId}
+		,#{item.createTime}
+		,#{item.storeId}
+	)	
+	</foreach>
+  </insert>
+  
+  <delete id="deleteByGpsId" parameterType="java.lang.String">
+    delete from t_gps_store_pj
+    where gps_id = #{gpsId,jdbcType=VARCHAR}
+  </delete>
+  
+
+</mapper>

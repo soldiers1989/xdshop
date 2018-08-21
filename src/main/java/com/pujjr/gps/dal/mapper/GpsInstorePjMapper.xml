@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pujjr.gps.dal.dao.GpsInstorePjMapper">
+  <resultMap id="BaseResultMap" type="com.pujjr.gps.dal.domain.GpsInstorePj">
+    <id column="instore_id" jdbcType="VARCHAR" property="instoreId" />
+    <result column="gps_id" jdbcType="VARCHAR" property="gpsId" />
+    <result column="brand_id" jdbcType="VARCHAR" property="brandId" />
+    <result column="branch_id" jdbcType="VARCHAR" property="branchId" />
+    <result column="gps_category" jdbcType="VARCHAR" property="gpsCategory" />
+    <result column="create_account_id" jdbcType="VARCHAR" property="createAccountId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="store_id" jdbcType="VARCHAR" property="storeId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    instore_id, gps_id, brand_id, branch_id, gps_category, create_account_id, create_time, 
+    store_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_gps_instore_pj
+    where instore_id = #{instoreId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_gps_instore_pj
+    where instore_id = #{instoreId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pujjr.gps.dal.domain.GpsInstorePj">
+    insert into t_gps_instore_pj (instore_id, gps_id, brand_id, 
+      branch_id, gps_category, create_account_id, 
+      create_time, store_id)
+    values (#{instoreId,jdbcType=VARCHAR}, #{gpsId,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR}, 
+      #{branchId,jdbcType=VARCHAR}, #{gpsCategory,jdbcType=VARCHAR}, #{createAccountId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{storeId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pujjr.gps.dal.domain.GpsInstorePj">
+    insert into t_gps_instore_pj
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="instoreId != null">
+        instore_id,
+      </if>
+      <if test="gpsId != null">
+        gps_id,
+      </if>
+      <if test="brandId != null">
+        brand_id,
+      </if>
+      <if test="branchId != null">
+        branch_id,
+      </if>
+      <if test="gpsCategory != null">
+        gps_category,
+      </if>
+      <if test="createAccountId != null">
+        create_account_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="storeId != null">
+        store_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="instoreId != null">
+        #{instoreId,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsId != null">
+        #{gpsId,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null">
+        #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="branchId != null">
+        #{branchId,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsCategory != null">
+        #{gpsCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="createAccountId != null">
+        #{createAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="storeId != null">
+        #{storeId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pujjr.gps.dal.domain.GpsInstorePj">
+    update t_gps_instore_pj
+    <set>
+      <if test="gpsId != null">
+        gps_id = #{gpsId,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null">
+        brand_id = #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="branchId != null">
+        branch_id = #{branchId,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsCategory != null">
+        gps_category = #{gpsCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="createAccountId != null">
+        create_account_id = #{createAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="storeId != null">
+        store_id = #{storeId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where instore_id = #{instoreId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pujjr.gps.dal.domain.GpsInstorePj">
+    update t_gps_instore_pj
+    set gps_id = #{gpsId,jdbcType=VARCHAR},
+      brand_id = #{brandId,jdbcType=VARCHAR},
+      branch_id = #{branchId,jdbcType=VARCHAR},
+      gps_category = #{gpsCategory,jdbcType=VARCHAR},
+      create_account_id = #{createAccountId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      store_id = #{storeId,jdbcType=VARCHAR}
+    where instore_id = #{instoreId,jdbcType=VARCHAR}
+  </update>
+</mapper>

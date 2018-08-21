@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration>
+
+	<springProperty scope="context" name="loglevel" source="logging.level.root" />
+	<springProperty scope="context" name="logPath" source="logging.path" />
+	<springProperty scope="context" name="appPort" source="server.port" />
+	<springProperty scope="context" name="appContextPath" source="server.context-path" />
+	<springProperty scope="context" name="appName" source="spring.application.name" />
+	<springProperty scope="context" name="profile" source="config.profile" />
+	<springProperty scope="context" name="redisHost" source="spring.redis.host" />
+	<springProperty scope="context" name="redisPort" source="spring.redis.port" />
+	<springProperty scope="context" name="redisPassword" source="spring.redis.password" />
+
+	<!-- Console 输出设置 -->
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<!--encoder 默认配置为PatternLayoutEncoder -->
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread %c row=%L] %-5level %logger{128} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- LOGSTASH采集配置 采用redis -->
+	<appender name="LOGSTASH" class="com.cwbase.logback.RedisAppender">
+		<source>${appName:-}</source>  <!--自定义的 -->
+		<sourcePath>${appContextPath:-}</sourcePath>  <!--自定义的 -->
+		<type>${appPort:-}</type>    <!--自定义的，便于区分不同的日志 -->
+		<tags>${profile:-}</tags>
+		<host>${redisHost}</host>
+		<port>${redisPort}</port>
+		<!-- <password>${redisPassword:-}</password> -->
+		<key>logstash</key>
+	</appender>
+
+
+	<!-- 按照每天生成日志文件 -->
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!--日志文件输出的文件名 -->
+			<FileNamePattern>${logPath:-pujjr_log}/info-%d{yyyyMMdd}-%i.log
+			</FileNamePattern>
+			<maxFileSize>20MB</maxFileSize>
+			<maxHistory>30</maxHistory>
+			<totalSizeCap>10GB</totalSizeCap>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread %c row=%L] %-5level %logger-%msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 按照每天生成日志文件 -->
+	<appender name="ERROR"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!--日志文件输出的文件名 -->
+			<FileNamePattern>${logPath:-pujjr_log}/error-%d{yyyyMMdd}-%i.log
+			</FileNamePattern>
+			<maxFileSize>20MB</maxFileSize>
+			<maxHistory>30</maxHistory>
+			<totalSizeCap>10GB</totalSizeCap>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread %c row=%L] %-5level [LINE:%line] %logger -%msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="org.springframework" level="INFO" />
+	<logger name="org.apache" level="INFO" />
+	<logger name="com.netflix" level="OFF" />
+	<logger name="org.springframework.cloud.config.client.ConfigServicePropertySourceLocator" level="WARN" />
+
+	<!-- 生产环境下，将此级别配置为适合的级别，以免日志文件太多或影响程序性能 -->
+	<root level="${loglevel:-INFO}">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="ERROR" />
+		<appender-ref ref="LOGSTASH" />
+	</root>
+</configuration>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pujjr.gps.dal.dao.GpsStoreBranchMapper">
+ <resultMap id="BaseResultMap" type="com.pujjr.gps.dal.domain.GpsStoreBranch">
+    <id column="store_id" jdbcType="VARCHAR" property="storeId" />
+    <result column="gps_id" jdbcType="VARCHAR" property="gpsId" />
+    <result column="branch_id" jdbcType="VARCHAR" property="branchId" />
+    <result column="branch_name" jdbcType="VARCHAR" property="branchName" />
+    <result column="brand_id" jdbcType="VARCHAR" property="brandId" />
+    <result column="gps_category" jdbcType="VARCHAR" property="gpsCategory" />
+    <result column="gps_status" jdbcType="VARCHAR" property="gpsStatus" />
+    <result column="supplier_id" jdbcType="VARCHAR" property="supplierId" />
+    <result column="store_no" jdbcType="VARCHAR" property="storeNo" />
+    <result column="apply_channel" jdbcType="VARCHAR" property="applyChannel" />
+    <result column="apply_id" jdbcType="VARCHAR" property="applyId" />
+    <result column="oper_time" jdbcType="TIMESTAMP" property="operTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    store_id, gps_id, branch_id, branch_name, brand_id, gps_category, gps_status, supplier_id, 
+    store_no, apply_channel, apply_id,oper_time
+  </sql>
+  
+  <update id="updateByPrimaryKey2" parameterType="com.pujjr.gps.dal.domain.GpsStoreBranch">
+    update t_gps_store_branch
+    set gps_id = #{gpsId,jdbcType=VARCHAR},
+      branch_id = #{branchId,jdbcType=VARCHAR},
+      branch_name = #{branchName,jdbcType=VARCHAR},
+      brand_id = #{brandId,jdbcType=VARCHAR},
+      gps_category = #{gpsCategory,jdbcType=VARCHAR},
+      gps_status = #{gpsStatus,jdbcType=VARCHAR},
+      supplier_id = #{supplierId,jdbcType=VARCHAR},
+      store_no = #{storeNo,jdbcType=VARCHAR},
+      apply_channel = #{applyChannel,jdbcType=VARCHAR},
+      apply_id = #{applyId,jdbcType=VARCHAR},
+      oper_time = #{operTime,jdbcType=TIMESTAMP}
+    where store_id = #{storeId,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  <select id="selectWaitBackGpsOnline" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select a.* from (
+		select 
+			a.gps_id,
+			b.branch_id,
+			b.branch_name,
+			a.brand_id,
+			a.gps_category,
+			a.gps_status,
+			a.supplier_id,
+			a.apply_id
+		from t_gps_receive a
+		left join t_gps_order_detail b
+		on a.detail_id = b.detail_id
+		where a.gps_status = '102' 
+			and b.branch_id = #{branchId,jdbcType=VARCHAR}
+			and a.gps_id  not in (select gps_id from t_gps_applyback_detail)
+	) a
+	union all
+	select b.* from (
+		select  
+			a.gps_id,
+			a.branch_id,
+			a.branch_name,
+			a.brand_id,
+			a.gps_category,
+			a.gps_status,
+			a.supplier_id,
+			a.apply_id
+		from t_gps_store_branch a
+		where a.gps_status = '203' 
+			and a.branch_id = #{branchId,jdbcType=VARCHAR}
+			and a.gps_id  not in (select gps_id from t_gps_applyback_detail)
+	) b
+  </select>
+  
+  <select id="selectWaitBackGpsOffline" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_gps_store_branch
+    where store_id = #{storeId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectStoreBranchByParams" parameterType="com.pujjr.gps.vo.GpsStoreBranchVo" resultMap="BaseResultMap">
+    select 
+    t.*
+    from t_gps_store_branch t
+    <where>
+    	<if test="gpsStoreBranchVo.branchId != null and gpsStoreBranchVo.branchId != '' and gpsStoreBranchVo.branchId != 'undefined'">
+    		and t.branch_id = #{gpsStoreBranchVo.branchId}
+    	</if>
+    	<if test="gpsStoreBranchVo.supplierId != null and gpsStoreBranchVo.supplierId != '' and gpsStoreBranchVo.branchId != 'undefined'">
+    		and t.supplier_id like '%${gpsStoreBranchVo.supplierId}%' 
+    	</if>
+    	<if test="gpsStoreBranchVo.brandId != null and gpsStoreBranchVo.brandId != '' and gpsStoreBranchVo.branchId != 'undefined'">
+    		and t.brand_id like '%${gpsStoreBranchVo.brandId}%' 
+    	</if>
+    	<if test="gpsStoreBranchVo.gpsCategory != null and gpsStoreBranchVo.gpsCategory != '' and gpsStoreBranchVo.branchId != 'undefined'">
+    		and t.gps_category = #{gpsStoreBranchVo.gpsCategory}
+    	</if>
+    	<if test="gpsStoreBranchVo.gpsStatus != null and gpsStoreBranchVo.gpsStatus != '' and gpsStoreBranchVo.branchId != 'undefined'">
+    		and t.gps_status = #{gpsStoreBranchVo.gpsStatus}
+    	</if>
+    	<if test="gpsStoreBranchVo.gpsId != null and gpsStoreBranchVo.gpsId != '' and gpsStoreBranchVo.branchId != 'undefined'">
+    		and t.gps_id like '%${gpsStoreBranchVo.gpsId}%' 
+    	</if>
+    </where>
+    order by t.gps_status,t.oper_time desc	
+  </select>
+  
+  <select id="selectStoreBranchByGpsId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_gps_store_branch t
+    <where>
+    	<if test="1==1">
+    		and t.gps_id = #{gpsId}
+    	</if>
+    </where>
+  </select>
+  
+  <select id="countBranchStoreGps" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(*) from t_gps_store_branch t 
+    <where>
+    	<if test="branchId != null and branchId != ''">
+    		and t.branch_id = #{branchId,jdbcType=VARCHAR} 
+    	</if>
+    	<if test="gpsStatus != null and gpsStatus != ''">
+    		and t.gps_status = #{gpsStatus,jdbcType=VARCHAR} 
+    	</if>
+    	<if test="gpsCategory != null and gpsCategory != ''">
+    		and t.gps_category = #{gpsCategory,jdbcType=VARCHAR} 
+    	</if>
+    	<if test="beginDate != null">
+    		and t.oper_time >= #{beginDate,jdbcType=TIMESTAMP}
+    	</if>
+    	<if test="endDate != null">
+    		and t.oper_time &lt; #{endDate,jdbcType=TIMESTAMP}
+    	</if>
+    </where>
+  </select>
+  
+  <insert id="batchAddBranchStore" parameterType="java.util.List">
+  		insert into t_gps_store_branch
+  		(
+  			store_id,gps_id,branch_id,branch_name,brand_id,gps_category,gps_status,supplier_id,apply_id,oper_time
+  		)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+		(
+			#{item.storeId}
+			,#{item.gpsId}
+			,#{item.branchId}
+			,#{item.branchName}
+			,#{item.brandId}
+			,#{item.gpsCategory}
+			,#{item.gpsStatus}
+			,#{item.supplierId}
+			,#{item.applyId}
+			,#{item.operTime}
+		)
+		</foreach>
+  </insert>
+  
+  <insert id="batchAddGpsInstallHis" parameterType="java.util.List" >
+  		insert into t_gps_instore_his
+  		(
+  			instore_his_id,receive_id,store_id,create_account_id,create_time
+  		)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+		(
+			#{item.instoreHisId}
+			,#{item.receiveId}
+			,#{item.storeId}
+			,#{item.createAccountId}
+			,#{item.createTime}
+		)
+		</foreach>
+  </insert>
+  
+  <select id="getYesterdayUpploadToSeg" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <![CDATA[
+    select 
+    *
+    from t_gps_store_branch
+    where gps_id like '648%' and oper_time > concat(DATE_SUB(curdate(),INTERVAL 1 DAY),' 00:00:00')
+    						 and oper_time < concat(DATE_SUB(curdate(),INTERVAL 1 DAY),' 23:59:59')
+    						 and gps_status='202'
+    						 ]]>
+    						 
+  </select>
+  
+  <select id="getAlluploadDataToSeg" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <![CDATA[
+    select 
+    *
+    from t_gps_store_branch
+    where gps_id like '648%' and oper_time < concat(DATE_SUB(curdate(),INTERVAL 2 DAY),' 23:59:59')
+    						 and gps_status='202'
+    						 ]]>
+    						 
+  </select>
+
+</mapper>

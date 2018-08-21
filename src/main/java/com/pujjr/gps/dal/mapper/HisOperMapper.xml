@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pujjr.gps.dal.dao.HisOperMapper" >
+  <resultMap id="BaseResultMap" type="com.pujjr.gps.dal.domain.HisOper" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="RECORD_ID" property="recordId" jdbcType="VARCHAR" />
+    <result column="APP_ID" property="appId" jdbcType="VARCHAR" />
+    <result column="TABLE_NAME" property="tableName" jdbcType="VARCHAR" />
+    <result column="FIELD_NAME" property="fieldName" jdbcType="VARCHAR" />
+    <result column="CLASS_NAME" property="className" jdbcType="VARCHAR" />
+    <result column="UPD_MODE" property="updMode" jdbcType="VARCHAR" />
+    <result column="PRE_VALUE" property="preValue" jdbcType="VARCHAR" />
+    <result column="AFTER_VALUE" property="afterValue" jdbcType="VARCHAR" />
+    <result column="OPER_TIME" property="operTime" jdbcType="TIMESTAMP" />
+    <result column="ACCOUNT_ID" property="accountId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, RECORD_ID, APP_ID, TABLE_NAME, FIELD_NAME, CLASS_NAME, UPD_MODE, PRE_VALUE, AFTER_VALUE, 
+    OPER_TIME, ACCOUNT_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_his_oper
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_his_oper
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pujjr.gps.dal.domain.HisOper" >
+    insert into t_his_oper (ID, RECORD_ID, APP_ID, 
+      TABLE_NAME, FIELD_NAME, CLASS_NAME, 
+      UPD_MODE, PRE_VALUE, AFTER_VALUE, 
+      OPER_TIME, ACCOUNT_ID)
+    values (#{id,jdbcType=VARCHAR}, #{recordId,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, 
+      #{tableName,jdbcType=VARCHAR}, #{fieldName,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, 
+      #{updMode,jdbcType=VARCHAR}, #{preValue,jdbcType=VARCHAR}, #{afterValue,jdbcType=VARCHAR}, 
+      #{operTime,jdbcType=TIMESTAMP}, #{accountId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pujjr.gps.dal.domain.HisOper" >
+    insert into t_his_oper
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="recordId != null" >
+        RECORD_ID,
+      </if>
+      <if test="appId != null" >
+        APP_ID,
+      </if>
+      <if test="tableName != null" >
+        TABLE_NAME,
+      </if>
+      <if test="fieldName != null" >
+        FIELD_NAME,
+      </if>
+      <if test="className != null" >
+        CLASS_NAME,
+      </if>
+      <if test="updMode != null" >
+        UPD_MODE,
+      </if>
+      <if test="preValue != null" >
+        PRE_VALUE,
+      </if>
+      <if test="afterValue != null" >
+        AFTER_VALUE,
+      </if>
+      <if test="operTime != null" >
+        OPER_TIME,
+      </if>
+      <if test="accountId != null" >
+        ACCOUNT_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="recordId != null" >
+        #{recordId,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="tableName != null" >
+        #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldName != null" >
+        #{fieldName,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="updMode != null" >
+        #{updMode,jdbcType=VARCHAR},
+      </if>
+      <if test="preValue != null" >
+        #{preValue,jdbcType=VARCHAR},
+      </if>
+      <if test="afterValue != null" >
+        #{afterValue,jdbcType=VARCHAR},
+      </if>
+      <if test="operTime != null" >
+        #{operTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accountId != null" >
+        #{accountId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pujjr.gps.dal.domain.HisOper" >
+    update t_his_oper
+    <set >
+      <if test="recordId != null" >
+        RECORD_ID = #{recordId,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null" >
+        APP_ID = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="tableName != null" >
+        TABLE_NAME = #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldName != null" >
+        FIELD_NAME = #{fieldName,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        CLASS_NAME = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="updMode != null" >
+        UPD_MODE = #{updMode,jdbcType=VARCHAR},
+      </if>
+      <if test="preValue != null" >
+        PRE_VALUE = #{preValue,jdbcType=VARCHAR},
+      </if>
+      <if test="afterValue != null" >
+        AFTER_VALUE = #{afterValue,jdbcType=VARCHAR},
+      </if>
+      <if test="operTime != null" >
+        OPER_TIME = #{operTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accountId != null" >
+        ACCOUNT_ID = #{accountId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pujjr.gps.dal.domain.HisOper" >
+    update t_his_oper
+    set RECORD_ID = #{recordId,jdbcType=VARCHAR},
+      APP_ID = #{appId,jdbcType=VARCHAR},
+      TABLE_NAME = #{tableName,jdbcType=VARCHAR},
+      FIELD_NAME = #{fieldName,jdbcType=VARCHAR},
+      CLASS_NAME = #{className,jdbcType=VARCHAR},
+      UPD_MODE = #{updMode,jdbcType=VARCHAR},
+      PRE_VALUE = #{preValue,jdbcType=VARCHAR},
+      AFTER_VALUE = #{afterValue,jdbcType=VARCHAR},
+      OPER_TIME = #{operTime,jdbcType=TIMESTAMP},
+      ACCOUNT_ID = #{accountId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectCommon" parameterType="java.util.HashMap" resultType="java.util.HashMap" statementType="STATEMENT">
+     select * from ${tableName} where id = ${id}
+  </select>
+  
+  <resultMap id="BaseResultMap2" type="com.pujjr.gps.po.HisOperPo">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="RECORD_ID" jdbcType="VARCHAR" property="recordId" />
+    <result column="APP_ID" jdbcType="VARCHAR" property="appId" />
+    <result column="TABLE_NAME" jdbcType="VARCHAR" property="tableName" />
+    <result column="FIELD_NAME" jdbcType="VARCHAR" property="fieldName" />
+    <result column="CLASS_NAME" jdbcType="VARCHAR" property="className" />
+    <result column="UPD_MODE" jdbcType="VARCHAR" property="updMode" />
+    <result column="PRE_VALUE" jdbcType="VARCHAR" property="preValue" />
+    <result column="AFTER_VALUE" jdbcType="VARCHAR" property="afterValue" />
+    <result column="OPER_TIME" jdbcType="TIMESTAMP" property="operTime" />
+    <result column="ACCOUNT_ID" jdbcType="VARCHAR" property="accountId" />
+    <result column="ACCOUNT_ID" jdbcType="VARCHAR" property="accountId" />
+    <result column="TABLE_CNAME" jdbcType="VARCHAR" property="tableCname" />
+    <result column="FIELD_CNAME" jdbcType="VARCHAR" property="fieldCname" />
+  </resultMap>
+  <select id="selectHisOperList" parameterType="java.lang.String" resultMap="BaseResultMap2">
+  	select a.*,b.TABLE_CNAME,b.FIELD_CNAME from t_his_oper a 
+	left join t_his_fieldcomment b
+	on a.table_name = b.table_name and a.FIELD_NAME = b.FIELD_NAME
+	WHERE 1=1
+    <if test="appId != null">
+     and a.APP_ID = #{appId,jdbcType=VARCHAR} 
+    </if>
+   	<if test="accountId != null">
+     and a.ACCOUNT_ID = #{accountId,jdbcType=VARCHAR} 
+    </if>
+  </select>
+</mapper>

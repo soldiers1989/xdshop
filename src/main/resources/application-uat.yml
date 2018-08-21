@@ -1,0 +1,49 @@
+spring:
+#rabbitMQ消息队列服务配置
+  rabbitmq:
+    host: rabbitmq
+    virtualHost: test
+    username: pjadmin
+    password: Purking0326
+#日志配置
+logging:
+  level:
+    root: debug
+#数据库数据源
+druid:
+  url: jdbc:mysql://rm-wz9r1zi26910ys42s.mysql.rds.aliyuncs.com:3306/gps?characterEncoding=UTF-8
+  username: uat
+  password: Uat12345
+  initial-size: 1
+  min-idle: 1
+  max-active: 50
+  test-on-borrow: true
+#---------------------------rest访问 相关---------------------------------    
+rest: 
+  pcms: 
+    url: http://172.18.10.130:8080/pcms-web
+    
+#---------------------------定时任务 相关---------------------------------      
+#调度器是否启用
+schedul:
+  start: true
+  #库存盘点时间
+  takeStock: 
+    cronTime: 0 0 3 1 * ?
+  #自动提交时间
+  autoCommit: 
+    cronTime: 0 0 3 2 * ?
+    
+#---------------------------文件 相关---------------------------------          
+#excel下载，临时文件保存目录
+file: 
+  excelPath: temp   
+#---------------------------excel校验开关 相关---------------------------------            
+#excel导入gps编码规则校验开关(true:启用gps编码规则校验；false：关闭gps编码规则校验)
+excel: 
+  valid:
+    switch: true
+#重复gps编码校验开关(true:入库时，启用gps编码重复性校验；false：入库时，关闭gps编码重复性校验)
+gps:
+  duplicated:
+    switch: true
