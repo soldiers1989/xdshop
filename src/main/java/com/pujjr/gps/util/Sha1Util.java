@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
 
 public class Sha1Util {
@@ -17,13 +18,15 @@ public class Sha1Util {
 	 * @return
 	 * @throws DigestException 
 	 */
-	public static String sha1Encryt(Map<String,Object> maps) throws DigestException {
+	public static String sha1Encryt(List<String> decryptList) throws DigestException {
 		//获取信息摘要 - 参数字典排序后字符串
-		String decrypt = getOrderByLexicographic(maps);
+//		String decrypt = getOrderByLexicographic(maps);
+//		String decrypt = "15348691381725671455xdshop";
+		String decrypt = getOrderValue(decryptList);
 		try {
 			//指定sha1算法
-			MessageDigest digest = MessageDigest.getInstance("SHA-1");
-//			MessageDigest digest = DigestUtils.getSha1Digest();
+//			MessageDigest digest = MessageDigest.getInstance("SHA-1");
+			MessageDigest digest = DigestUtils.getSha1Digest();
 			digest.update(decrypt.getBytes());
 			//获取字节数组
 			byte messageDigest[] = digest.digest();
@@ -43,6 +46,20 @@ public class Sha1Util {
 			throw new DigestException("签名错误！");
 		}
 	}
+	
+	public static String getOrderValue(List<String> decryptList) {
+		String orderStr = "";
+		Collections.sort(decryptList);
+		StringBuilder sb = new StringBuilder();
+		for (String tempStr : decryptList) {
+			sb.append(tempStr);
+		}
+		orderStr = sb.toString();
+		logger.info("排序后待加密字符串："+orderStr);
+		return orderStr;
+		
+	}
+	
 	/**
 	 * 获取参数的字典排序
 	 * @param maps 参数key-value map集合
@@ -81,7 +98,7 @@ public class Sha1Util {
 	private static String splitParams(List<String> paramNames,Map<String,Object> maps){
 		StringBuilder paramStr = new StringBuilder();
 		for(String paramName : paramNames){
-			System.out.println("paramName："+paramName);
+			logger.info("当前获取参数名paramName："+paramName);
 //			paramStr.append(paramName);
 			for(Map.Entry<String,Object> entry : maps.entrySet()){
 				if(paramName.equals(entry.getKey())){
@@ -101,9 +118,9 @@ public class Sha1Util {
 	 * @return 签名是否合法
 	 * @throws Exception
 	 */
-	public static boolean verifySinature(String signature,Map<String,Object> decryptMap) throws Exception {
+	public static boolean verifySinature(String signature,List<String> decryptList) throws Exception {
 		boolean verifyRet = false;
-		String realSinature = Sha1Util.sha1Encryt(decryptMap);
+		String realSinature = Sha1Util.sha1Encryt(decryptList);
 		if(signature.equals(realSinature)) {
 			logger.info("验签成功");
 			verifyRet = true;
