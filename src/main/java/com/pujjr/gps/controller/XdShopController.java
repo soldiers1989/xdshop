@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,6 +49,14 @@ public class XdShopController {
 		}else{
 			return "验证签名失败";
 		}
+	}
+	
+	@ResponseBody
+	@ApiOperation(value="报文通信")
+	@RequestMapping(value="/xdshop",method=RequestMethod.POST)
+	public String xdShopPost(HttpServletRequest request,HttpServletResponse response,@RequestBody String recBody) throws Exception{
+		logger.info("接收报文："+recBody);
+		return "";
 	}
 	
 	

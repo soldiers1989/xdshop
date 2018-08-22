@@ -38,7 +38,7 @@ segUpload:
 #---------------------------定时任务 相关---------------------------------      
 #调度器是否启用
 schedul:
-  start: true
+  start: false
   #库存盘点时间
   takeStock: 
     cronTime: 0 0 3 1 * ?

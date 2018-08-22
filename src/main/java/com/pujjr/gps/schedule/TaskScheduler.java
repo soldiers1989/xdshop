@@ -60,21 +60,21 @@ public class TaskScheduler extends BaseService<TaskScheduler> {
 	}
 	
 	
-	@Scheduled(cron = "${schedul.autoUploadToSeg.cronTime}") 
+	/*@Scheduled(cron = "${schedul.autoUploadToSeg.cronTime}") 
 	public void autoUploadToSeg() {
 		logger.info("上传数据到赛格");
 		if (isSchedulStart) {
 			gpsService.uploadYesterdayDataToSeg();
 		}
-	}
+	}*/
 	
 	public static boolean uploadOnce = false;
 	
-	@Scheduled(cron = "${schedul.autoAllDataUploadToSeg.cronTime}") 
+	/*@Scheduled(cron = "${schedul.autoAllDataUploadToSeg.cronTime}") 
 	public void autoUploadAllDataToSeg() {
 		logger.info("上传所有数据到赛格");
 		if (isSchedulStart && uploadOnce) {
 			gpsService.uploadAllDataToSeg();
 		}
-	}
+	}*/
 }
