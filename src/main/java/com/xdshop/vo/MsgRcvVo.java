@@ -13,15 +13,32 @@ import org.eclipse.persistence.oxm.annotations.XmlCDATA;
 public class MsgRcvVo {
 	
 	@XmlCDATA
-	@XmlElement(name = "ToUserName/test")
+	@XmlElement(name = "ToUserName")
 	private String ToUserName;
 	@XmlCDATA
 	@XmlElement(name = "FromUserName")
 	private String FromUserName;
+	@XmlCDATA
+	@XmlElement(name = "CreateTime")
 	private long CreateTime;
+	@XmlCDATA
+	@XmlElement(name = "MsgType")
 	private String MsgType;
+	@XmlCDATA
+	@XmlElement(name = "Content")
 	private String Content;
+	@XmlCDATA
+	@XmlElement(name = "MsgId")
 	private String MsgId;
+	@XmlCDATA
+	@XmlElement(name = "Event")
+	private String Event;
+	@XmlCDATA
+	@XmlElement(name = "EventKey")
+	private String EventKey;
+	@XmlCDATA
+	@XmlElement(name = "Ticket")
+	private String Ticket;
 	
 	public String getToUserName() {
 		return ToUserName;
@@ -59,6 +76,25 @@ public class MsgRcvVo {
 	public void setMsgId(String msgId) {
 		MsgId = msgId;
 	}
+	public String getEvent() {
+		return Event;
+	}
+	public void setEvent(String event) {
+		Event = event;
+	}
+	public String getEventKey() {
+		return EventKey;
+	}
+	public void setEventKey(String eventKey) {
+		EventKey = eventKey;
+	}
+	public String getTicket() {
+		return Ticket;
+	}
+	public void setTicket(String ticket) {
+		Ticket = ticket;
+	}
+	
 	
 	
 }

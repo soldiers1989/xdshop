@@ -1,6 +1,6 @@
 package xdshop;
 
-import com.pujjr.gps.util.XMLUtils;
+import com.xdshop.util.XMLUtils;
 import com.xdshop.vo.MsgRcvVo;
 
 public class JaxbTest {

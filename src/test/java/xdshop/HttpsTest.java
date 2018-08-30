@@ -3,7 +3,8 @@ package xdshop;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.pujjr.gps.util.HttpsUtil;
+import com.alibaba.fastjson.JSONObject;
+import com.xdshop.util.HttpsUtil;
 
 /**
  * https 通信测试
@@ -37,7 +38,9 @@ public class HttpsTest {
 		Map<String,Object> bodyParams = new HashMap<String,Object>();
 		bodyParams.clear();
 		bodyParams.put("name", "围栏名称");
-		HttpsUtil.doPost("https://restapi.amap.com/v4/geofence/meta", urlParams, bodyParams);
+		System.out.println("body："+JSONObject.toJSONString(bodyParams));
+//		HttpsUtil.doPost("https://restapi.amap.com/v4/geofence/meta", urlParams, bodyParams);
+		HttpsUtil.doPostJson("https://restapi.amap.com/v4/geofence/meta", urlParams, bodyParams);
 	}
 	
 	public static void main(String[] args) {

@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.map.HashedMap;
 
-import com.pujjr.gps.util.OkHttpUtil;
+import com.xdshop.util.OkHttpUtil;
 
 public class OkHttpTest {
 

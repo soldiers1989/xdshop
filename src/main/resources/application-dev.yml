@@ -37,20 +37,11 @@ segUpload:
     
 #---------------------------定时任务 相关---------------------------------      
 #调度器是否启用
-schedul:
+schedule: 
   start: false
   #库存盘点时间
-  takeStock: 
-    cronTime: 0 0 3 1 * ?
-  #自动提交时间
-  autoCommit: 
-    cronTime: 0 0 3 2 * ?
-  #自动上传数据到赛格，凌晨2点执行
-  autoUploadToSeg:
-    cronTime: 0 00 2 ? * *
-  #一次性上传所有数据到赛格
-  autoAllDataUploadToSeg:
-    cronTime: 0 15 16 6 3 ?   
+  tokenRefresh: 
+    cronTime: 0 */1 * * * ? 
     
 #---------------------------文件 相关---------------------------------          
 #excel下载，临时文件保存目录
@@ -66,8 +57,18 @@ gps:
   duplicated:
     switch: true
     
-jdbc_driverClassName_master: com.mysql.jdbc.Driver
-jdbc_url_master: jdbc:mysql://172.18.10.145:3306/test?characterEncoding=UTF-8
-jdbc_username_master: root
-jdbc_password_master: Good1235
+ #---------------------------微信相关--------------------------------- 
+weChat: 
+  #星都优选
+  #appId: wxcc4c443d5a08ed7d
+  #secret: 89ece1ca08163acc1737155060b33eb1
+  #测试微信公众号：brighttang2011
+  appId: wxe446196f5726d322
+  secret: 9be409fa349f1cd84e42dcddcff64703
+  token: 
+    #access_toke 刷新评率（间隔分钟数）
+    refreshFreq: 90
+  
+    
+
 

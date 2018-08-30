@@ -9,8 +9,8 @@
 
 	<packaging>jar</packaging>
 
-	<name>测试服务</name>
-	<description>测试服务</description>
+	<name>xdshop服务</name>
+	<description>xdshop服务</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -99,11 +99,11 @@
 			<version>1.2.1</version>
 		</dependency>
 		<!-- 工具包 -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.pujjr</groupId>
 			<artifactId>pujjr-common-simple</artifactId>
 			<version>1.0.2</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
@@ -139,11 +139,11 @@
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
-<!-- 		<dependency>
+		<dependency>
 		    <groupId>commons-io</groupId>
 		    <artifactId>commons-io</artifactId>
 		    <version>2.6</version>
-		</dependency> -->
+		</dependency>
 
 		<dependency>
 		    <groupId>commons-lang</groupId>
@@ -188,6 +188,12 @@
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.moxy</artifactId>
 			<version>2.5.2-M1</version>
+		</dependency>
+		
+		<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt</artifactId>
+				<version>0.6.0</version>
 		</dependency>
 			
 		

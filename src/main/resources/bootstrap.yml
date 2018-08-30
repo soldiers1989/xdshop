@@ -10,8 +10,8 @@ server:
   server.tomcat.uri-encoding: UTF-8
 #mybatis数据库扫描包路径及mapper文件路径
 mybatis:
-  type-aliases-package: com.pujjr.gps.dal.domain
-  mapper-locations: com/pujjr/gps/dal/mapper/*.xml
+  type-aliases-package: com.xdshop.dal.domain
+  mapper-locations: com/xdshop/dal/mapper/*.xml
   configuration:
     mapUnderscoreToCamelCase: true
 #说明
@@ -23,7 +23,7 @@ info:
   groupId: "@project.groupId@"
 #日志配置
 logging:
-  path: pujjr_gps_log
+  path: xdshop_log
 #spring配置
 spring:
   http: 

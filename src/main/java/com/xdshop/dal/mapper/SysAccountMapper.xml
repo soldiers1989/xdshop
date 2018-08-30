@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xdshop.dal.dao.SysAccountMapper">
+  <resultMap id="BaseResultMap" type="com.xdshop.dal.domain.SysAccount">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="ACCOUNT_ID" jdbcType="VARCHAR" property="accountId" />
+    <result column="ACCOUNT_NAME" jdbcType="VARCHAR" property="accountName" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="BRANCH_ID" jdbcType="VARCHAR" property="branchId" />
+    <result column="POST_ID" jdbcType="VARCHAR" property="postId" />
+    <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+    <result column="WEIXIN_ID" jdbcType="VARCHAR" property="weixinId" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="LOGIN_STATUS" jdbcType="VARCHAR" property="loginStatus" />
+    <result column="LAST_HEARTBEAT_TIME" jdbcType="TIMESTAMP" property="lastHeartbeatTime" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_ID" jdbcType="VARCHAR" property="createId" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="UPDATE_ID" jdbcType="VARCHAR" property="updateId" />
+    <result column="RESERVER1" jdbcType="VARCHAR" property="reserver1" />
+    <result column="RESERVER2" jdbcType="VARCHAR" property="reserver2" />
+    <result column="RESERVER3" jdbcType="VARCHAR" property="reserver3" />
+    <result column="RESERVER4" jdbcType="VARCHAR" property="reserver4" />
+    <result column="RESERVER5" jdbcType="VARCHAR" property="reserver5" />
+    <result column="INVOKE_CALLCENTER" jdbcType="BIT" property="invokeCallcenter" />
+    <result column="CALLCENTER_LOGIN_PASSWD" jdbcType="VARCHAR" property="callcenterLoginPasswd" />
+    <result column="CALLCENTER_EXTENSION_TELEPHONE" jdbcType="VARCHAR" property="callcenterExtensionTelephone" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, ACCOUNT_ID, ACCOUNT_NAME, PASSWORD, BRANCH_ID, POST_ID, MOBILE, WEIXIN_ID, EMAIL, 
+    STATUS, LOGIN_STATUS, LAST_HEARTBEAT_TIME, CREATE_TIME, CREATE_ID, UPDATE_TIME, UPDATE_ID, 
+    RESERVER1, RESERVER2, RESERVER3, RESERVER4, RESERVER5, INVOKE_CALLCENTER, CALLCENTER_LOGIN_PASSWD, 
+    CALLCENTER_EXTENSION_TELEPHONE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_account
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_account
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xdshop.dal.domain.SysAccount">
+    insert into sys_account (ID, ACCOUNT_ID, ACCOUNT_NAME, 
+      PASSWORD, BRANCH_ID, POST_ID, 
+      MOBILE, WEIXIN_ID, EMAIL, 
+      STATUS, LOGIN_STATUS, LAST_HEARTBEAT_TIME, 
+      CREATE_TIME, CREATE_ID, UPDATE_TIME, 
+      UPDATE_ID, RESERVER1, RESERVER2, 
+      RESERVER3, RESERVER4, RESERVER5, 
+      INVOKE_CALLCENTER, CALLCENTER_LOGIN_PASSWD, CALLCENTER_EXTENSION_TELEPHONE
+      )
+    values (#{id,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR}, #{accountName,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{branchId,jdbcType=VARCHAR}, #{postId,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{weixinId,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{loginStatus,jdbcType=VARCHAR}, #{lastHeartbeatTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createId,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateId,jdbcType=VARCHAR}, #{reserver1,jdbcType=VARCHAR}, #{reserver2,jdbcType=VARCHAR}, 
+      #{reserver3,jdbcType=VARCHAR}, #{reserver4,jdbcType=VARCHAR}, #{reserver5,jdbcType=VARCHAR}, 
+      #{invokeCallcenter,jdbcType=BIT}, #{callcenterLoginPasswd,jdbcType=VARCHAR}, #{callcenterExtensionTelephone,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xdshop.dal.domain.SysAccount">
+    insert into sys_account
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="accountId != null">
+        ACCOUNT_ID,
+      </if>
+      <if test="accountName != null">
+        ACCOUNT_NAME,
+      </if>
+      <if test="password != null">
+        PASSWORD,
+      </if>
+      <if test="branchId != null">
+        BRANCH_ID,
+      </if>
+      <if test="postId != null">
+        POST_ID,
+      </if>
+      <if test="mobile != null">
+        MOBILE,
+      </if>
+      <if test="weixinId != null">
+        WEIXIN_ID,
+      </if>
+      <if test="email != null">
+        EMAIL,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="loginStatus != null">
+        LOGIN_STATUS,
+      </if>
+      <if test="lastHeartbeatTime != null">
+        LAST_HEARTBEAT_TIME,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="createId != null">
+        CREATE_ID,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="updateId != null">
+        UPDATE_ID,
+      </if>
+      <if test="reserver1 != null">
+        RESERVER1,
+      </if>
+      <if test="reserver2 != null">
+        RESERVER2,
+      </if>
+      <if test="reserver3 != null">
+        RESERVER3,
+      </if>
+      <if test="reserver4 != null">
+        RESERVER4,
+      </if>
+      <if test="reserver5 != null">
+        RESERVER5,
+      </if>
+      <if test="invokeCallcenter != null">
+        INVOKE_CALLCENTER,
+      </if>
+      <if test="callcenterLoginPasswd != null">
+        CALLCENTER_LOGIN_PASSWD,
+      </if>
+      <if test="callcenterExtensionTelephone != null">
+        CALLCENTER_EXTENSION_TELEPHONE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null">
+        #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null">
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="branchId != null">
+        #{branchId,jdbcType=VARCHAR},
+      </if>
+      <if test="postId != null">
+        #{postId,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinId != null">
+        #{weixinId,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="loginStatus != null">
+        #{loginStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="lastHeartbeatTime != null">
+        #{lastHeartbeatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null">
+        #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="reserver1 != null">
+        #{reserver1,jdbcType=VARCHAR},
+      </if>
+      <if test="reserver2 != null">
+        #{reserver2,jdbcType=VARCHAR},
+      </if>
+      <if test="reserver3 != null">
+        #{reserver3,jdbcType=VARCHAR},
+      </if>
+      <if test="reserver4 != null">
+        #{reserver4,jdbcType=VARCHAR},
+      </if>
+      <if test="reserver5 != null">
+        #{reserver5,jdbcType=VARCHAR},
+      </if>
+      <if test="invokeCallcenter != null">
+        #{invokeCallcenter,jdbcType=BIT},
+      </if>
+      <if test="callcenterLoginPasswd != null">
+        #{callcenterLoginPasswd,jdbcType=VARCHAR},
+      </if>
+      <if test="callcenterExtensionTelephone != null">
+        #{callcenterExtensionTelephone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xdshop.dal.domain.SysAccount">
+    update sys_account
+    <set>
+      <if test="accountId != null">
+        ACCOUNT_ID = #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null">
+        ACCOUNT_NAME = #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="branchId != null">
+        BRANCH_ID = #{branchId,jdbcType=VARCHAR},
+      </if>
+      <if test="postId != null">
+        POST_ID = #{postId,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinId != null">
+        WEIXIN_ID = #{weixinId,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="loginStatus != null">
+        LOGIN_STATUS = #{loginStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="lastHeartbeatTime != null">
+        LAST_HEARTBEAT_TIME = #{lastHeartbeatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null">
+        CREATE_ID = #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null">
+        UPDATE_ID = #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="reserver1 != null">
+        RESERVER1 = #{reserver1,jdbcType=VARCHAR},
+      </if>
+      <if test="reserver2 != null">
+        RESERVER2 = #{reserver2,jdbcType=VARCHAR},
+      </if>
+      <if test="reserver3 != null">
+        RESERVER3 = #{reserver3,jdbcType=VARCHAR},
+      </if>
+      <if test="reserver4 != null">
+        RESERVER4 = #{reserver4,jdbcType=VARCHAR},
+      </if>
+      <if test="reserver5 != null">
+        RESERVER5 = #{reserver5,jdbcType=VARCHAR},
+      </if>
+      <if test="invokeCallcenter != null">
+        INVOKE_CALLCENTER = #{invokeCallcenter,jdbcType=BIT},
+      </if>
+      <if test="callcenterLoginPasswd != null">
+        CALLCENTER_LOGIN_PASSWD = #{callcenterLoginPasswd,jdbcType=VARCHAR},
+      </if>
+      <if test="callcenterExtensionTelephone != null">
+        CALLCENTER_EXTENSION_TELEPHONE = #{callcenterExtensionTelephone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xdshop.dal.domain.SysAccount">
+    update sys_account
+    set ACCOUNT_ID = #{accountId,jdbcType=VARCHAR},
+      ACCOUNT_NAME = #{accountName,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      BRANCH_ID = #{branchId,jdbcType=VARCHAR},
+      POST_ID = #{postId,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      WEIXIN_ID = #{weixinId,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      LOGIN_STATUS = #{loginStatus,jdbcType=VARCHAR},
+      LAST_HEARTBEAT_TIME = #{lastHeartbeatTime,jdbcType=TIMESTAMP},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_ID = #{createId,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_ID = #{updateId,jdbcType=VARCHAR},
+      RESERVER1 = #{reserver1,jdbcType=VARCHAR},
+      RESERVER2 = #{reserver2,jdbcType=VARCHAR},
+      RESERVER3 = #{reserver3,jdbcType=VARCHAR},
+      RESERVER4 = #{reserver4,jdbcType=VARCHAR},
+      RESERVER5 = #{reserver5,jdbcType=VARCHAR},
+      INVOKE_CALLCENTER = #{invokeCallcenter,jdbcType=BIT},
+      CALLCENTER_LOGIN_PASSWD = #{callcenterLoginPasswd,jdbcType=VARCHAR},
+      CALLCENTER_EXTENSION_TELEPHONE = #{callcenterExtensionTelephone,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectByAccountId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_account
+    where account_id = #{accountId,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="selectByCreateTime" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_account
+    where 1=1
+   	<if test='queryParam.timeBegin != null'>
+		and create_time <![CDATA[>=]]> #{queryParam.timeBegin}
+	</if>
+	<if test='queryParam.timeEnd != null'>
+		and create_time <![CDATA[<=]]> #{queryParam.timeEnd}
+	</if>
+  </select>
+  
+  
+  
+</mapper>

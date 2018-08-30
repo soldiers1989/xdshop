@@ -9,7 +9,7 @@ import java.util.Map;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.util.Base64Utils;
 
-import com.pujjr.gps.util.Sha1Util;
+import com.xdshop.util.Sha1Util;
 
 public class Sh1Test {
 	private static final char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5',  

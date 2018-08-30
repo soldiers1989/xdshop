@@ -1,7 +1,12 @@
 package xdshop;
 
-import com.pujjr.gps.util.XMLUtils;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.xdshop.util.XMLUtils;
+import com.xdshop.vo.ArticleVo;
 import com.xdshop.vo.MsgRcvVo;
+import com.xdshop.vo.MsgRetVo;
 
 public class XmlTest {
 
@@ -11,6 +16,21 @@ public class XmlTest {
 		System.out.println(msgRcvVo.getFromUserName());
 		
 		System.out.println(XMLUtils.jaxBeanToXml(msgRcvVo));
+		
+		MsgRetVo msgRetVo = new MsgRetVo();
+		List<ArticleVo> articles = new ArrayList<ArticleVo>();
+		ArticleVo articleVo = new ArticleVo();
+		articleVo.setTitle("标题");
+		articleVo.setDescription("描述");
+		articleVo.setPicUrl("picUrl");
+		articleVo.setUrl("url");
+		articles.add(articleVo);
+		articles.add(articleVo);
+		articles.add(articleVo);
+		articles.add(articleVo);
+		msgRetVo.setArticles(articles);
+		System.out.println(XMLUtils.jaxBeanToXml(msgRetVo));
+		
 
 	}
 
