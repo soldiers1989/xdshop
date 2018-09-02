@@ -4,23 +4,26 @@
   <resultMap id="BaseResultMap" type="com.xdshop.dal.domain.Publish">
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="TITLE" jdbcType="VARCHAR" property="title" />
-    <result column="STAR_NUM" jdbcType="INTEGER" property="starNum" />
+    <result column="STAR_NUM" jdbcType="REAL" property="starNum" />
     <result column="PRICE_INIT" jdbcType="DOUBLE" property="priceInit" />
     <result column="PRICE_NOW" jdbcType="DOUBLE" property="priceNow" />
     <result column="TICKET_TOTAL" jdbcType="INTEGER" property="ticketTotal" />
     <result column="TICKET_SALE" jdbcType="INTEGER" property="ticketSale" />
     <result column="TICKET_REMAIN" jdbcType="INTEGER" property="ticketRemain" />
-    <result column="PUBLISH_RULE" jdbcType="VARCHAR" property="publishRule" />
     <result column="POSTER_OSS_KEY" jdbcType="VARCHAR" property="posterOssKey" />
+    <result column="POSTER_URL" jdbcType="VARCHAR" property="posterUrl" />
+    <result column="PUBLISH_RULE" jdbcType="VARCHAR" property="publishRule" />
     <result column="SCENIC_DESC" jdbcType="VARCHAR" property="scenicDesc" />
     <result column="TIME_BEGIN" jdbcType="TIMESTAMP" property="timeBegin" />
     <result column="TIME_END" jdbcType="TIMESTAMP" property="timeEnd" />
     <result column="CREATE_ID" jdbcType="VARCHAR" property="createId" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="OPEN_FLAG" jdbcType="BIT" property="openFlag" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, TITLE, STAR_NUM, PRICE_INIT, PRICE_NOW, TICKET_TOTAL, TICKET_SALE, TICKET_REMAIN, 
-    PUBLISH_RULE, POSTER_OSS_KEY, SCENIC_DESC, TIME_BEGIN, TIME_END, CREATE_ID, CREATE_TIME
+    POSTER_OSS_KEY, POSTER_URL, PUBLISH_RULE, SCENIC_DESC, TIME_BEGIN, TIME_END, CREATE_ID, 
+    CREATE_TIME, OPEN_FLAG
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -35,16 +38,16 @@
   <insert id="insert" parameterType="com.xdshop.dal.domain.Publish">
     insert into t_publish (ID, TITLE, STAR_NUM, 
       PRICE_INIT, PRICE_NOW, TICKET_TOTAL, 
-      TICKET_SALE, TICKET_REMAIN, PUBLISH_RULE, 
-      POSTER_OSS_KEY, SCENIC_DESC, TIME_BEGIN, 
-      TIME_END, CREATE_ID, CREATE_TIME
-      )
-    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{starNum,jdbcType=INTEGER}, 
+      TICKET_SALE, TICKET_REMAIN, POSTER_OSS_KEY, 
+      POSTER_URL, PUBLISH_RULE, SCENIC_DESC, 
+      TIME_BEGIN, TIME_END, CREATE_ID, 
+      CREATE_TIME, OPEN_FLAG)
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{starNum,jdbcType=REAL}, 
       #{priceInit,jdbcType=DOUBLE}, #{priceNow,jdbcType=DOUBLE}, #{ticketTotal,jdbcType=INTEGER}, 
-      #{ticketSale,jdbcType=INTEGER}, #{ticketRemain,jdbcType=INTEGER}, #{publishRule,jdbcType=VARCHAR}, 
-      #{posterOssKey,jdbcType=VARCHAR}, #{scenicDesc,jdbcType=VARCHAR}, #{timeBegin,jdbcType=TIMESTAMP}, 
-      #{timeEnd,jdbcType=TIMESTAMP}, #{createId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
-      )
+      #{ticketSale,jdbcType=INTEGER}, #{ticketRemain,jdbcType=INTEGER}, #{posterOssKey,jdbcType=VARCHAR}, 
+      #{posterUrl,jdbcType=VARCHAR}, #{publishRule,jdbcType=VARCHAR}, #{scenicDesc,jdbcType=VARCHAR}, 
+      #{timeBegin,jdbcType=TIMESTAMP}, #{timeEnd,jdbcType=TIMESTAMP}, #{createId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{openFlag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.xdshop.dal.domain.Publish">
     insert into t_publish
@@ -73,11 +76,14 @@
       <if test="ticketRemain != null">
         TICKET_REMAIN,
       </if>
-      <if test="publishRule != null">
-        PUBLISH_RULE,
-      </if>
       <if test="posterOssKey != null">
         POSTER_OSS_KEY,
+      </if>
+      <if test="posterUrl != null">
+        POSTER_URL,
+      </if>
+      <if test="publishRule != null">
+        PUBLISH_RULE,
       </if>
       <if test="scenicDesc != null">
         SCENIC_DESC,
@@ -94,6 +100,9 @@
       <if test="createTime != null">
         CREATE_TIME,
       </if>
+      <if test="openFlag != null">
+        OPEN_FLAG,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -103,7 +112,7 @@
         #{title,jdbcType=VARCHAR},
       </if>
       <if test="starNum != null">
-        #{starNum,jdbcType=INTEGER},
+        #{starNum,jdbcType=REAL},
       </if>
       <if test="priceInit != null">
         #{priceInit,jdbcType=DOUBLE},
@@ -120,11 +129,14 @@
       <if test="ticketRemain != null">
         #{ticketRemain,jdbcType=INTEGER},
       </if>
-      <if test="publishRule != null">
-        #{publishRule,jdbcType=VARCHAR},
-      </if>
       <if test="posterOssKey != null">
         #{posterOssKey,jdbcType=VARCHAR},
+      </if>
+      <if test="posterUrl != null">
+        #{posterUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="publishRule != null">
+        #{publishRule,jdbcType=VARCHAR},
       </if>
       <if test="scenicDesc != null">
         #{scenicDesc,jdbcType=VARCHAR},
@@ -141,6 +153,9 @@
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="openFlag != null">
+        #{openFlag,jdbcType=BIT},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.xdshop.dal.domain.Publish">
@@ -150,7 +165,7 @@
         TITLE = #{title,jdbcType=VARCHAR},
       </if>
       <if test="starNum != null">
-        STAR_NUM = #{starNum,jdbcType=INTEGER},
+        STAR_NUM = #{starNum,jdbcType=REAL},
       </if>
       <if test="priceInit != null">
         PRICE_INIT = #{priceInit,jdbcType=DOUBLE},
@@ -167,11 +182,14 @@
       <if test="ticketRemain != null">
         TICKET_REMAIN = #{ticketRemain,jdbcType=INTEGER},
       </if>
-      <if test="publishRule != null">
-        PUBLISH_RULE = #{publishRule,jdbcType=VARCHAR},
-      </if>
       <if test="posterOssKey != null">
         POSTER_OSS_KEY = #{posterOssKey,jdbcType=VARCHAR},
+      </if>
+      <if test="posterUrl != null">
+        POSTER_URL = #{posterUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="publishRule != null">
+        PUBLISH_RULE = #{publishRule,jdbcType=VARCHAR},
       </if>
       <if test="scenicDesc != null">
         SCENIC_DESC = #{scenicDesc,jdbcType=VARCHAR},
@@ -188,37 +206,45 @@
       <if test="createTime != null">
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="openFlag != null">
+        OPEN_FLAG = #{openFlag,jdbcType=BIT},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.xdshop.dal.domain.Publish">
     update t_publish
     set TITLE = #{title,jdbcType=VARCHAR},
-      STAR_NUM = #{starNum,jdbcType=INTEGER},
+      STAR_NUM = #{starNum,jdbcType=REAL},
       PRICE_INIT = #{priceInit,jdbcType=DOUBLE},
       PRICE_NOW = #{priceNow,jdbcType=DOUBLE},
       TICKET_TOTAL = #{ticketTotal,jdbcType=INTEGER},
       TICKET_SALE = #{ticketSale,jdbcType=INTEGER},
       TICKET_REMAIN = #{ticketRemain,jdbcType=INTEGER},
-      PUBLISH_RULE = #{publishRule,jdbcType=VARCHAR},
       POSTER_OSS_KEY = #{posterOssKey,jdbcType=VARCHAR},
+      POSTER_URL = #{posterUrl,jdbcType=VARCHAR},
+      PUBLISH_RULE = #{publishRule,jdbcType=VARCHAR},
       SCENIC_DESC = #{scenicDesc,jdbcType=VARCHAR},
       TIME_BEGIN = #{timeBegin,jdbcType=TIMESTAMP},
       TIME_END = #{timeEnd,jdbcType=TIMESTAMP},
       CREATE_ID = #{createId,jdbcType=VARCHAR},
-      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      OPEN_FLAG = #{openFlag,jdbcType=BIT}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+
+  
   
   <select id="selectPublishList" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_publish
     where 1=1
-   	<if test='queryParam.timeBegin != null'>
+   	<if test="queryParam.timeBegin != null">
 		and create_time <![CDATA[>=]]> #{queryParam.timeBegin}
 	</if>
-	<if test='queryParam.timeEnd != null'>
+	<if test="queryParam.timeEnd != null">
 		and create_time <![CDATA[<=]]> #{queryParam.timeEnd}
 	</if>
   </select>

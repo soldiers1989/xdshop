@@ -19,6 +19,11 @@ public interface PublishMapper {
 	int updateByPrimaryKeySelective(Publish record);
 
 	int updateByPrimaryKey(Publish record);
+
+	
+
+	
+
 	
 	List<Publish> selectPublishList(@Param("queryParam")BaseParam queryParam);
 

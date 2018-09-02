@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xdshop.dal.dao.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.xdshop.dal.domain.Article">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="PUBLISH_ID" jdbcType="VARCHAR" property="publishId" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="PIC_URL" jdbcType="VARCHAR" property="picUrl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, PUBLISH_ID, TITLE, PIC_URL
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_article
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_article
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xdshop.dal.domain.Article">
+    insert into t_article (ID, PUBLISH_ID, TITLE, 
+      PIC_URL)
+    values (#{id,jdbcType=VARCHAR}, #{publishId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{picUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xdshop.dal.domain.Article">
+    insert into t_article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="publishId != null">
+        PUBLISH_ID,
+      </if>
+      <if test="title != null">
+        TITLE,
+      </if>
+      <if test="picUrl != null">
+        PIC_URL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="publishId != null">
+        #{publishId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null">
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xdshop.dal.domain.Article">
+    update t_article
+    <set>
+      <if test="publishId != null">
+        PUBLISH_ID = #{publishId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null">
+        PIC_URL = #{picUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xdshop.dal.domain.Article">
+    update t_article
+    set PUBLISH_ID = #{publishId,jdbcType=VARCHAR},
+      TITLE = #{title,jdbcType=VARCHAR},
+      PIC_URL = #{picUrl,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectByPublishId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_article
+    where publish_id = #{publishId,jdbcType=VARCHAR}
+  </select>
+  
+</mapper>

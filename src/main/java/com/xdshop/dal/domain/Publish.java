@@ -7,7 +7,7 @@ public class Publish {
 
 	private String title;
 
-	private Integer starNum;
+	private Float starNum;
 
 	private Double priceInit;
 
@@ -19,9 +19,11 @@ public class Publish {
 
 	private Integer ticketRemain;
 
-	private String publishRule;
-
 	private String posterOssKey;
+
+	private String posterUrl;
+
+	private String publishRule;
 
 	private String scenicDesc;
 
@@ -32,6 +34,8 @@ public class Publish {
 	private String createId;
 
 	private Date createTime;
+
+	private Boolean openFlag;
 
 	public String getId() {
 		return id;
@@ -49,11 +53,11 @@ public class Publish {
 		this.title = title;
 	}
 
-	public Integer getStarNum() {
+	public Float getStarNum() {
 		return starNum;
 	}
 
-	public void setStarNum(Integer starNum) {
+	public void setStarNum(Float starNum) {
 		this.starNum = starNum;
 	}
 
@@ -97,20 +101,28 @@ public class Publish {
 		this.ticketRemain = ticketRemain;
 	}
 
-	public String getPublishRule() {
-		return publishRule;
-	}
-
-	public void setPublishRule(String publishRule) {
-		this.publishRule = publishRule;
-	}
-
 	public String getPosterOssKey() {
 		return posterOssKey;
 	}
 
 	public void setPosterOssKey(String posterOssKey) {
 		this.posterOssKey = posterOssKey;
+	}
+
+	public String getPosterUrl() {
+		return posterUrl;
+	}
+
+	public void setPosterUrl(String posterUrl) {
+		this.posterUrl = posterUrl;
+	}
+
+	public String getPublishRule() {
+		return publishRule;
+	}
+
+	public void setPublishRule(String publishRule) {
+		this.publishRule = publishRule;
 	}
 
 	public String getScenicDesc() {
@@ -152,4 +164,15 @@ public class Publish {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+
+	public Boolean getOpenFlag() {
+		return openFlag;
+	}
+
+	public void setOpenFlag(Boolean openFlag) {
+		this.openFlag = openFlag;
+	}
+
+
+
 }

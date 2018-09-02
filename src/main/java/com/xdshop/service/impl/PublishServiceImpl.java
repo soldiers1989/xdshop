@@ -1,6 +1,7 @@
 package com.xdshop.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -8,18 +9,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.xdshop.api.BaseParam;
+import com.xdshop.api.ShareParamVo;
 import com.xdshop.dal.dao.PublishMapper;
 import com.xdshop.dal.dao.PublishResourceMapper;
+import com.xdshop.dal.domain.Article;
 import com.xdshop.dal.domain.Publish;
 import com.xdshop.dal.domain.PublishResource;
+import com.xdshop.service.IArticleService;
 import com.xdshop.service.IOssService;
 import com.xdshop.service.IPublishService;
 import com.xdshop.service.XdShopService;
 import com.xdshop.util.Sha1Util;
 import com.xdshop.util.Utils;
 import com.xdshop.vo.OssBaseVo;
+import com.xdshop.vo.PublishVo;
 
 import xdshop.OssTest;
 
@@ -32,26 +38,37 @@ public class PublishServiceImpl implements IPublishService {
 	private PublishResourceMapper publishResourceMapper;
 	@Autowired
 	private IOssService ossServiceImpl;
+	@Autowired
+	private IArticleService articleServiceImpl;
 	
 	@Override
 	public Publish initPublish() throws Exception {
 		Publish publish = new Publish();
 		publish.setId(Utils.get16UUID());
+		publish.setOpenFlag(false);
+		publish.setCreateTime(Calendar.getInstance().getTime());
+		publish.setTicketRemain(publish.getTicketTotal());
 		publishMapper.insertSelective(publish);
 		return publish;
 	}
 
 	
 	@Override
-	public Integer savePublish(Publish publish) throws Exception {
+	public Integer savePublish(PublishVo publish) throws Exception {
 		//sql影响记录条数
 		int recordNum = 0;
 		if(publish.getId() == null){
 			publish.setId(Utils.get16UUID());
+			publish.setOpenFlag(false);
 			recordNum = publishMapper.insertSelective(publish);
 		}else{
 			recordNum = publishMapper.updateByPrimaryKeySelective(publish);
 		}
+		
+		//保存图文消息
+		Article article = publish.getArticle();
+		if(article != null)
+			articleServiceImpl.saveArticle(article);
 		return recordNum;
 	}
 	@Override
@@ -95,6 +112,18 @@ public class PublishServiceImpl implements IPublishService {
 	@Override
 	public Publish getPublish(String id) throws Exception {
 		return publishMapper.selectByPrimaryKey(id);
+	}
+
+
+	@Override
+	public String generalSharePic(ShareParamVo shareParamVo) throws Exception {
+		String sharePicUrl = "http://xdshop2018.oss-cn-hangzhou.aliyuncs.com/resource/分享图背景.jpg";
+		logger.info("准备生成用户分享图片："+JSONObject.toJSONString(shareParamVo));
+		/**
+		 * 对接微信接口，注入相关信息到底图
+		 */
+		
+		return sharePicUrl;
 	}
 
 }

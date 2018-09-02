@@ -5,18 +5,28 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.xdshop.api.BaseParam;
+import com.xdshop.api.ShareParamVo;
 import com.xdshop.dal.domain.Publish;
+import com.xdshop.vo.PublishVo;
 
 public interface IPublishService {
 	
 	public Publish initPublish() throws Exception;
 	
-	public Integer savePublish(Publish publish) throws Exception;
+	public Integer savePublish(PublishVo publish) throws Exception;
 	
 	public List<Publish> getPublishList(BaseParam baseParam) throws Exception;
 	
 	public void uploadResource(MultipartFile file,String typeCode,String publishId) throws Exception;
 	
 	public Publish getPublish(String id) throws Exception;
+	
+	/**
+	 * 生成分享图片
+	 * @param shareParamVo
+	 * @return 生成的分享图片链接地址
+	 * @throws Exception
+	 */
+	public String generalSharePic(ShareParamVo shareParamVo) throws Exception;
 	
 }

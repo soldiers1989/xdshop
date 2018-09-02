@@ -22,11 +22,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.xdshop.api.BaseParam;
+import com.xdshop.api.ShareParamVo;
 import com.xdshop.dal.domain.Publish;
 import com.xdshop.dal.domain.SysAccount;
 import com.xdshop.service.IPublishService;
 import com.xdshop.service.ISysAccountService;
 import com.xdshop.vo.PageVo;
+import com.xdshop.vo.PublishVo;
 import com.xdshop.vo.ResponseVo;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -63,9 +65,9 @@ public class PublishController extends BaseController {
 	@ApiOperation(value="保存发布")
 	@RequestMapping(value="/publish/save",method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo savePublish(@RequestBody Publish publish,HttpServletRequest request) throws Exception{
+	public ResponseVo savePublish(@RequestBody PublishVo publishVo,HttpServletRequest request) throws Exception{
 		ResponseVo responseVo = new ResponseVo();
-		publishServiceImpl.savePublish(publish);
+		publishServiceImpl.savePublish(publishVo);
 		responseVo.setSuccessResponse(true);
 		responseVo.setMessage("保存成功");
 		return responseVo;
@@ -89,6 +91,17 @@ public class PublishController extends BaseController {
 		ResponseVo responseVo=new ResponseVo();
 		responseVo.setData(publish);
 		responseVo.setSuccessResponse(true);
+		return responseVo;
+	}
+	
+	@ApiOperation(value="保存发布")
+	@RequestMapping(value="/publish/share",method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo savePublish(@RequestBody ShareParamVo shareParamVo,HttpServletRequest request) throws Exception{
+		ResponseVo responseVo = new ResponseVo();
+		String sharePicUrl = publishServiceImpl.generalSharePic(shareParamVo);
+		responseVo.setSuccessResponse(true);
+		responseVo.setData(sharePicUrl);
 		return responseVo;
 	}
 }
