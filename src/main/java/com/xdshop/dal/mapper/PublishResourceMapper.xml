@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xdshop.dal.dao.PublishResourceMapper">
+  <resultMap id="BaseResultMap" type="com.xdshop.dal.domain.PublishResource">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="TYPE_CODE" jdbcType="VARCHAR" property="typeCode" />
+    <result column="TYPE_NAME" jdbcType="VARCHAR" property="typeName" />
+    <result column="OSS_KEY" jdbcType="VARCHAR" property="ossKey" />
+    <result column="URL" jdbcType="VARCHAR" property="url" />
+    <result column="PUBLISH_ID" jdbcType="VARCHAR" property="publishId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, TYPE_CODE, TYPE_NAME, OSS_KEY, URL, PUBLISH_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_publish_resource
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_publish_resource
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xdshop.dal.domain.PublishResource">
+    insert into t_publish_resource (ID, TYPE_CODE, TYPE_NAME, 
+      OSS_KEY, URL, PUBLISH_ID
+      )
+    values (#{id,jdbcType=VARCHAR}, #{typeCode,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, 
+      #{ossKey,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{publishId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xdshop.dal.domain.PublishResource">
+    insert into t_publish_resource
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="typeCode != null">
+        TYPE_CODE,
+      </if>
+      <if test="typeName != null">
+        TYPE_NAME,
+      </if>
+      <if test="ossKey != null">
+        OSS_KEY,
+      </if>
+      <if test="url != null">
+        URL,
+      </if>
+      <if test="publishId != null">
+        PUBLISH_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="typeCode != null">
+        #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null">
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="ossKey != null">
+        #{ossKey,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="publishId != null">
+        #{publishId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xdshop.dal.domain.PublishResource">
+    update t_publish_resource
+    <set>
+      <if test="typeCode != null">
+        TYPE_CODE = #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null">
+        TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="ossKey != null">
+        OSS_KEY = #{ossKey,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="publishId != null">
+        PUBLISH_ID = #{publishId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xdshop.dal.domain.PublishResource">
+    update t_publish_resource
+    set TYPE_CODE = #{typeCode,jdbcType=VARCHAR},
+      TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+      OSS_KEY = #{ossKey,jdbcType=VARCHAR},
+      URL = #{url,jdbcType=VARCHAR},
+      PUBLISH_ID = #{publishId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectPublishResourceList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_publish_resource
+    where 1=1
+   	<if test='queryParam.typeCode != null and queryParam.typeCode != ""'>
+		and type_code <![CDATA[=]]> #{queryParam.typeCode}
+	</if>
+	<if test='queryParam.publishId != null and queryParam.publishId != ""'>
+		and publish_id <![CDATA[=]]> #{queryParam.publishId}
+	</if>
+  </select>
+ 
+</mapper>

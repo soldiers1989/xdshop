@@ -8,16 +8,34 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.util.Assert;
 
+import com.squareup.okhttp.HttpUrl;
+
 public class Utils {
 	
 	
-	
+	/**
+	 * 获取GET请求URL地址（url地址后跟参数）
+	 * @param url
+	 * @param params
+	 * @return
+	 */
+	public String getUrl(String url, Map<String, String> params){
+		HttpUrl httpUrl = HttpUrl.parse(url);
+		if (params != null) {
+			for (String key : params.keySet()) {
+				httpUrl = httpUrl.newBuilder().addQueryParameter(key, params.get(key)).build();
+			}
+		}
+//		logger.info("GET请求,组装后地址："+httpUrl.toString());
+		return httpUrl.toString();
+	}
 	
 	/************************************历史记录相关开始*****************************************/
 	/**
