@@ -96,7 +96,7 @@ public class ImageTest {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		String accessToken = "13_YSU_lx7qdNhsYPePHLSQEca9k52zUxi4e1nFDmqMWV1gsbvuUxP5BeKKzoqvW2JPyBUFU51HDQtOz_S9V_JZircZQ2Cdearq9woNw-yCSHKqNleUcLwnhuRxhqwZNCgADAUIX";
+		String accessToken = "13_faCzUKx7TfvGoPSE0YoeVVJpTkiWQF8AjgUVOlaWi5UL3q8AEs9OpvyuuEOvPkwWG04sqf_JvsjLEDZASulW06Wiu7ijs7xFPegjcjej-vmJdPGO5klZa07zgtkA55pOO7iqw696a3-E89FnEDVcAIAIHZ";
 		
 		BufferedImage bgImage = ImageIO.read(new File("G:\\xdshop\\微信素材\\分享图背景.jpg"));
 		//背景宽

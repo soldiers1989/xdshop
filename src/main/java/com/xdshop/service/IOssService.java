@@ -1,5 +1,6 @@
 package com.xdshop.service;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import com.xdshop.vo.OssBaseVo;
@@ -12,4 +13,6 @@ public interface IOssService {
 	public String getUrl(OssBaseVo ossVo,String ossKey) throws Exception;
 	
 	public String getPermanentUrl(OssBaseVo ossVo,String ossKey) throws Exception;
+	
+	public InputStream getObject(OssBaseVo ossVo,String ossKey) throws IOException;
 }

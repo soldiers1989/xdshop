@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xdshop.dal.dao.UserShareMapper">
+  <resultMap id="BaseResultMap" type="com.xdshop.dal.domain.UserShare">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="PUBLISH_ID" jdbcType="VARCHAR" property="publishId" />
+    <result column="OPEN_ID" jdbcType="VARCHAR" property="openId" />
+    <result column="POSTER_OSS_KEY" jdbcType="VARCHAR" property="posterOssKey" />
+    <result column="POSTER_OSS_URL" jdbcType="VARCHAR" property="posterOssUrl" />
+    <result column="FETCH_STATUS" jdbcType="BIT" property="fetchStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, PUBLISH_ID, OPEN_ID, POSTER_OSS_KEY, POSTER_OSS_URL, FETCH_STATUS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_share
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_user_share
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xdshop.dal.domain.UserShare">
+    insert into t_user_share (ID, PUBLISH_ID, OPEN_ID, 
+      POSTER_OSS_KEY, POSTER_OSS_URL, FETCH_STATUS
+      )
+    values (#{id,jdbcType=VARCHAR}, #{publishId,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, 
+      #{posterOssKey,jdbcType=VARCHAR}, #{posterOssUrl,jdbcType=VARCHAR}, #{fetchStatus,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xdshop.dal.domain.UserShare">
+    insert into t_user_share
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="publishId != null">
+        PUBLISH_ID,
+      </if>
+      <if test="openId != null">
+        OPEN_ID,
+      </if>
+      <if test="posterOssKey != null">
+        POSTER_OSS_KEY,
+      </if>
+      <if test="posterOssUrl != null">
+        POSTER_OSS_URL,
+      </if>
+      <if test="fetchStatus != null">
+        FETCH_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="publishId != null">
+        #{publishId,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="posterOssKey != null">
+        #{posterOssKey,jdbcType=VARCHAR},
+      </if>
+      <if test="posterOssUrl != null">
+        #{posterOssUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="fetchStatus != null">
+        #{fetchStatus,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xdshop.dal.domain.UserShare">
+    update t_user_share
+    <set>
+      <if test="publishId != null">
+        PUBLISH_ID = #{publishId,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null">
+        OPEN_ID = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="posterOssKey != null">
+        POSTER_OSS_KEY = #{posterOssKey,jdbcType=VARCHAR},
+      </if>
+      <if test="posterOssUrl != null">
+        POSTER_OSS_URL = #{posterOssUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="fetchStatus != null">
+        FETCH_STATUS = #{fetchStatus,jdbcType=BIT},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xdshop.dal.domain.UserShare">
+    update t_user_share
+    set PUBLISH_ID = #{publishId,jdbcType=VARCHAR},
+      OPEN_ID = #{openId,jdbcType=VARCHAR},
+      POSTER_OSS_KEY = #{posterOssKey,jdbcType=VARCHAR},
+      POSTER_OSS_URL = #{posterOssUrl,jdbcType=VARCHAR},
+      FETCH_STATUS = #{fetchStatus,jdbcType=BIT}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+   <select id="selectByPublishIdAndOpenId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_share
+    where open_id = #{openId,jdbcType=VARCHAR}
+    	and publish_id = #{publishId,jdbcType=VARCHAR}
+  </select>
+  
+</mapper>

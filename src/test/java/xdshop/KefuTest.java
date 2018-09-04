@@ -3,33 +3,22 @@ package xdshop;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
-
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.FileUtils;
-
 import com.alibaba.fastjson.JSONObject;
 import com.xdshop.util.HttpsUtil;
-import com.xdshop.util.XMLUtils;
-import com.xdshop.vo.MsgRcvVo;
 import com.xdshop.vo.QrTicketVo;
 import com.xdshop.vo.SceneVo;
 
-import io.netty.handler.codec.base64.Base64Decoder;
-import io.netty.handler.codec.base64.Base64Encoder;
-
 /**
- * 二维码测试
+ * 客服测试
  * @author Administrator
  *
  */
-public class QrCodeTest {
+public class KefuTest {
 
 	/**
 	 * 获取ticket
@@ -86,10 +75,16 @@ public class QrCodeTest {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		String accessToken = "13_qfcb4XN3j3eANNQOHcT1hSaUtV22EJSL8INA24NwgS3Dc0A1x5vF9L9AyWzfE_1PBOT-J6WXjZlv4LASCDszOvcHm0g6RXt14vr99grCsjHe3urB78oQkoynehez7SkPfBOAf6v3q_7HwN9qKIMbADABZD";
-		QrCodeTest qrCodeTest = new QrCodeTest();
-		SceneVo sceneVo = new SceneVo();
-		sceneVo.setOpenId("oXmQ_1ddd8Yq4C_oAhq_OiMG181c");
-		qrCodeTest.getQrPic(sceneVo,accessToken);
+		String accessToken = "13_ZTdyqKPf-Xfjg0HUmb88dUOrmi1k9udpzwb4YpZbdRxaIZB5ZFYj8QNqjJJ0RFjvoz5O0XhAgDa5tbgit-cHsxmYny75Qoqqx3fw6c9RDwiDfmbOb06TYxsqq7-SQnJNVLj6VKr21vHh5XjDJCAeAFABUS";
+		String baseUrl = "https://mp.weixin.qq.com/cgi-bin/showqrcode";
+		Map<String,Object> urlParams = new HashMap<String,Object>();
+		urlParams.put("access_token", accessToken);
+		
+		Map<String,Object> bodyParams = new HashMap<String,Object>();
+		bodyParams.put("kf_account", "test1@test");
+		bodyParams.put("nickname", "客服0000");
+		bodyParams.put("password", "123456");
+		HttpsUtil.doPost(baseUrl, urlParams, bodyParams);
 	}
+
 }

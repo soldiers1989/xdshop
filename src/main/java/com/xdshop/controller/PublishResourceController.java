@@ -44,7 +44,7 @@ public class PublishResourceController extends BaseController {
 	
 	@RequestMapping(value="/publishResource/{typeCode}/{publishId}",method=RequestMethod.GET)
 	@ResponseBody
-	public ResponseVo uploadResource(@PathVariable("typeCode") String typeCode,@PathVariable("publishId") String publishId) throws Exception{
+	public ResponseVo publishResource(@PathVariable("typeCode") String typeCode,@PathVariable("publishId") String publishId) throws Exception{
 		ResponseVo rsv = new ResponseVo();
 		PublishResource publishResource =  new PublishResource();
 		publishResource.setTypeCode(typeCode);

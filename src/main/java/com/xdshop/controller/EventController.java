@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.xdshop.service.IEventService;
 import com.xdshop.service.XdShopService;
 import com.xdshop.util.Utils;
 import com.xdshop.util.XMLUtils;
@@ -29,11 +30,13 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/")
-public class XdShopController {
-	private static final Logger logger = Logger.getLogger(XdShopController.class);
+public class EventController {
+	private static final Logger logger = Logger.getLogger(EventController.class);
 	
 	@Autowired
 	private XdShopService xdShopServiceImpl;
+	@Autowired
+	private IEventService eventServiceImpl;
 	
 	@ResponseBody
 	@ApiOperation(value="交易")
@@ -64,13 +67,28 @@ public class XdShopController {
 	public String xdShopPost(HttpServletRequest request,HttpServletResponse response,@RequestBody String recBody) throws Exception{
 		logger.info("上送报文：\n"+recBody);
 		MsgRcvVo msgRcv = XMLUtils.xmlToJaxBean(recBody, MsgRcvVo.class);
-		String fromUserName = msgRcv.getFromUserName();
-		String toUserName = msgRcv.getToUserName();
-		String content = msgRcv.getContent();
+//		String fromUserName = msgRcv.getFromUserName();
+//		String toUserName = msgRcv.getToUserName();
+//		String content = msgRcv.getContent().toLowerCase();
+		
+		String event = msgRcv.getEvent();
+		String msgRetStr = "";
+		switch(event){
+		case "subscribe":
+			msgRetStr = eventServiceImpl.subscribe(msgRcv);
+			break;
+		case "unsubscribe":
+			msgRetStr = eventServiceImpl.unsubscribe(msgRcv);
+			break;
+		case "scan":
+			msgRetStr = eventServiceImpl.scan(msgRcv);
+			break;
+		}
+		
 		/**
 		 * 自动回复消息：文本消息
 		 */
-		MsgRetVo  msgRet = new MsgRetVo();
+//		MsgRetVo  msgRet = new MsgRetVo();
 		//回复文本消息
 		/*msgRet.setFromUserName(toUserName);
 		msgRet.setToUserName(fromUserName);
@@ -80,7 +98,7 @@ public class XdShopController {
 		msgRet.setMsgType("text");*/
 		
 		//回复图文消息(最多支持回复8条图文消息)
-		int articleCount = 8;
+		/*int articleCount = 1;
 		msgRet.setFromUserName(toUserName);
 		msgRet.setToUserName(fromUserName);
 		msgRet.setCreateTime(System.currentTimeMillis());
@@ -90,14 +108,14 @@ public class XdShopController {
 		List<ArticleVo> articles = new ArrayList<ArticleVo>();
 		for(int i = 1 ; i <= articleCount;i++){
 			ArticleVo articleVo = new ArticleVo();
-			articleVo.setTitle("标题：图文消息测试"+i);
+			articleVo.setTitle("【爱在曼谷园】水陆联欢，日夜通玩，快带心爱的TA来免费畅玩吧！");
 //			articleVo.setDescription("描述：图文消息");
-			articleVo.setPicUrl("http://thirdwx.qlogo.cn/mmopen/OxUBpiaYgpHgn4toKEsf4GopJbhicoIMia6JIOB757L4Iv9wg1WuUEKhBf6icVzibr9m765wV6CVULianzSQic8mxp0qw/132");
-			articleVo.setUrl("http://baidu.com?openId=test");
+			articleVo.setPicUrl("http://xdshop2018.oss-cn-hangzhou.aliyuncs.com/resource/微信图片_20180824114749.jpg");
+			articleVo.setUrl("http://zl.bnxly.top/app/xdshop_c/index_publish.html?_ijt=ojcbtgbgkgtu5q1ln6mstttpnv#/publishshow/oXmQ_1ddd8Yq4C_oAhq_OiMG181c/eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJpYXQiOjE1MzU4MTcxNTF9.hmszfiLDY8MZKbjYtJ_clhYlVRp75Ovt0q48wQGpsXI/a2ed849d18722273");
 			articles.add(articleVo);
 		}
 		msgRet.setArticles(articles);
-		String msgRetStr = XMLUtils.jaxBeanToXml(msgRet);
+		String msgRetStr = XMLUtils.jaxBeanToXml(msgRet);*/
 		logger.info("返回报文：\n"+msgRetStr);
 		return msgRetStr;
 	}

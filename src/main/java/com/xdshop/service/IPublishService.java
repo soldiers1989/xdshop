@@ -28,5 +28,11 @@ public interface IPublishService {
 	 * @throws Exception
 	 */
 	public String generalSharePic(ShareParamVo shareParamVo) throws Exception;
+	/**
+	 * 获取当前活动
+	 * @return
+	 * @throws Exception
+	 */
+	public Publish getCurrPublish() throws Exception;
 	
 }

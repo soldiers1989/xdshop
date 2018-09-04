@@ -40,11 +40,7 @@ public class AccessTokenScheduler extends BaseService<AccessTokenScheduler> {
 			测试账号：
 			wxe446196f5726d322
 			9be409fa349f1cd84e42dcddcff64703
-		 */
-		
-		String appId = "wxe446196f5726d322";
-		String secret = "9be409fa349f1cd84e42dcddcff64703";
-				
+		 */	
 		AccessToken accessToken = accessTokenMapper.selectByPrimaryKey("1");
 		//当前access_token刷新时间
 		Date refreshTime = accessToken.getRefreshTime();

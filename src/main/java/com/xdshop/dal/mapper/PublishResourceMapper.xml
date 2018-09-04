@@ -116,5 +116,15 @@
 		and publish_id <![CDATA[=]]> #{queryParam.publishId}
 	</if>
   </select>
+  
+   <select id="selectByPublishIdAndUrl" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_publish_resource
+		where publish_id  = #{publishId}
+			and url = #{url}
+   </select>
+  
+  
  
 </mapper>

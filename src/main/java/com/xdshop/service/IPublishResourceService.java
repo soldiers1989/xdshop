@@ -12,4 +12,6 @@ public interface IPublishResourceService {
 	
 	public List<PublishResource> getPublishResourceList(PublishResource publishResource) throws Exception;
 	
+	public String getOssKeyByPublishIdAndUrl(String publishId,String url) throws Exception;
+	
 }

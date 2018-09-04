@@ -22,5 +22,9 @@ public interface PublishResourceMapper {
 	int updateByPrimaryKey(PublishResource record);
 	
 	List<PublishResource> selectPublishResourceList(@Param("queryParam")PublishResource queryParam);
+	
+	List<PublishResource> selectByPublishIdAndUrl(@Param("publishId")String publishId,@Param("url")String url);
+	
+	
 
 }

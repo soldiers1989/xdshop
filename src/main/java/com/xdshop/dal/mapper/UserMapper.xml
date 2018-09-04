@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xdshop.dal.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.xdshop.dal.domain.User">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="OPEN_ID" jdbcType="VARCHAR" property="openId" />
+    <result column="NICK_NAME" jdbcType="VARCHAR" property="nickName" />
+    <result column="HEADER_OSS_KEY" jdbcType="VARCHAR" property="headerOssKey" />
+    <result column="HEADER_URL" jdbcType="VARCHAR" property="headerUrl" />
+    <result column="QR_CODE_OSS_KEY" jdbcType="VARCHAR" property="qrCodeOssKey" />
+    <result column="QR_CODE_URL" jdbcType="VARCHAR" property="qrCodeUrl" />
+    <result column="PARENT_OPEN_ID" jdbcType="VARCHAR" property="parentOpenId" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+    <result column="POSTER_OSS_KEY" jdbcType="VARCHAR" property="posterOssKey" />
+    <result column="POSTER_URL" jdbcType="VARCHAR" property="posterUrl" />
+    <result column="SUB_TYPE" jdbcType="BIT" property="subType" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, OPEN_ID, NICK_NAME, HEADER_OSS_KEY, HEADER_URL, QR_CODE_OSS_KEY, QR_CODE_URL, 
+    PARENT_OPEN_ID, NAME, MOBILE, POSTER_OSS_KEY, POSTER_URL, SUB_TYPE, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_user
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xdshop.dal.domain.User">
+    insert into t_user (ID, OPEN_ID, NICK_NAME, 
+      HEADER_OSS_KEY, HEADER_URL, QR_CODE_OSS_KEY, 
+      QR_CODE_URL, PARENT_OPEN_ID, NAME, 
+      MOBILE, POSTER_OSS_KEY, POSTER_URL, 
+      SUB_TYPE, CREATE_TIME)
+    values (#{id,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
+      #{headerOssKey,jdbcType=VARCHAR}, #{headerUrl,jdbcType=VARCHAR}, #{qrCodeOssKey,jdbcType=VARCHAR}, 
+      #{qrCodeUrl,jdbcType=VARCHAR}, #{parentOpenId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{posterOssKey,jdbcType=VARCHAR}, #{posterUrl,jdbcType=VARCHAR}, 
+      #{subType,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xdshop.dal.domain.User">
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="openId != null">
+        OPEN_ID,
+      </if>
+      <if test="nickName != null">
+        NICK_NAME,
+      </if>
+      <if test="headerOssKey != null">
+        HEADER_OSS_KEY,
+      </if>
+      <if test="headerUrl != null">
+        HEADER_URL,
+      </if>
+      <if test="qrCodeOssKey != null">
+        QR_CODE_OSS_KEY,
+      </if>
+      <if test="qrCodeUrl != null">
+        QR_CODE_URL,
+      </if>
+      <if test="parentOpenId != null">
+        PARENT_OPEN_ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="mobile != null">
+        MOBILE,
+      </if>
+      <if test="posterOssKey != null">
+        POSTER_OSS_KEY,
+      </if>
+      <if test="posterUrl != null">
+        POSTER_URL,
+      </if>
+      <if test="subType != null">
+        SUB_TYPE,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="headerOssKey != null">
+        #{headerOssKey,jdbcType=VARCHAR},
+      </if>
+      <if test="headerUrl != null">
+        #{headerUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="qrCodeOssKey != null">
+        #{qrCodeOssKey,jdbcType=VARCHAR},
+      </if>
+      <if test="qrCodeUrl != null">
+        #{qrCodeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="parentOpenId != null">
+        #{parentOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="posterOssKey != null">
+        #{posterOssKey,jdbcType=VARCHAR},
+      </if>
+      <if test="posterUrl != null">
+        #{posterUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="subType != null">
+        #{subType,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xdshop.dal.domain.User">
+    update t_user
+    <set>
+      <if test="openId != null">
+        OPEN_ID = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        NICK_NAME = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="headerOssKey != null">
+        HEADER_OSS_KEY = #{headerOssKey,jdbcType=VARCHAR},
+      </if>
+      <if test="headerUrl != null">
+        HEADER_URL = #{headerUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="qrCodeOssKey != null">
+        QR_CODE_OSS_KEY = #{qrCodeOssKey,jdbcType=VARCHAR},
+      </if>
+      <if test="qrCodeUrl != null">
+        QR_CODE_URL = #{qrCodeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="parentOpenId != null">
+        PARENT_OPEN_ID = #{parentOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="posterOssKey != null">
+        POSTER_OSS_KEY = #{posterOssKey,jdbcType=VARCHAR},
+      </if>
+      <if test="posterUrl != null">
+        POSTER_URL = #{posterUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="subType != null">
+        SUB_TYPE = #{subType,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xdshop.dal.domain.User">
+    update t_user
+    set OPEN_ID = #{openId,jdbcType=VARCHAR},
+      NICK_NAME = #{nickName,jdbcType=VARCHAR},
+      HEADER_OSS_KEY = #{headerOssKey,jdbcType=VARCHAR},
+      HEADER_URL = #{headerUrl,jdbcType=VARCHAR},
+      QR_CODE_OSS_KEY = #{qrCodeOssKey,jdbcType=VARCHAR},
+      QR_CODE_URL = #{qrCodeUrl,jdbcType=VARCHAR},
+      PARENT_OPEN_ID = #{parentOpenId,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      POSTER_OSS_KEY = #{posterOssKey,jdbcType=VARCHAR},
+      POSTER_URL = #{posterUrl,jdbcType=VARCHAR},
+      SUB_TYPE = #{subType,jdbcType=BIT},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+   <select id="selectByOpenId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where open_id = #{openId,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="selectByParentOpenId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where parent_open_id = #{parentOpenId,jdbcType=VARCHAR}
+    
+  </select>
+  
+  <select id="selectFetchUser" parameterType="java.lang.String" resultType="java.util.HashMap">
+   select a.open_id as 'openId'
+		,a.nick_name as 'nickName'
+		,a.name as 'name'
+		,a.mobile as 'mobile'
+		,b.publish_id as 'publishId'
+		,b.fetch_status as 'fetchStatus'
+	from t_user a
+	inner join t_user_share b
+	on a.open_id = b.open_id and b.fetch_status = 1
+  </select>
+  
+  <select id="selectPublishUser"  resultType="java.util.HashMap" parameterType="com.xdshop.api.PublishUserParam">
+    select 
+		a.publish_id as 'publishId'
+		,a.open_id as 'openId'
+		,a.fetch_status as 'fetchStatus' 
+		,b.title as 'title'
+	  	,b.ticket_total as 'ticketTotal'
+		,b.ticket_sale as 'ticketSale'
+		,b.ticket_remain	as 'ticketRemain' 
+		,b.sub_user_num as 'subUserNum'
+		,c.nick_name as 'nickName'
+		,c.name as 'name'
+		,c.mobile as 'mobile'
+		,d.sub_user_num_act as 'subUserNumAct'
+	from t_user_share a 
+	inner join t_publish b
+	on a.publish_id = b.id
+	inner join t_user c
+	on a.open_id = c.open_id
+	left join (
+		select a.parent_open_id,count(*) sub_user_num_act 
+		from t_user a
+		group by a.parent_open_id
+	) d
+	on a.open_id =  d.parent_open_id
+	where 1=1
+	<if test="param.name != null and param.name != ''">
+		and  c.name like CONCAT(CONCAT('%',#{param.name},'%')) 
+	</if>
+	<if test="param.mobile != null and param.mobile != ''">
+		and c.mobile like CONCAT(CONCAT('%',#{param.mobile},'%'))
+	</if>
+	
+	
+  </select>
+  
+
+  
+  
+</mapper>

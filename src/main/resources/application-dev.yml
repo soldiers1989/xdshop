@@ -68,6 +68,18 @@ weChat:
   token: 
     #access_toke 刷新评率（间隔分钟数）
     refreshFreq: 90
+ #---------------------------OSS相关---------------------------------   
+oss: 
+  endpoint: oss-cn-hangzhou.aliyuncs.com
+  accessKeyId: LTAINChIcoUp3q8t
+  accessKeySecret: MxTKnqTw2MvegsEmNUrY3ovdWTtFjy
+  bucketName: xdshop2018
+#---------------------------关注后回复图文消息相关---------------------------------   
+article: 
+  #图片消息，基础访问地址
+  picBaseUrl: "http://zl.bnxly.top/app/xdshop_c/index_publish.html?#/publishshow"
+ 
+  
   
     
 

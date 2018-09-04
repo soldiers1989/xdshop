@@ -37,6 +37,8 @@ public class Publish {
 
 	private Boolean openFlag;
 
+	private Integer subUserNum;
+
 	public String getId() {
 		return id;
 	}
@@ -172,6 +174,16 @@ public class Publish {
 	public void setOpenFlag(Boolean openFlag) {
 		this.openFlag = openFlag;
 	}
+
+	public Integer getSubUserNum() {
+		return subUserNum;
+	}
+
+	public void setSubUserNum(Integer subUserNum) {
+		this.subUserNum = subUserNum;
+	}
+
+	
 
 
 

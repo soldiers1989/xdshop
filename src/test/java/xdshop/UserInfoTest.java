@@ -26,7 +26,7 @@ public class UserInfoTest {
 	 * @return
 	 * @throws Exception
 	 */
-	public ByteArrayInputStream getHeaderImg(UserInfoVo userInfoVo) throws Exception{
+	public static ByteArrayInputStream getHeaderImg(UserInfoVo userInfoVo) throws Exception{
 		String headerImgUrl = userInfoVo.getHeadimgurl();
 		Map<String,String> params = new HashMap<String,String>();
 		Response reponse = OkHttpUtil.get(headerImgUrl, params);
@@ -48,7 +48,7 @@ public class UserInfoTest {
 	 * @return
 	 * @throws Exception
 	 */
-	public UserInfoVo getUserInfo(String openId,String accessToken) throws Exception{
+	public static UserInfoVo getUserInfo(String openId,String accessToken) throws Exception{
 		String baseUrl = "https://api.weixin.qq.com/cgi-bin/user/info";
 		Map<String,Object> urlParams = new HashMap<String,Object>();
 		urlParams.put("access_token", accessToken);

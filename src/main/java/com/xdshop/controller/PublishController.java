@@ -94,10 +94,10 @@ public class PublishController extends BaseController {
 		return responseVo;
 	}
 	
-	@ApiOperation(value="保存发布")
+	@ApiOperation(value="分享发布")
 	@RequestMapping(value="/publish/share",method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseVo savePublish(@RequestBody ShareParamVo shareParamVo,HttpServletRequest request) throws Exception{
+	public ResponseVo sharePublish(@RequestBody ShareParamVo shareParamVo,HttpServletRequest request) throws Exception{
 		ResponseVo responseVo = new ResponseVo();
 		String sharePicUrl = publishServiceImpl.generalSharePic(shareParamVo);
 		responseVo.setSuccessResponse(true);

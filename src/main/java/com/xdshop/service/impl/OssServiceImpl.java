@@ -1,5 +1,8 @@
 package com.xdshop.service.impl;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.PutObjectResult;
 import com.github.pagehelper.PageHelper;
 import com.xdshop.api.BaseParam;
@@ -108,6 +112,19 @@ public class OssServiceImpl implements IOssService {
 		//永久URL
 		url = "http://"+bucketName+"."+endpoint+"/"+ossKey;
 		return url;
+	}
+	@Override
+	public InputStream getObject(OssBaseVo ossVo,String ossKey) throws IOException{
+		String endpoint = ossVo.getEndpoint();
+		String accessKeyId = ossVo.getAccessKeyId();
+		String accessKeySecret = ossVo.getAccessKeySecret();
+		String bucketName = ossVo.getBucketName();
+		
+		OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+		OSSObject ossObject = ossClient.getObject(bucketName, ossKey);
+		InputStream is = ossObject.getObjectContent();
+		
+		return is;
 	}
 	
 	

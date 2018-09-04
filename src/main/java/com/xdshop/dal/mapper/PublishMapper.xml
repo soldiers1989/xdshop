@@ -19,11 +19,12 @@
     <result column="CREATE_ID" jdbcType="VARCHAR" property="createId" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="OPEN_FLAG" jdbcType="BIT" property="openFlag" />
+    <result column="SUB_USER_NUM" jdbcType="INTEGER" property="subUserNum" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, TITLE, STAR_NUM, PRICE_INIT, PRICE_NOW, TICKET_TOTAL, TICKET_SALE, TICKET_REMAIN, 
     POSTER_OSS_KEY, POSTER_URL, PUBLISH_RULE, SCENIC_DESC, TIME_BEGIN, TIME_END, CREATE_ID, 
-    CREATE_TIME, OPEN_FLAG
+    CREATE_TIME, OPEN_FLAG, SUB_USER_NUM
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -41,13 +42,15 @@
       TICKET_SALE, TICKET_REMAIN, POSTER_OSS_KEY, 
       POSTER_URL, PUBLISH_RULE, SCENIC_DESC, 
       TIME_BEGIN, TIME_END, CREATE_ID, 
-      CREATE_TIME, OPEN_FLAG)
+      CREATE_TIME, OPEN_FLAG, SUB_USER_NUM
+      )
     values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{starNum,jdbcType=REAL}, 
       #{priceInit,jdbcType=DOUBLE}, #{priceNow,jdbcType=DOUBLE}, #{ticketTotal,jdbcType=INTEGER}, 
       #{ticketSale,jdbcType=INTEGER}, #{ticketRemain,jdbcType=INTEGER}, #{posterOssKey,jdbcType=VARCHAR}, 
       #{posterUrl,jdbcType=VARCHAR}, #{publishRule,jdbcType=VARCHAR}, #{scenicDesc,jdbcType=VARCHAR}, 
       #{timeBegin,jdbcType=TIMESTAMP}, #{timeEnd,jdbcType=TIMESTAMP}, #{createId,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{openFlag,jdbcType=BIT})
+      #{createTime,jdbcType=TIMESTAMP}, #{openFlag,jdbcType=BIT}, #{subUserNum,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.xdshop.dal.domain.Publish">
     insert into t_publish
@@ -103,6 +106,9 @@
       <if test="openFlag != null">
         OPEN_FLAG,
       </if>
+      <if test="subUserNum != null">
+        SUB_USER_NUM,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -155,6 +161,9 @@
       </if>
       <if test="openFlag != null">
         #{openFlag,jdbcType=BIT},
+      </if>
+      <if test="subUserNum != null">
+        #{subUserNum,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -209,6 +218,9 @@
       <if test="openFlag != null">
         OPEN_FLAG = #{openFlag,jdbcType=BIT},
       </if>
+      <if test="subUserNum != null">
+        SUB_USER_NUM = #{subUserNum,jdbcType=INTEGER},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -229,9 +241,11 @@
       TIME_END = #{timeEnd,jdbcType=TIMESTAMP},
       CREATE_ID = #{createId,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-      OPEN_FLAG = #{openFlag,jdbcType=BIT}
+      OPEN_FLAG = #{openFlag,jdbcType=BIT},
+      SUB_USER_NUM = #{subUserNum,jdbcType=INTEGER}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
   
 
   
@@ -248,6 +262,15 @@
 		and create_time <![CDATA[<=]]> #{queryParam.timeEnd}
 	</if>
   </select>
+  
+  <select id="selectCurrPublish" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_publish
+    where open_flag = 1
+  </select>
+  
+  
   
   
   

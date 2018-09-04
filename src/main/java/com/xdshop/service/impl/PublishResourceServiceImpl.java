@@ -34,6 +34,17 @@ public class PublishResourceServiceImpl implements IPublishResourceService {
 	public List<PublishResource> getPublishResourceList(PublishResource publishResource) throws Exception {
 		return publishResourceMapper.selectPublishResourceList(publishResource);
 	}
+
+	@Override
+	public String getOssKeyByPublishIdAndUrl(String publishId, String url) throws Exception {
+		String ossKey = "";
+		List<PublishResource> list = publishResourceMapper.selectByPublishIdAndUrl(publishId, url);
+		if(list.size() > 0){
+			PublishResource targetPublishResource = list.get(0);
+			ossKey = targetPublishResource.getOssKey();
+		}
+		return ossKey;
+	}
 	
 	
 

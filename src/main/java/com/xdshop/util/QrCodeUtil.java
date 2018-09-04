@@ -1,4 +1,4 @@
-package xdshop;
+package com.xdshop.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -29,13 +29,13 @@ import io.netty.handler.codec.base64.Base64Encoder;
  * @author Administrator
  *
  */
-public class QrCodeTest {
+public class QrCodeUtil {
 
 	/**
 	 * 获取ticket
 	 * @return
 	 */
-	public QrTicketVo getTickt(SceneVo sceneVo,String accessToken){
+	public static QrTicketVo getTickt(SceneVo sceneVo,String accessToken){
 		QrTicketVo qrTicketVo = null;
 		String baseUrl = "https://api.weixin.qq.com/cgi-bin/qrcode/create";
 		Map<String,Object> urlParams = new HashMap<String,Object>();
@@ -61,8 +61,8 @@ public class QrCodeTest {
 	 * @param qrTicketVo
 	 * @throws IOException
 	 */
-	public InputStream getQrPic(SceneVo sceneVo,String accessToken) throws IOException{
-		QrTicketVo qrTicketVo = this.getTickt(sceneVo,accessToken);
+	public static InputStream getQrPic(SceneVo sceneVo,String accessToken) throws IOException{
+		QrTicketVo qrTicketVo = QrCodeUtil.getTickt(sceneVo,accessToken);
 		
 		System.out.println("ticket:"+qrTicketVo.getTicket());
 		System.out.println("url:"+qrTicketVo.getUrl());
@@ -87,7 +87,7 @@ public class QrCodeTest {
 	
 	public static void main(String[] args) throws Exception {
 		String accessToken = "13_qfcb4XN3j3eANNQOHcT1hSaUtV22EJSL8INA24NwgS3Dc0A1x5vF9L9AyWzfE_1PBOT-J6WXjZlv4LASCDszOvcHm0g6RXt14vr99grCsjHe3urB78oQkoynehez7SkPfBOAf6v3q_7HwN9qKIMbADABZD";
-		QrCodeTest qrCodeTest = new QrCodeTest();
+		QrCodeUtil qrCodeTest = new QrCodeUtil();
 		SceneVo sceneVo = new SceneVo();
 		sceneVo.setOpenId("oXmQ_1ddd8Yq4C_oAhq_OiMG181c");
 		qrCodeTest.getQrPic(sceneVo,accessToken);
