@@ -15,6 +15,8 @@ public interface IPublishService {
 	
 	public Integer savePublish(PublishVo publish) throws Exception;
 	
+	public Integer openPublish(PublishVo publish) throws Exception;
+	
 	public List<Publish> getPublishList(BaseParam baseParam) throws Exception;
 	
 	public void uploadResource(MultipartFile file,String typeCode,String publishId) throws Exception;

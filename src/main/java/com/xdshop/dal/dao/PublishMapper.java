@@ -22,6 +22,8 @@ public interface PublishMapper {
 
 	
 	Publish selectCurrPublish();
+	
+	List<Publish> selectAllPublish();
 
 	
 

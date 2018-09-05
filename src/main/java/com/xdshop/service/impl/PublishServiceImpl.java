@@ -121,6 +121,27 @@ public class PublishServiceImpl implements IPublishService {
 		
 		return recordNum;
 	}
+	
+	@Override
+	public Integer openPublish(PublishVo publish) throws Exception {
+		//sql影响记录条数
+		int recordNum = 0;
+		boolean openFlag = publish.getOpenFlag();
+		String id = publish.getId();
+		//如果启用当前发布，则停止其余所有发布
+		if(openFlag){
+			List<Publish> allPublishList = publishMapper.selectAllPublish();
+			for (Publish tempPublish : allPublishList) {
+				if(!id.equals(tempPublish.getId())){
+					tempPublish.setOpenFlag(false);
+					publishMapper.updateByPrimaryKeySelective(tempPublish);
+				}
+			}
+		}
+		recordNum = publishMapper.updateByPrimaryKeySelective(publish);
+		return recordNum;
+	}
+	
 	@Override
 	public List<Publish> getPublishList(BaseParam queryParam) throws Exception {
 		PageHelper.startPage(Integer.parseInt(queryParam.getCurPage()), Integer.parseInt(queryParam.getPageSize()),true);
@@ -289,5 +310,6 @@ public class PublishServiceImpl implements IPublishService {
 	public Publish getCurrPublish() throws Exception {
 		return publishMapper.selectCurrPublish();
 	}
+
 
 }

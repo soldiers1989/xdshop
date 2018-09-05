@@ -73,6 +73,17 @@ public class PublishController extends BaseController {
 		return responseVo;
 	}
 	
+	@ApiOperation(value="启用发布")
+	@RequestMapping(value="/publish/open",method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo openPublish(@RequestBody PublishVo publishVo,HttpServletRequest request) throws Exception{
+		ResponseVo responseVo = new ResponseVo();
+		publishServiceImpl.openPublish(publishVo);
+		responseVo.setSuccessResponse(true);
+		responseVo.setMessage("保存成功");
+		return responseVo;
+	}
+	
 	
 	@RequestMapping(value="/publish/uploadResource",method=RequestMethod.POST)
 	@ResponseBody

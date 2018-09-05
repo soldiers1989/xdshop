@@ -36,16 +36,24 @@ public class AuthController extends BaseController {
 	public ResponseVo auth(@RequestBody SysAccount account,HttpServletResponse response,HttpSession session) throws Exception{
 		SysAccount sysAccount=sysAccountService.getSysAccountByAccountId(account.getAccountId());
 		if(sysAccount!=null){
-			String token=Jwts.builder().setSubject(account.getAccountId())
-		            .claim("roles", account.getAccountId()).setIssuedAt(new Date())
-		            .signWith(SignatureAlgorithm.HS256, "xdshop_pkey").compact();
-			HashMap<String,Object> map=new HashMap<String,Object>();
-			map.put("Authorization", token);
-			map.put("account", sysAccount);
-			response.setHeader("Authorization", token);
-			return this.wrapperJson(map);
+			//验证密码
+			String password = account.getPassword();
+			String existPassord = sysAccount.getPassword();
+			if(password.equals(existPassord)){
+				String token=Jwts.builder().setSubject(account.getAccountId())
+			            .claim("roles", account.getAccountId()).setIssuedAt(new Date())
+			            .signWith(SignatureAlgorithm.HS256, "xdshop_pkey").compact();
+				HashMap<String,Object> map=new HashMap<String,Object>();
+				map.put("Authorization", token);
+				map.put("account", sysAccount);
+				response.setHeader("Authorization", token);
+				return this.wrapperJson(map);
+			}else{
+				throw new Exception("密码错误");
+			}
+			
 		}else{
-			throw new Exception("用户名或密码错误");
+			throw new Exception("用户不存在");
 		}
 	}
 	
