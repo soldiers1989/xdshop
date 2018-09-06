@@ -76,8 +76,9 @@ oss:
   bucketName: xdshop2018
 #---------------------------关注后回复图文消息相关---------------------------------   
 article: 
-  #图片消息，基础访问地址
-  picBaseUrl: "http://zl.bnxly.top/app/xdshop_c/index_publish.html?#/publishshow"
+  #图片消息，基础跳转地址
+#  picBaseUrl: "http://zl.bnxly.top/client/zl_client/index_publish.html?#/publishshow"
+  picBaseUrl: "http://47.98.40.54/app/xdshop_c/index_publish.html?#/publishshow"
  
   
   

@@ -21,6 +21,8 @@ public interface PublishMapper {
 	int updateByPrimaryKey(Publish record);
 
 	
+
+	
 	Publish selectCurrPublish();
 	
 	List<Publish> selectAllPublish();

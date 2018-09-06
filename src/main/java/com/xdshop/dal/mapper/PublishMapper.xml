@@ -20,11 +20,13 @@
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="OPEN_FLAG" jdbcType="BIT" property="openFlag" />
     <result column="SUB_USER_NUM" jdbcType="INTEGER" property="subUserNum" />
+    <result column="PUSH_POSTER_OSS_KEY" jdbcType="VARCHAR" property="pushPosterOssKey" />
+    <result column="PUSH_POSTER_URL" jdbcType="VARCHAR" property="pushPosterUrl" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, TITLE, STAR_NUM, PRICE_INIT, PRICE_NOW, TICKET_TOTAL, TICKET_SALE, TICKET_REMAIN, 
     POSTER_OSS_KEY, POSTER_URL, PUBLISH_RULE, SCENIC_DESC, TIME_BEGIN, TIME_END, CREATE_ID, 
-    CREATE_TIME, OPEN_FLAG, SUB_USER_NUM
+    CREATE_TIME, OPEN_FLAG, SUB_USER_NUM, PUSH_POSTER_OSS_KEY, PUSH_POSTER_URL
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -42,15 +44,15 @@
       TICKET_SALE, TICKET_REMAIN, POSTER_OSS_KEY, 
       POSTER_URL, PUBLISH_RULE, SCENIC_DESC, 
       TIME_BEGIN, TIME_END, CREATE_ID, 
-      CREATE_TIME, OPEN_FLAG, SUB_USER_NUM
-      )
+      CREATE_TIME, OPEN_FLAG, SUB_USER_NUM, 
+      PUSH_POSTER_OSS_KEY, PUSH_POSTER_URL)
     values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{starNum,jdbcType=REAL}, 
       #{priceInit,jdbcType=DOUBLE}, #{priceNow,jdbcType=DOUBLE}, #{ticketTotal,jdbcType=INTEGER}, 
       #{ticketSale,jdbcType=INTEGER}, #{ticketRemain,jdbcType=INTEGER}, #{posterOssKey,jdbcType=VARCHAR}, 
       #{posterUrl,jdbcType=VARCHAR}, #{publishRule,jdbcType=VARCHAR}, #{scenicDesc,jdbcType=VARCHAR}, 
       #{timeBegin,jdbcType=TIMESTAMP}, #{timeEnd,jdbcType=TIMESTAMP}, #{createId,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{openFlag,jdbcType=BIT}, #{subUserNum,jdbcType=INTEGER}
-      )
+      #{createTime,jdbcType=TIMESTAMP}, #{openFlag,jdbcType=BIT}, #{subUserNum,jdbcType=INTEGER}, 
+      #{pushPosterOssKey,jdbcType=VARCHAR}, #{pushPosterUrl,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.xdshop.dal.domain.Publish">
     insert into t_publish
@@ -109,6 +111,12 @@
       <if test="subUserNum != null">
         SUB_USER_NUM,
       </if>
+      <if test="pushPosterOssKey != null">
+        PUSH_POSTER_OSS_KEY,
+      </if>
+      <if test="pushPosterUrl != null">
+        PUSH_POSTER_URL,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -164,6 +172,12 @@
       </if>
       <if test="subUserNum != null">
         #{subUserNum,jdbcType=INTEGER},
+      </if>
+      <if test="pushPosterOssKey != null">
+        #{pushPosterOssKey,jdbcType=VARCHAR},
+      </if>
+      <if test="pushPosterUrl != null">
+        #{pushPosterUrl,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -221,6 +235,12 @@
       <if test="subUserNum != null">
         SUB_USER_NUM = #{subUserNum,jdbcType=INTEGER},
       </if>
+      <if test="pushPosterOssKey != null">
+        PUSH_POSTER_OSS_KEY = #{pushPosterOssKey,jdbcType=VARCHAR},
+      </if>
+      <if test="pushPosterUrl != null">
+        PUSH_POSTER_URL = #{pushPosterUrl,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -242,7 +262,9 @@
       CREATE_ID = #{createId,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       OPEN_FLAG = #{openFlag,jdbcType=BIT},
-      SUB_USER_NUM = #{subUserNum,jdbcType=INTEGER}
+      SUB_USER_NUM = #{subUserNum,jdbcType=INTEGER},
+      PUSH_POSTER_OSS_KEY = #{pushPosterOssKey,jdbcType=VARCHAR},
+      PUSH_POSTER_URL = #{pushPosterUrl,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   

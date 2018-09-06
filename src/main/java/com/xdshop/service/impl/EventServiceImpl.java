@@ -122,7 +122,12 @@ public class EventServiceImpl implements IEventService {
 		for(int i = 1 ; i <= articleCount;i++){
 			ArticleVo articleVo = new ArticleVo();
 			articleVo.setTitle(currPublish.getTitle());
-			articleVo.setDescription("您已成功助力好友："+parentUser.getNickName()+",点击邀请好友助力，获取免费门票!");
+			if("vopenid01".equals(parentOpenId)){
+				articleVo.setDescription("您已成功助力好友："+parentUser.getNickName()+",点击邀请好友助力，获取免费门票!");
+			}else{
+				articleVo.setDescription("点击邀请好友助力，获取免费门票!");
+			}
+			
 			//获取当前活动，图文消息，图片地址
 			String publishId = currPublish.getId();
 			Article currPublishArticle = articleServiceImpl.getArticle(publishId);
@@ -163,7 +168,55 @@ public class EventServiceImpl implements IEventService {
 
 	@Override
 	public String scan(MsgRcvVo msgRcv) throws Exception {
-		return null;
+		String fromUserName = msgRcv.getFromUserName();
+		String toUserName = msgRcv.getToUserName();
+//		String content = msgRcv.getContent().toLowerCase();
+		
+		//获取token
+		AccessToken accessToken = accessTokenServiceImpl.getAccessToken();
+		//用户openId
+		String openId = fromUserName;
+		//公众号ID
+		String ghId = toUserName;
+		//场景值（推荐人openId）
+		String qrScene = msgRcv.getEventKey();
+		String parentOpenId = qrScene;
+		//推荐人信息
+		User parentUser = userMapper.selectByOpenId(parentOpenId);
+		
+		//当前发布
+		Publish currPublish = publishServiceImpl.getCurrPublish();
+		
+		MsgRetVo msgRet = new MsgRetVo();
+		int articleCount = 1;
+		msgRet.setFromUserName(toUserName);
+		msgRet.setToUserName(fromUserName);
+		msgRet.setCreateTime(System.currentTimeMillis());
+		msgRet.setMsgType("news");
+		msgRet.setArticleCount(articleCount);	
+		List<ArticleVo> articles = new ArrayList<ArticleVo>();
+		for(int i = 1 ; i <= articleCount;i++){
+			ArticleVo articleVo = new ArticleVo();
+			articleVo.setTitle(currPublish.getTitle());
+			articleVo.setDescription("点击邀请好友助力，获取免费门票!");
+			//获取当前活动，图文消息，图片地址
+			String publishId = currPublish.getId();
+			Article currPublishArticle = articleServiceImpl.getArticle(publishId);
+			articleVo.setPicUrl(currPublishArticle.getPicUrl());
+			//设置：点击图文消息，跳转地址。例子：http://zl.bnxly.top/app/xdshop_c/index_publish.html?#/publishshow/oXmQ_1ddd8Yq4C_oAhq_OiMG181c/eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJpYXQiOjE1MzU4MTcxNTF9.hmszfiLDY8MZKbjYtJ_clhYlVRp75Ovt0q48wQGpsXI/a2ed849d18722273
+			String Authorization = Jwts.builder().setSubject(openId)
+		            .claim("roles", openId).setIssuedAt(new Date())
+		            .signWith(SignatureAlgorithm.HS256, "xdshop_pkey").compact();
+			String picUrl = articlePicBaseUrl+"/"+openId+"/"+Authorization+"/"+publishId;
+			logger.info("图文消息跳转地址："+picUrl);
+			articleVo.setUrl(picUrl);
+			articles.add(articleVo);
+		}
+		msgRet.setArticles(articles);
+		String msgRetStr = XMLUtils.jaxBeanToXml(msgRet);
+		
+		logger.info("返回报文：\n"+msgRetStr);
+		return msgRetStr;
 	}
 	
 }

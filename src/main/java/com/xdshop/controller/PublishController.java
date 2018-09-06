@@ -115,4 +115,16 @@ public class PublishController extends BaseController {
 		responseVo.setData(sharePicUrl);
 		return responseVo;
 	}
+	
+	@ApiOperation(value="生成首次分享图片")
+	@RequestMapping(value="/publish/generalFirstSharePic/{publishId}",method=RequestMethod.GET)
+	@ResponseBody
+	public ResponseVo generalFirstSharePic(@PathVariable String publishId ,HttpServletRequest request) throws Exception{
+		//目前（20180906）此处未启用，生成首次分享图片，在启用活动时，生成分享图片
+		Publish publish = publishServiceImpl.generalFistSharePic(publishId);
+		ResponseVo responseVo = new ResponseVo();
+		responseVo.setSuccessResponse(true);
+		responseVo.setData(publish);
+		return responseVo;
+	}
 }

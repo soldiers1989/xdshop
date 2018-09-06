@@ -37,4 +37,12 @@ public interface IPublishService {
 	 */
 	public Publish getCurrPublish() throws Exception;
 	
+	/**
+	 * 生成首次分享图片（推送给关注公众号的客户）
+	 * @param shareParamVo
+	 * @return 生成的分享图片链接地址
+	 * @throws Exception
+	 */
+	public Publish generalFistSharePic(String publishId) throws Exception;
+	
 }

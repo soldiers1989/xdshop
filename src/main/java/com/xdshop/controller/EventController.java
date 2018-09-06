@@ -40,7 +40,7 @@ public class EventController {
 	
 	@ResponseBody
 	@ApiOperation(value="交易")
-	@RequestMapping(value="/xdshop",method=RequestMethod.GET)
+	@RequestMapping(value="/zl",method=RequestMethod.GET)
 	public String xdShop(HttpServletRequest request,HttpServletResponse response,
 			@RequestParam String signature,@RequestParam long timestamp ,@RequestParam String nonce,@RequestParam String echostr) throws Exception{
 		
@@ -63,7 +63,7 @@ public class EventController {
 	
 	@ResponseBody
 	@ApiOperation(value="报文通信")
-	@RequestMapping(value="/xdshop",method=RequestMethod.POST)
+	@RequestMapping(value="/zl",method=RequestMethod.POST)
 	public String xdShopPost(HttpServletRequest request,HttpServletResponse response,@RequestBody String recBody) throws Exception{
 		logger.info("上送报文：\n"+recBody);
 		MsgRcvVo msgRcv = XMLUtils.xmlToJaxBean(recBody, MsgRcvVo.class);
@@ -71,7 +71,7 @@ public class EventController {
 //		String toUserName = msgRcv.getToUserName();
 //		String content = msgRcv.getContent().toLowerCase();
 		
-		String event = msgRcv.getEvent();
+		String event = msgRcv.getEvent().toLowerCase();
 		String msgRetStr = "";
 		switch(event){
 		case "subscribe":

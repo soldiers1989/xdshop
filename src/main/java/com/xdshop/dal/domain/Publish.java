@@ -39,6 +39,10 @@ public class Publish {
 
 	private Integer subUserNum;
 
+	private String pushPosterOssKey;
+
+	private String pushPosterUrl;
+
 	public String getId() {
 		return id;
 	}
@@ -182,6 +186,23 @@ public class Publish {
 	public void setSubUserNum(Integer subUserNum) {
 		this.subUserNum = subUserNum;
 	}
+
+	public String getPushPosterOssKey() {
+		return pushPosterOssKey;
+	}
+
+	public void setPushPosterOssKey(String pushPosterOssKey) {
+		this.pushPosterOssKey = pushPosterOssKey;
+	}
+
+	public String getPushPosterUrl() {
+		return pushPosterUrl;
+	}
+
+	public void setPushPosterUrl(String pushPosterUrl) {
+		this.pushPosterUrl = pushPosterUrl;
+	}
+
 
 	
 
