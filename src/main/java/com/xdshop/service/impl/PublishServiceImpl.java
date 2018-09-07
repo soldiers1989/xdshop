@@ -156,18 +156,18 @@ public class PublishServiceImpl implements IPublishService {
 		String fileName = file.getOriginalFilename();
 		logger.info("当前文件："+fileName);
 
-		String endpoint = "oss-cn-hangzhou.aliyuncs.com";
+		/*String endpoint = "oss-cn-hangzhou.aliyuncs.com";
 		String accessKeyId = "LTAINChIcoUp3q8t";
 		String accessKeySecret = "MxTKnqTw2MvegsEmNUrY3ovdWTtFjy";
-		String bucketName = "xdshop2018";
+		String bucketName = "xdshop2018";*/
 		
 		OssBaseVo ossVo = new OssBaseVo();
-		ossVo.setEndpoint("oss-cn-hangzhou.aliyuncs.com");
-		ossVo.setAccessKeyId("LTAINChIcoUp3q8t");
-		ossVo.setAccessKeySecret("MxTKnqTw2MvegsEmNUrY3ovdWTtFjy");
-		ossVo.setBucketName("xdshop2018");
+		ossVo.setEndpoint(endpoint);
+		ossVo.setAccessKeyId(accessKeyId);
+		ossVo.setAccessKeySecret(accessKeySecret);
+		ossVo.setBucketName(bucketName);
 		
-		String ossKey = "resource/"+fileName;
+		String ossKey = "resource/"+ publishId +"/"+fileName;
 		
 		ossServiceImpl.uploadFile(ossVo, ossKey, file.getInputStream());
 //		String url = ossServiceImpl.getUrl(ossVo, ossKey);
@@ -372,7 +372,7 @@ public class PublishServiceImpl implements IPublishService {
 		g2d.drawImage(qrImage,  bgWith - qrImageWidth, bgHeight - qrImageHeight-60,qrImageWidth ,qrImageHeight ,null);
 			
 		//公众号名称
-		String ghName = "重庆旅游生活宝活宝";
+		String ghName = "重庆旅游生活宝";
 		BufferedImage nickNameImage = ImageUtils.createContentImage(ghName, 400, 40, 30,Color.black);
 		int nickNameImageWidth =nickNameImage.getWidth();
 		int nickNameHeight =nickNameImage.getHeight();

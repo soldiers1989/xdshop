@@ -123,9 +123,9 @@ public class EventServiceImpl implements IEventService {
 			ArticleVo articleVo = new ArticleVo();
 			articleVo.setTitle(currPublish.getTitle());
 			if("vopenid01".equals(parentOpenId)){
-				articleVo.setDescription("您已成功助力好友："+parentUser.getNickName()+",点击邀请好友助力，获取免费门票!");
-			}else{
 				articleVo.setDescription("点击邀请好友助力，获取免费门票!");
+			}else{
+				articleVo.setDescription("您已成功助力好友："+parentUser.getNickName()+",点击邀请好友助力，获取免费门票!");
 			}
 			
 			//获取当前活动，图文消息，图片地址
@@ -173,16 +173,16 @@ public class EventServiceImpl implements IEventService {
 //		String content = msgRcv.getContent().toLowerCase();
 		
 		//获取token
-		AccessToken accessToken = accessTokenServiceImpl.getAccessToken();
+//		AccessToken accessToken = accessTokenServiceImpl.getAccessToken();
 		//用户openId
 		String openId = fromUserName;
 		//公众号ID
-		String ghId = toUserName;
+//		String ghId = toUserName;
 		//场景值（推荐人openId）
-		String qrScene = msgRcv.getEventKey();
-		String parentOpenId = qrScene;
+//		String qrScene = msgRcv.getEventKey();
+//		String parentOpenId = qrScene;
 		//推荐人信息
-		User parentUser = userMapper.selectByOpenId(parentOpenId);
+//		User parentUser = userMapper.selectByOpenId(parentOpenId);
 		
 		//当前发布
 		Publish currPublish = publishServiceImpl.getCurrPublish();
