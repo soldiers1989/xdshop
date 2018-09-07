@@ -60,6 +60,8 @@ public interface IUserService {
 	 */
 	public String getPosterOssUrl(String publishId,String openId) throws Exception;
 	
+	public User getUserInfo(String openId) throws Exception;
+	
 	
 	
 }

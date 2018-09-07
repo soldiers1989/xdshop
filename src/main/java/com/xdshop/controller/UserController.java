@@ -107,6 +107,17 @@ public class UserController extends BaseController {
 		return responseVo;
 	}
 	
+	@ApiOperation(value="获取用户信息")
+	@RequestMapping(value="/user/{openId}",method=RequestMethod.GET)
+	@ResponseBody
+	public ResponseVo getUserInfo(HttpServletRequest request,@PathVariable String openId) throws Exception{
+		User user = userServiceImpl.getUserInfo(openId);
+		ResponseVo rv = new ResponseVo();
+		rv.setData(user);
+		rv.setSuccessResponse(true);
+		return rv;
+	}
+	
 	
 	
 }

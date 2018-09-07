@@ -86,7 +86,7 @@ public class QrCodeTest {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		String accessToken = "13_qfcb4XN3j3eANNQOHcT1hSaUtV22EJSL8INA24NwgS3Dc0A1x5vF9L9AyWzfE_1PBOT-J6WXjZlv4LASCDszOvcHm0g6RXt14vr99grCsjHe3urB78oQkoynehez7SkPfBOAf6v3q_7HwN9qKIMbADABZD";
+		String accessToken = "13_jxpHbX4Kxwuh4yP6sFLCxMGupQuweBJsvgD5NTH-ppjGNAaLaiuyhS1GEsNpkvI-A1gjababH4Yd5ugMbP85PseVAfhBDyS65XGV70OyFUYfDmiF3L-tJIUZ1quuRyLDoZa7OqPdRoY_bmFIGWSbAHABRN";
 		QrCodeTest qrCodeTest = new QrCodeTest();
 		SceneVo sceneVo = new SceneVo();
 		sceneVo.setOpenId("oXmQ_1ddd8Yq4C_oAhq_OiMG181c");

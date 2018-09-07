@@ -223,7 +223,8 @@
 		,b.fetch_status as 'fetchStatus'
 	from t_user a
 	inner join t_user_share b
-	on a.open_id = b.open_id and b.fetch_status = 1
+	on a.open_id = b.open_id and b.fetch_status = 1 
+		and  b.publish_id = #{publisId}
   </select>
   
   <select id="selectPublishUser"  resultType="java.util.HashMap" parameterType="com.xdshop.api.PublishUserParam">

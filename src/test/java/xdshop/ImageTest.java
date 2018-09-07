@@ -96,8 +96,9 @@ public class ImageTest {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		String accessToken = "13_faCzUKx7TfvGoPSE0YoeVVJpTkiWQF8AjgUVOlaWi5UL3q8AEs9OpvyuuEOvPkwWG04sqf_JvsjLEDZASulW06Wiu7ijs7xFPegjcjej-vmJdPGO5klZa07zgtkA55pOO7iqw696a3-E89FnEDVcAIAIHZ";
-		
+		String accessToken = "13_aKf-EluwFt45xWS8tKK7IRuiqzSr0faoWj7vC-yio3px-wqftZczdLeDL8G-3SXxuA-AeuFOp9z2gGcSWsTGWgDeMPRaE1tq9iiIOlu9_f40jisPytqEf4hzaQqyBVVTna-QIYPetLtwo-YeVIMjACAHUY";
+		String openId = "oXmQ_1ddd8Yq4C_oAhq_OiMG181c";
+		String vopenId = "vopenid01";//首次生成分享图片,vopenId=vopenid01 如果是客户扫描转发的二维码海报，则vopenId = openId
 		BufferedImage bgImage = ImageIO.read(new File("G:\\xdshop\\微信素材\\分享图背景.jpg"));
 		//背景宽
 		int bgWith = bgImage.getWidth();
@@ -108,11 +109,12 @@ public class ImageTest {
 		//获取公众号二维码
 //		BufferedImage qrImage = ImageIO.read(new File("G:\\xdshop\\AppID相关\\二维码-测试公众号-接口获取.jpg"));
 		SceneVo sceneVo = new SceneVo();
-		sceneVo.setOpenId("oXmQ_1ddd8Yq4C_oAhq_OiMG181c");
+		sceneVo.setOpenId(vopenId);
 		BufferedImage qrImage = ImageIO.read(new QrCodeTest().getQrPic(sceneVo,accessToken));
 		Graphics2D g2d = bgImage.createGraphics();
 		System.out.println(bgImage.getHeight()+"|"+bgImage.getWidth());
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,1.0f));
+		
 		//写入：二维码
 		int qrImageWidth = qrImage.getWidth()/2 + 50;
 		int qrImageHeight = qrImage.getHeight()/2 + 50;
@@ -121,7 +123,7 @@ public class ImageTest {
 		
 		//获取用户数据：头像
 		UserInfoTest userInfoTest = new UserInfoTest();
-		UserInfoVo userInfoVo = userInfoTest.getUserInfo("oXmQ_1ddd8Yq4C_oAhq_OiMG181c", accessToken);
+		UserInfoVo userInfoVo = userInfoTest.getUserInfo(openId, accessToken);
 		BufferedImage headerImage = ImageIO.read(userInfoTest.getHeaderImg(userInfoVo));
 		int headerImgWith = headerImage.getWidth()/2;
 		int headerImgHeight = headerImage.getHeight()/2;
@@ -158,7 +160,7 @@ public class ImageTest {
 		g2d.dispose();
 			
 		//输出合成图片
-		ImageIO.write(bgImage, "jpg", new File("d:\\背景合成二维码.jpg"));
+		ImageIO.write(bgImage, "jpg", new File("d:\\背景合成二维码-xiaoshua.jpg"));
 		System.out.println("执行完成");
 		
 	}

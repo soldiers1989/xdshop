@@ -59,8 +59,18 @@ public class UserInfoTest {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		String accessToken = "13_RtyPPPq5znaNWKzTWvOjH_oqk4psA3TS8Q4WRlQbC56l9lzs9lCDm-wUeCGCq9goJSQbgl-eOcjkplfGYFXGP8-4q7NGObBl4a-HeVUUf_qGoaLo6U_wUUu1EVRUlMNqeOjpaOdQoEc0VOSNZIIhAHAUDD";
-		String openId = "oXmQ_1ddd8Yq4C_oAhq_OiMG181c";
+		String accessToken = "13_jxpHbX4Kxwuh4yP6sFLCxMGupQuweBJsvgD5NTH-ppjGNAaLaiuyhS1GEsNpkvI-A1gjababH4Yd5ugMbP85PseVAfhBDyS65XGV70OyFUYfDmiF3L-tJIUZ1quuRyLDoZa7OqPdRoY_bmFIGWSbAHABRN";
+		String openId = "o_eRa0_ilXHtq7bTo0RyRhC8LieA";
+		
+//		o_eRa0yrvq_trtqGRGukBwqfU8Qc   玲玲  
+//		oXmQ_1ddd8Yq4C_oAhq_OiMG181c   我
+		
+		/**
+		 * 重庆旅游生活号 openId
+		 * 我：  o_eRa0_ilXHtq7bTo0RyRhC8LieA
+		 * 玲玲：o_eRa0yrvq_trtqGRGukBwqfU8Qc
+		 */
+		
 		UserInfoTest userInfoTest =  new UserInfoTest();
 		UserInfoVo  userInfoVo =userInfoTest .getUserInfo(openId, accessToken);
 		userInfoTest.getHeaderImg(userInfoVo);

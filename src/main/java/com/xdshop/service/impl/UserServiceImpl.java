@@ -224,6 +224,10 @@ public class UserServiceImpl implements IUserService {
 			posterOssUrl = userShare.getPosterOssUrl();
 		return posterOssUrl;
 	}
+	@Override
+	public User getUserInfo(String openId) throws Exception {
+		return userMapper.selectByOpenId(openId);
+	}
 	
 	
 }
