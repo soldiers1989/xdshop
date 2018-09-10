@@ -11,15 +11,21 @@ import com.xdshop.dal.domain.User;
 public interface UserMapper {
     int deleteByPrimaryKey(String id);
 
-    int insert(User record);
+	int insert(User record);
 
-    int insertSelective(User record);
+	int insertSelective(User record);
 
-    User selectByPrimaryKey(String id);
+	User selectByPrimaryKey(String id);
 
-    int updateByPrimaryKeySelective(User record);
+	int updateByPrimaryKeySelective(User record);
 
-    int updateByPrimaryKey(User record);
+	int updateByPrimaryKey(User record);
+
+
+
+
+
+	
     
     
     
@@ -30,4 +36,12 @@ public interface UserMapper {
     List<HashMap<String,Object>> selectFetchUser(String publisId);
     
     List<HashMap<String,Object>> selectPublishUser(@Param("param") PublishUserParam param);
+    /**
+     * 160068
+     * 2018�??9�??10�?? 下午1:41:00
+     * @param publishId
+     * @param openId
+     * @return
+     */
+    List<User> selectChildByPublishIdAndOpenId(@Param("publishId")String publishId,@Param("openId")String openId);
 }

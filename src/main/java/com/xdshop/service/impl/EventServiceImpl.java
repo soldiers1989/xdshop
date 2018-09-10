@@ -9,42 +9,27 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.PageHelper;
-import com.xdshop.api.BaseParam;
-import com.xdshop.api.ShareParamVo;
-import com.xdshop.dal.dao.PublishMapper;
-import com.xdshop.dal.dao.PublishResourceMapper;
 import com.xdshop.dal.dao.UserMapper;
 import com.xdshop.dal.domain.AccessToken;
 import com.xdshop.dal.domain.Article;
 import com.xdshop.dal.domain.Publish;
-import com.xdshop.dal.domain.PublishResource;
 import com.xdshop.dal.domain.User;
-import com.xdshop.schedule.AccessTokenScheduler;
+import com.xdshop.dal.domain.UserShare;
 import com.xdshop.service.IAccessTokenService;
 import com.xdshop.service.IArticleService;
 import com.xdshop.service.IEventService;
-import com.xdshop.service.IOssService;
 import com.xdshop.service.IPublishService;
 import com.xdshop.service.IUserService;
-import com.xdshop.service.XdShopService;
-import com.xdshop.util.Sha1Util;
+import com.xdshop.service.IUserShareService;
 import com.xdshop.util.Utils;
 import com.xdshop.util.XMLUtils;
 import com.xdshop.vo.ArticleVo;
 import com.xdshop.vo.MsgRcvVo;
 import com.xdshop.vo.MsgRetVo;
-import com.xdshop.vo.OssBaseVo;
-import com.xdshop.vo.PublishVo;
-import com.xdshop.vo.UserInfoVo;
 
-import ch.qos.logback.core.subst.Token;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import xdshop.OssTest;
 
 @Service
 public class EventServiceImpl implements IEventService {
@@ -59,6 +44,8 @@ public class EventServiceImpl implements IEventService {
 	private IUserService userServiceImpl;
 	@Autowired
 	private IArticleService articleServiceImpl;
+	@Autowired
+	private IUserShareService userShareServiceImpl;
 	
 	@Value("${article.picBaseUrl}")
 	private String articlePicBaseUrl;
@@ -76,8 +63,17 @@ public class EventServiceImpl implements IEventService {
 		String ghId = toUserName;
 		//场景值（推荐人openId）
 		String qrScene = msgRcv.getEventKey();
-		String parentOpenId = qrScene.substring(8, qrScene.length());
+		String qrSceneJsonStr = qrScene.substring(8, qrScene.length());
+		String[] qrSceneArray = qrSceneJsonStr.split("\\|");
 		//推荐人信息
+		String parentOpenId ="";
+		//活动发布ID
+		String publishId = "";
+		if(qrSceneArray != null && qrSceneArray.length == 2) {
+			parentOpenId = qrSceneArray[0];
+			publishId = qrSceneArray[1];
+		}
+		
 		User parentUser = userMapper.selectByOpenId(parentOpenId);
 		//关注状态，关注：true   取消关注：false
 		boolean subType = true;
@@ -97,8 +93,17 @@ public class EventServiceImpl implements IEventService {
 			user.setCreateTime(Calendar.getInstance().getTime());
 			userMapper.insertSelective(user);
 			
+			//保存用户分享表
+			UserShare userShare = new UserShare();
+			userShare.setOpenId(openId);
+			userShare.setPublishId(publishId);
+			userShare.setPosterOssKey("");
+			userShare.setPosterOssUrl("");
+			userShare.setFetchStatus(false);
+			userShareServiceImpl.saveUserShare(userShare);
+			
 			//获取用户信息(微信头像，昵称等)
-			UserInfoVo userInfoVo = userServiceImpl.getUserInfo(openId, accessToken.getAccessToken());
+			userServiceImpl.getUserInfo(openId, accessToken.getAccessToken());
 			
 		}else{
 			//如果之前客户关注过，但是取消了关注后，再次重新关注，直接将关注状态字段变更为：true;
@@ -106,10 +111,10 @@ public class EventServiceImpl implements IEventService {
 			userMapper.updateByPrimaryKeySelective(existUser);
 			
 			//获取用户信息(微信头像，昵称等)
-			UserInfoVo userInfoVo = userServiceImpl.getUserInfo(openId, accessToken.getAccessToken());
+			userServiceImpl.getUserInfo(openId, accessToken.getAccessToken());
 		}
-		
-		Publish currPublish = publishServiceImpl.getCurrPublish();
+		//当前发布活动
+		Publish currPublish = publishServiceImpl.getPublish(publishId);
 		
 		MsgRetVo msgRet = new MsgRetVo();
 		int articleCount = 1;
@@ -121,16 +126,15 @@ public class EventServiceImpl implements IEventService {
 		List<ArticleVo> articles = new ArrayList<ArticleVo>();
 		for(int i = 1 ; i <= articleCount;i++){
 			ArticleVo articleVo = new ArticleVo();
-			articleVo.setTitle(currPublish.getTitle());
+			//获取当前活动，图文消息，图片地址
+			Article currPublishArticle = articleServiceImpl.getArticle(publishId);
+			articleVo.setTitle(currPublishArticle.getTitle());
 			if("vopenid01".equals(parentOpenId)){
 				articleVo.setDescription("点击邀请好友助力，获取免费门票!");
 			}else{
 				articleVo.setDescription("您已成功助力好友："+parentUser.getNickName()+",点击邀请好友助力，获取免费门票!");
 			}
 			
-			//获取当前活动，图文消息，图片地址
-			String publishId = currPublish.getId();
-			Article currPublishArticle = articleServiceImpl.getArticle(publishId);
 			articleVo.setPicUrl(currPublishArticle.getPicUrl());
 			//设置：点击图文消息，跳转地址。例子：http://zl.bnxly.top/app/xdshop_c/index_publish.html?#/publishshow/oXmQ_1ddd8Yq4C_oAhq_OiMG181c/eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJpYXQiOjE1MzU4MTcxNTF9.hmszfiLDY8MZKbjYtJ_clhYlVRp75Ovt0q48wQGpsXI/a2ed849d18722273
 			String Authorization = Jwts.builder().setSubject(openId)
@@ -176,16 +180,31 @@ public class EventServiceImpl implements IEventService {
 //		AccessToken accessToken = accessTokenServiceImpl.getAccessToken();
 		//用户openId
 		String openId = fromUserName;
-		//公众号ID
-//		String ghId = toUserName;
 		//场景值（推荐人openId）
-//		String qrScene = msgRcv.getEventKey();
-//		String parentOpenId = qrScene;
+		String qrScene = msgRcv.getEventKey();
+		String qrSceneJsonStr = qrScene.substring(8, qrScene.length());
+		String[] qrSceneArray = qrSceneJsonStr.split("\\|");
 		//推荐人信息
-//		User parentUser = userMapper.selectByOpenId(parentOpenId);
+		String parentOpenId ="";
+		//活动发布ID
+		String publishId = "";
+		if(qrSceneArray != null && qrSceneArray.length == 2) {
+			parentOpenId = qrSceneArray[0];
+			publishId = qrSceneArray[1];
+		}
 		
 		//当前发布
-		Publish currPublish = publishServiceImpl.getCurrPublish();
+		Publish currPublish = publishServiceImpl.getPublish(publishId);
+		
+		//保存用户分享表
+		UserShare userShare = new UserShare();
+		userShare.setOpenId(openId);
+		userShare.setPublishId(publishId);
+		userShare.setPosterOssKey("");
+		userShare.setPosterOssUrl("");
+		userShare.setFetchStatus(false);
+		userShareServiceImpl.saveUserShare(userShare);
+		
 		
 		MsgRetVo msgRet = new MsgRetVo();
 		int articleCount = 1;
@@ -196,12 +215,11 @@ public class EventServiceImpl implements IEventService {
 		msgRet.setArticleCount(articleCount);	
 		List<ArticleVo> articles = new ArrayList<ArticleVo>();
 		for(int i = 1 ; i <= articleCount;i++){
-			ArticleVo articleVo = new ArticleVo();
-			articleVo.setTitle(currPublish.getTitle());
-			articleVo.setDescription("点击邀请好友助力，获取免费门票!");
 			//获取当前活动，图文消息，图片地址
-			String publishId = currPublish.getId();
 			Article currPublishArticle = articleServiceImpl.getArticle(publishId);
+			ArticleVo articleVo = new ArticleVo();
+			articleVo.setTitle(currPublishArticle.getTitle());
+			articleVo.setDescription("点击邀请好友助力，获取免费门票!");
 			articleVo.setPicUrl(currPublishArticle.getPicUrl());
 			//设置：点击图文消息，跳转地址。例子：http://zl.bnxly.top/app/xdshop_c/index_publish.html?#/publishshow/oXmQ_1ddd8Yq4C_oAhq_OiMG181c/eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJpYXQiOjE1MzU4MTcxNTF9.hmszfiLDY8MZKbjYtJ_clhYlVRp75Ovt0q48wQGpsXI/a2ed849d18722273
 			String Authorization = Jwts.builder().setSubject(openId)

@@ -5,15 +5,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import com.xdshop.api.BaseParam;
 import com.xdshop.api.PublishUserParam;
-import com.xdshop.api.ShareParamVo;
-import com.xdshop.dal.domain.Publish;
 import com.xdshop.dal.domain.User;
-import com.xdshop.vo.MsgRcvVo;
-import com.xdshop.vo.PublishVo;
 import com.xdshop.vo.UserInfoVo;
 
 public interface IUserService {
@@ -24,7 +17,7 @@ public interface IUserService {
 	
 	public InputStream getQrCode(String openId,String accessToken) throws Exception;
 	
-	public List<User> getSubUser(String openId) throws Exception;
+	public List<User> getSubUser(String publishId,String openId) throws Exception;
 	/**
 	 * 获取已领取成功客户列表
 	 * @param publisId

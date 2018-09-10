@@ -3,26 +3,14 @@ package com.xdshop.util;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
-
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.FileUtils;
-
 import com.alibaba.fastjson.JSONObject;
-import com.xdshop.util.HttpsUtil;
-import com.xdshop.util.XMLUtils;
-import com.xdshop.vo.MsgRcvVo;
 import com.xdshop.vo.QrTicketVo;
 import com.xdshop.vo.SceneVo;
-
-import io.netty.handler.codec.base64.Base64Decoder;
-import io.netty.handler.codec.base64.Base64Encoder;
 
 /**
  * 二维码测试
@@ -46,7 +34,7 @@ public class QrCodeUtil {
 		
 		JSONObject actionInfo = new JSONObject();
 		JSONObject scene = new JSONObject();
-		scene.put("scene_str", sceneVo.getOpenId());
+		scene.put("scene_str", sceneVo.getOpenId()+"|"+sceneVo.getPublishId());
 //		scene.put("scene_id", 1234);
 		actionInfo.put("scene", scene);
 		bodyParams.put("action_info", actionInfo);

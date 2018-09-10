@@ -6,9 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -21,11 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.fastjson.JSONObject;
-import com.aliyun.oss.internal.OSSUtils;
 import com.github.pagehelper.PageHelper;
-import com.netflix.discovery.converters.Auto;
-import com.netflix.servo.monitor.PublishingPolicy;
 import com.xdshop.api.BaseParam;
 import com.xdshop.api.ShareParamVo;
 import com.xdshop.dal.dao.AccessTokenMapper;
@@ -44,21 +38,12 @@ import com.xdshop.service.IPublishResourceService;
 import com.xdshop.service.IPublishService;
 import com.xdshop.service.IUserService;
 import com.xdshop.service.IUserShareService;
-import com.xdshop.service.XdShopService;
 import com.xdshop.util.ImageUtils;
 import com.xdshop.util.QrCodeUtil;
-import com.xdshop.util.Sha1Util;
 import com.xdshop.util.Utils;
 import com.xdshop.vo.OssBaseVo;
 import com.xdshop.vo.PublishVo;
 import com.xdshop.vo.SceneVo;
-import com.xdshop.vo.UserInfoVo;
-
-import xdshop.ImageTest;
-import xdshop.ImageTest2;
-import xdshop.OssTest;
-import xdshop.QrCodeTest;
-import xdshop.UserInfoTest;
 
 @Service
 public class PublishServiceImpl implements IPublishService {
@@ -130,7 +115,7 @@ public class PublishServiceImpl implements IPublishService {
 	public Integer openPublish(PublishVo publish) throws Exception {
 		//sql影响记录条数
 		int recordNum = 0;
-		boolean openFlag = publish.getOpenFlag();
+		/*boolean openFlag = publish.getOpenFlag();
 		String id = publish.getId();
 		//如果启用当前发布，则停止其余所有发布
 		if(openFlag){
@@ -141,7 +126,7 @@ public class PublishServiceImpl implements IPublishService {
 					publishMapper.updateByPrimaryKeySelective(tempPublish);
 				}
 			}
-		}
+		}*/
 		recordNum = publishMapper.updateByPrimaryKeySelective(publish);
 		return recordNum;
 	}
@@ -236,6 +221,7 @@ public class PublishServiceImpl implements IPublishService {
 		//获取场景二维码方法一：获取公众号场景二维码（附带分享人openId）
 		SceneVo sceneVo = new SceneVo();
 		sceneVo.setOpenId(openId);
+		sceneVo.setPublishId(publish.getId());
 		BufferedImage qrImage = ImageIO.read(QrCodeUtil.getQrPic(sceneVo,accessToken.getAccessToken()));
 		//获取场景二维码方法二：采用阿里云模式存储带场景二维码
 		/*InputStream qrInputStrem = userServiceImpl.getQrCode(openId, accessToken.getAccessToken());
@@ -245,7 +231,7 @@ public class PublishServiceImpl implements IPublishService {
 		int qrImageWidth = qrImage.getWidth()/2 + 50;
 		int qrImageHeight = qrImage.getHeight()/2 + 50;
 //		System.out.println("bgWith|qrImageWidth:"+bgWith+"|"+qrImageWidth);
-		g2d.drawImage(qrImage,  bgWith - qrImageWidth, bgHeight - qrImageHeight-60,qrImageWidth ,qrImageHeight ,null);
+		g2d.drawImage(qrImage,  bgWith - qrImageWidth-30, bgHeight - qrImageHeight-20,qrImageWidth ,qrImageHeight ,null);
 			
 		//获取用户数据：头像
 		String headerUrl = "";
@@ -258,7 +244,7 @@ public class PublishServiceImpl implements IPublishService {
 		int headerImgWith = headerImage.getWidth()/2;
 		int headerImgHeight = headerImage.getHeight()/2;
 		System.out.println("头像宽|高:"+headerImgWith+"|"+headerImgHeight);
-		g2d.drawImage(headerImage, 15, bgHeight - qrImageHeight - 120, headerImgWith, headerImgHeight, null);
+		g2d.drawImage(headerImage, 20 , bgHeight - qrImageHeight-20, headerImgWith, headerImgHeight, null);
 		
 		//写入：别名
 		String nickName = "";
@@ -270,26 +256,26 @@ public class PublishServiceImpl implements IPublishService {
 		BufferedImage nickNameImage = ImageUtils.createContentImage(nickName, 400, 40, 20,Color.black);
 		int nickNameImageWidth =nickNameImage.getWidth();
 		int nickNameHeight =nickNameImage.getHeight();
-		g2d.drawImage(nickNameImage,headerImgWith +30 , bgHeight - qrImageHeight - 100, nickNameImageWidth, nickNameHeight,null);
+		g2d.drawImage(nickNameImage,headerImgWith +30 , bgHeight - qrImageHeight-20, nickNameImageWidth, nickNameHeight,null);
 			
 		//写入：长按二维码进入领取
 		String pressTips = "长按二维码进入领取";
 		BufferedImage pressImage = ImageUtils.createContentImage(pressTips, 400, 40, 20,Color.black);
 		int pressImageWidth =pressImage.getWidth();
 		int pressImageHeight =pressImage.getHeight();
-		g2d.drawImage(pressImage,bgWith - qrImageWidth + 20 , bgHeight - qrImageHeight - 100, pressImageWidth, pressImageHeight,null);
+		g2d.drawImage(pressImage,bgWith - qrImageWidth + 10 , bgHeight - qrImageHeight - 50, pressImageWidth, pressImageHeight,null);
 
 		String operTips = "把海报分享到朋友圈和微信群可以更快获得免费门票哦";
-		BufferedImage operTipsImage = ImageUtils.createContentImage(operTips, 600, 100, 40,Color.red);
+		BufferedImage operTipsImage = ImageUtils.createContentImage(operTips, 600, 100, 40,Color.black);
 		int operTipsImageWidth =operTipsImage.getWidth();
 		int operTipsImageHeight =operTipsImage.getHeight();
-		g2d.drawImage(operTipsImage,10 , bgHeight - qrImageHeight - 50, operTipsImageWidth, operTipsImageHeight,null);
+		g2d.drawImage(operTipsImage,20 , bgHeight - qrImageHeight + 50, operTipsImageWidth, operTipsImageHeight,null);
 		
 		String joinMe = "快来和我一起领取吧 ￥0";
-		BufferedImage joinMeImage = ImageUtils.createContentImage(joinMe, 600, 60, 40,Color.red);
+		BufferedImage joinMeImage = ImageUtils.createContentImage(joinMe, 600, 60, 40,new Color(200, 110, 110));
 		int joinMeImageWidth =joinMeImage.getWidth();
 		int joinMeImageHeight =joinMeImage.getHeight();
-		g2d.drawImage(joinMeImage,10, bgHeight - qrImageHeight + 100, joinMeImageWidth, joinMeImageHeight,null);
+		g2d.drawImage(joinMeImage,20 , bgHeight - qrImageHeight + 170, joinMeImageWidth, joinMeImageHeight,null);
 		
 		//上传分享海报
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -314,10 +300,10 @@ public class PublishServiceImpl implements IPublishService {
 	}
 
 
-	@Override
+	/*@Override
 	public Publish getCurrPublish() throws Exception {
 		return publishMapper.selectCurrPublish();
-	}
+	}*/
 
 
 	@Override
@@ -329,10 +315,11 @@ public class PublishServiceImpl implements IPublishService {
 		 * 获取发布信息
 		 */
 		Publish publish = publishMapper.selectByPrimaryKey(publishId);
-		
+		//每次都重新生成推送海报
+		/*
 		if(!(publish.getPushPosterUrl() == null || "".equals(publish.getPushPosterUrl()))){
 			return publish;
-		}
+		}*/
 		
 		/**
 		 * 获取accessToken
@@ -360,6 +347,7 @@ public class PublishServiceImpl implements IPublishService {
 		//获取场景二维码方法一：获取公众号场景二维码（附带分享人openId）
 		SceneVo sceneVo = new SceneVo();
 		sceneVo.setOpenId(openId);
+		sceneVo.setPublishId(publishId);
 		BufferedImage qrImage = ImageIO.read(QrCodeUtil.getQrPic(sceneVo,accessToken.getAccessToken()));
 		//获取场景二维码方法二：采用阿里云模式存储带场景二维码
 		/*InputStream qrInputStrem = userServiceImpl.getQrCode(openId, accessToken.getAccessToken());
@@ -369,33 +357,33 @@ public class PublishServiceImpl implements IPublishService {
 		int qrImageWidth = qrImage.getWidth()/2 + 50;
 		int qrImageHeight = qrImage.getHeight()/2 + 50;
 //		System.out.println("bgWith|qrImageWidth:"+bgWith+"|"+qrImageWidth);
-		g2d.drawImage(qrImage,  bgWith - qrImageWidth, bgHeight - qrImageHeight-60,qrImageWidth ,qrImageHeight ,null);
+		g2d.drawImage(qrImage,  bgWith - qrImageWidth, bgHeight - qrImageHeight-30,qrImageWidth ,qrImageHeight ,null);
 			
 		//公众号名称
 		String ghName = "重庆旅游生活宝";
 		BufferedImage nickNameImage = ImageUtils.createContentImage(ghName, 400, 40, 30,Color.black);
 		int nickNameImageWidth =nickNameImage.getWidth();
 		int nickNameHeight =nickNameImage.getHeight();
-		g2d.drawImage(nickNameImage,20 , bgHeight - qrImageHeight - 100, nickNameImageWidth, nickNameHeight,null);
+		g2d.drawImage(nickNameImage,20 , bgHeight - qrImageHeight - 10, nickNameImageWidth, nickNameHeight,null);
 		
 		//写入：长按二维码进入领取
 		String pressTips = "长按二维码进入领取";
 		BufferedImage pressImage = ImageUtils.createContentImage(pressTips, 400, 40, 20,Color.black);
 		int pressImageWidth =pressImage.getWidth();
 		int pressImageHeight =pressImage.getHeight();
-		g2d.drawImage(pressImage,bgWith - qrImageWidth + 20 , bgHeight - qrImageHeight - 100, pressImageWidth, pressImageHeight,null);
+		g2d.drawImage(pressImage,bgWith - qrImageWidth + 20 , bgHeight - qrImageHeight - 70, pressImageWidth, pressImageHeight,null);
 
 		String operTips = "把海报分享到朋友圈和微信群可以更快获得免费门票哦";
-		BufferedImage operTipsImage = ImageUtils.createContentImage(operTips, 600, 100, 40,Color.red);
+		BufferedImage operTipsImage = ImageUtils.createContentImage(operTips, 600, 100, 40,Color.black);
 		int operTipsImageWidth =operTipsImage.getWidth();
 		int operTipsImageHeight =operTipsImage.getHeight();
-		g2d.drawImage(operTipsImage,20 , bgHeight - qrImageHeight - 50, operTipsImageWidth, operTipsImageHeight,null);
+		g2d.drawImage(operTipsImage,20 , bgHeight - qrImageHeight + 50, operTipsImageWidth, operTipsImageHeight,null);
 		
 		String joinMe = "快来和我一起领取吧￥0";
-		BufferedImage joinMeImage = ImageUtils.createContentImage(joinMe, 600, 60, 40,Color.red);
+		BufferedImage joinMeImage = ImageUtils.createContentImage(joinMe, 600, 60, 40,new Color(186, 74, 74));
 		int joinMeImageWidth =joinMeImage.getWidth();
 		int joinMeImageHeight =joinMeImage.getHeight();
-		g2d.drawImage(joinMeImage,20 , bgHeight - qrImageHeight + 100, joinMeImageWidth, joinMeImageHeight,null);
+		g2d.drawImage(joinMeImage,20 , bgHeight - qrImageHeight + 170, joinMeImageWidth, joinMeImageHeight,null);
 		
 		//上传分享海报
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();

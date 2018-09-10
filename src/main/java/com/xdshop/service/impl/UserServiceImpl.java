@@ -2,8 +2,6 @@ package com.xdshop.service.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,51 +9,28 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.messaging.simp.user.UserRegistryMessageHandler;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
-import com.netflix.discovery.converters.Auto;
 import com.squareup.okhttp.Response;
-import com.xdshop.api.BaseParam;
 import com.xdshop.api.PublishUserParam;
-import com.xdshop.api.ShareParamVo;
 import com.xdshop.dal.dao.PublishMapper;
-import com.xdshop.dal.dao.PublishResourceMapper;
 import com.xdshop.dal.dao.UserMapper;
 import com.xdshop.dal.dao.UserShareMapper;
-import com.xdshop.dal.domain.AccessToken;
-import com.xdshop.dal.domain.Article;
 import com.xdshop.dal.domain.Publish;
-import com.xdshop.dal.domain.PublishResource;
 import com.xdshop.dal.domain.User;
 import com.xdshop.dal.domain.UserShare;
-import com.xdshop.schedule.AccessTokenScheduler;
 import com.xdshop.service.IAccessTokenService;
-import com.xdshop.service.IArticleService;
-import com.xdshop.service.IEventService;
 import com.xdshop.service.IOssService;
 import com.xdshop.service.IPublishService;
 import com.xdshop.service.IUserService;
-import com.xdshop.service.XdShopService;
 import com.xdshop.util.HttpsUtil;
 import com.xdshop.util.OkHttpUtil;
 import com.xdshop.util.QrCodeUtil;
-import com.xdshop.util.Sha1Util;
-import com.xdshop.util.Utils;
-import com.xdshop.util.XMLUtils;
-import com.xdshop.vo.ArticleVo;
-import com.xdshop.vo.MsgRcvVo;
-import com.xdshop.vo.MsgRetVo;
 import com.xdshop.vo.OssBaseVo;
-import com.xdshop.vo.PublishVo;
 import com.xdshop.vo.SceneVo;
 import com.xdshop.vo.UserInfoVo;
-
-import ch.qos.logback.core.subst.Token;
-import xdshop.OssTest;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -150,8 +125,8 @@ public class UserServiceImpl implements IUserService {
 		return isRet;
 	}
 	@Override
-	public List<User> getSubUser(String openId) throws Exception {
-		return userMapper.selectByParentOpenId(openId);
+	public List<User> getSubUser(String publishId,String openId) throws Exception {
+		return userMapper.selectChildByPublishIdAndOpenId(publishId,openId);
 	}
 	
 	@Override

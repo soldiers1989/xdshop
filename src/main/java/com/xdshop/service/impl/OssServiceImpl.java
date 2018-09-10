@@ -1,32 +1,17 @@
 package com.xdshop.service.impl;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.PutObjectResult;
-import com.github.pagehelper.PageHelper;
-import com.xdshop.api.BaseParam;
-import com.xdshop.dal.dao.PublishMapper;
-import com.xdshop.dal.dao.PublishResourceMapper;
-import com.xdshop.dal.domain.Publish;
-import com.xdshop.dal.domain.PublishResource;
 import com.xdshop.service.IOssService;
-import com.xdshop.service.IPublishService;
-import com.xdshop.service.XdShopService;
-import com.xdshop.util.Sha1Util;
 import com.xdshop.util.Utils;
 import com.xdshop.vo.OssBaseVo;
 
@@ -109,6 +94,7 @@ public class OssServiceImpl implements IOssService {
 		String url = "";
 		String endpoint = ossVo.getEndpoint();
 		String bucketName = ossVo.getBucketName();
+		ossKey = Utils.strEncoder(ossKey);
 		//永久URL
 		url = "http://"+bucketName+"."+endpoint+"/"+ossKey;
 		return url;

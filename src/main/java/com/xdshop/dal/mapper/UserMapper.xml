@@ -196,6 +196,9 @@
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+
+
+  
   
   
    <select id="selectByOpenId" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -227,41 +230,56 @@
 		and  b.publish_id = #{publisId}
   </select>
   
-  <select id="selectPublishUser"  resultType="java.util.HashMap" parameterType="com.xdshop.api.PublishUserParam">
-    select 
-		a.publish_id as 'publishId'
-		,a.open_id as 'openId'
-		,a.fetch_status as 'fetchStatus' 
-		,b.title as 'title'
-	  	,b.ticket_total as 'ticketTotal'
-		,b.ticket_sale as 'ticketSale'
-		,b.ticket_remain	as 'ticketRemain' 
-		,b.sub_user_num as 'subUserNum'
-		,c.nick_name as 'nickName'
-		,c.name as 'name'
-		,c.mobile as 'mobile'
-		,d.sub_user_num_act as 'subUserNumAct'
-	from t_user_share a 
-	inner join t_publish b
-	on a.publish_id = b.id
-	inner join t_user c
-	on a.open_id = c.open_id
-	left join (
-		select a.parent_open_id,count(*) sub_user_num_act 
-		from t_user a
-		group by a.parent_open_id
-	) d
-	on a.open_id =  d.parent_open_id
+  <select id="selectPublishUser" parameterType="com.xdshop.api.PublishUserParam" resultType="java.util.HashMap">
+   select a.*,b.sub_user_num_act as 'subUserNumAct' from (
+		SELECT
+			a.publish_id AS 'publishId',
+			a.open_id AS 'openId',
+			a.fetch_status AS 'fetchStatus',
+			b.title AS 'title',
+			b.ticket_total AS 'ticketTotal',
+			b.ticket_sale AS 'ticketSale',
+			b.ticket_remain AS 'ticketRemain',
+			b.sub_user_num AS 'subUserNum',
+			c.nick_name AS 'nickName',
+			c. NAME AS 'name',
+			c.mobile AS 'mobile'
+		from
+			t_user_share a
+		inner JOIN t_publish b ON a.publish_id = b.id
+		inner JOIN t_user c ON a.open_id = c.open_id
+	)a
+	left JOIN (
+		SELECT a.parent_open_id, a.publish_id,count(*) sub_user_num_act
+		FROM t_user a
+		GROUP BY a.parent_open_id, a.publish_id
+	) b
+	ON a.openId = b.parent_open_id and a.publishId = b.publish_id
 	where 1=1
 	<if test="param.name != null and param.name != ''">
-		and  c.name like CONCAT(CONCAT('%',#{param.name},'%')) 
+		and  a.name like CONCAT(CONCAT('%',#{param.name},'%')) 
 	</if>
 	<if test="param.mobile != null and param.mobile != ''">
-		and c.mobile like CONCAT(CONCAT('%',#{param.mobile},'%'))
+		and a.mobile like CONCAT(CONCAT('%',#{param.mobile},'%'))
 	</if>
 	
 	
   </select>
+  
+  <select id="selectChildByPublishIdAndOpenId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    
+    select * from (
+    	SELECT
+			c.*
+		from
+			t_user_share a
+		inner JOIN t_publish b ON a.publish_id = b.id
+		inner JOIN t_user c ON a.open_id = c.open_id
+    )a
+   	where a.parent_open_id = #{openId} and a.publish_id = #{publishId}
+    	 
+  </select>
+  
   
 
   

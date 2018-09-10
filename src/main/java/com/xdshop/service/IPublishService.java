@@ -35,7 +35,7 @@ public interface IPublishService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Publish getCurrPublish() throws Exception;
+//	public Publish getCurrPublish() throws Exception;
 	
 	/**
 	 * 生成首次分享图片（推送给关注公众号的客户）
