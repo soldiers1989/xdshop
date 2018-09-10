@@ -21,6 +21,8 @@ public interface UserMapper {
 
 	int updateByPrimaryKey(User record);
 
+	
+
 
 
 
@@ -38,7 +40,7 @@ public interface UserMapper {
     List<HashMap<String,Object>> selectPublishUser(@Param("param") PublishUserParam param);
     /**
      * 160068
-     * 2018�??9�??10�?? 下午1:41:00
+     * 2018�???9�???10�??? 下午1:41:00
      * @param publishId
      * @param openId
      * @return

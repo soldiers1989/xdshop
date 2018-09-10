@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
@@ -33,6 +34,7 @@ import com.xdshop.vo.SceneVo;
 import com.xdshop.vo.UserInfoVo;
 
 @Service
+@Transactional(rollbackFor=Exception.class)
 public class UserServiceImpl implements IUserService {
 	private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
 	@Autowired

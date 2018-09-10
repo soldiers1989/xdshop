@@ -16,10 +16,12 @@
     <result column="POSTER_URL" jdbcType="VARCHAR" property="posterUrl" />
     <result column="SUB_TYPE" jdbcType="BIT" property="subType" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="PUBLISH_ID" jdbcType="VARCHAR" property="publishId" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, OPEN_ID, NICK_NAME, HEADER_OSS_KEY, HEADER_URL, QR_CODE_OSS_KEY, QR_CODE_URL, 
-    PARENT_OPEN_ID, NAME, MOBILE, POSTER_OSS_KEY, POSTER_URL, SUB_TYPE, CREATE_TIME
+    PARENT_OPEN_ID, NAME, MOBILE, POSTER_OSS_KEY, POSTER_URL, SUB_TYPE, CREATE_TIME, 
+    PUBLISH_ID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -36,12 +38,14 @@
       HEADER_OSS_KEY, HEADER_URL, QR_CODE_OSS_KEY, 
       QR_CODE_URL, PARENT_OPEN_ID, NAME, 
       MOBILE, POSTER_OSS_KEY, POSTER_URL, 
-      SUB_TYPE, CREATE_TIME)
+      SUB_TYPE, CREATE_TIME, PUBLISH_ID
+      )
     values (#{id,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
       #{headerOssKey,jdbcType=VARCHAR}, #{headerUrl,jdbcType=VARCHAR}, #{qrCodeOssKey,jdbcType=VARCHAR}, 
       #{qrCodeUrl,jdbcType=VARCHAR}, #{parentOpenId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{mobile,jdbcType=VARCHAR}, #{posterOssKey,jdbcType=VARCHAR}, #{posterUrl,jdbcType=VARCHAR}, 
-      #{subType,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP})
+      #{subType,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{publishId,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.xdshop.dal.domain.User">
     insert into t_user
@@ -88,6 +92,9 @@
       <if test="createTime != null">
         CREATE_TIME,
       </if>
+      <if test="publishId != null">
+        PUBLISH_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -131,6 +138,9 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publishId != null">
+        #{publishId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -176,6 +186,9 @@
       <if test="createTime != null">
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="publishId != null">
+        PUBLISH_ID = #{publishId,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -193,9 +206,11 @@
       POSTER_OSS_KEY = #{posterOssKey,jdbcType=VARCHAR},
       POSTER_URL = #{posterUrl,jdbcType=VARCHAR},
       SUB_TYPE = #{subType,jdbcType=BIT},
-      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      PUBLISH_ID = #{publishId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+ 
 
 
   

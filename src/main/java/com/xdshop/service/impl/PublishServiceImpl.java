@@ -17,6 +17,7 @@ import org.bouncycastle.crypto.RuntimeCryptoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageHelper;
@@ -46,6 +47,7 @@ import com.xdshop.vo.PublishVo;
 import com.xdshop.vo.SceneVo;
 
 @Service
+@Transactional(rollbackFor=Exception.class)
 public class PublishServiceImpl implements IPublishService {
 	private static final Logger logger = Logger.getLogger(PublishServiceImpl.class);
 	@Autowired

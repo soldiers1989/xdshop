@@ -31,6 +31,8 @@ public class User {
 
 	private Date createTime;
 
+	private String publishId;
+
 	public String getId() {
 		return id;
 	}
@@ -143,6 +145,15 @@ public class User {
 		this.createTime = createTime;
 	}
 
+	public String getPublishId() {
+		return publishId;
+	}
+
+	public void setPublishId(String publishId) {
+		this.publishId = publishId;
+	}
+
+	
 
 
 }

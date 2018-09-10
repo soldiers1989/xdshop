@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.xdshop.dal.dao.UserMapper;
 import com.xdshop.dal.domain.AccessToken;
@@ -32,6 +33,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
+@Transactional(rollbackFor=Exception.class)
 public class EventServiceImpl implements IEventService {
 	private static final Logger logger = Logger.getLogger(EventServiceImpl.class);
 	@Autowired
@@ -91,16 +93,8 @@ public class EventServiceImpl implements IEventService {
 			user.setParentOpenId(parentOpenId);
 			user.setSubType(subType);
 			user.setCreateTime(Calendar.getInstance().getTime());
+			user.setPublishId(publishId);
 			userMapper.insertSelective(user);
-			
-			//保存用户分享表
-			UserShare userShare = new UserShare();
-			userShare.setOpenId(openId);
-			userShare.setPublishId(publishId);
-			userShare.setPosterOssKey("");
-			userShare.setPosterOssUrl("");
-			userShare.setFetchStatus(false);
-			userShareServiceImpl.saveUserShare(userShare);
 			
 			//获取用户信息(微信头像，昵称等)
 			userServiceImpl.getUserInfo(openId, accessToken.getAccessToken());
@@ -113,6 +107,13 @@ public class EventServiceImpl implements IEventService {
 			//获取用户信息(微信头像，昵称等)
 			userServiceImpl.getUserInfo(openId, accessToken.getAccessToken());
 		}
+		
+		//保存用户分享表
+		UserShare userShare = new UserShare();
+		userShare.setOpenId(openId);
+		userShare.setPublishId(publishId);
+		userShareServiceImpl.saveUserShare(userShare);
+		
 		//当前发布活动
 		Publish currPublish = publishServiceImpl.getPublish(publishId);
 		
@@ -200,9 +201,6 @@ public class EventServiceImpl implements IEventService {
 		UserShare userShare = new UserShare();
 		userShare.setOpenId(openId);
 		userShare.setPublishId(publishId);
-		userShare.setPosterOssKey("");
-		userShare.setPosterOssUrl("");
-		userShare.setFetchStatus(false);
 		userShareServiceImpl.saveUserShare(userShare);
 		
 		
