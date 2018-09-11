@@ -1,5 +1,6 @@
 package com.xdshop.service.impl;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -133,7 +134,7 @@ public class EventServiceImpl implements IEventService {
 			if("vopenid01".equals(parentOpenId)){
 				articleVo.setDescription("点击邀请好友助力，获取免费门票!");
 			}else{
-				articleVo.setDescription("您已成功助力好友："+parentUser.getNickName()+",点击邀请好友助力，获取免费门票!");
+				articleVo.setDescription("您已成功助力好友："+URLDecoder.decode(parentUser.getNickName(), "UTF-8")+",点击邀请好友助力，获取免费门票!");
 			}
 			
 			articleVo.setPicUrl(currPublishArticle.getPicUrl());

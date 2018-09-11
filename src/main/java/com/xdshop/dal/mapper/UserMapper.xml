@@ -277,7 +277,12 @@
 	<if test="param.mobile != null and param.mobile != ''">
 		and a.mobile like CONCAT(CONCAT('%',#{param.mobile},'%'))
 	</if>
-	
+	<if test="param.finishType == '01'">
+		and a.subUserNum <![CDATA[<=]]> b.sub_user_num_act
+	</if>
+	<if test="param.finishType == '02'">
+		and a.subUserNum <![CDATA[>]]> b.sub_user_num_act or b.sub_user_num_act is null
+	</if>
 	
   </select>
   

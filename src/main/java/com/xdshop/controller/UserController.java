@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.Page;
 import com.xdshop.api.PublishUserParam;
 import com.xdshop.dal.domain.User;
+import com.xdshop.dal.domain.UserShare;
 import com.xdshop.service.IUserService;
 import com.xdshop.vo.PageVo;
 import com.xdshop.vo.ResponseVo;
@@ -93,13 +94,14 @@ public class UserController extends BaseController {
 		return responseVo;
 	}
 	
-	@ApiOperation(value="获取用户信息")
-	@RequestMapping(value="/user/{openId}",method=RequestMethod.GET)
+	@ApiOperation(value="获取姓名、手机号信息")
+	@RequestMapping(value="/user/share/{publishId}/{openId}",method=RequestMethod.GET)
 	@ResponseBody
-	public ResponseVo getUserInfo(HttpServletRequest request,@PathVariable String openId) throws Exception{
-		User user = userServiceImpl.getUserInfo(openId);
+	public ResponseVo getUserShareInfo(HttpServletRequest request,@PathVariable String publishId,@PathVariable String openId) throws Exception{
+//		User user = userServiceImpl.getUserInfo(openId);
+		UserShare userShare = userServiceImpl.getUserShareInfo(publishId, openId);
 		ResponseVo rv = new ResponseVo();
-		rv.setData(user);
+		rv.setData(userShare);
 		rv.setSuccessResponse(true);
 		return rv;
 	}

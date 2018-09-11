@@ -2,6 +2,8 @@ package com.xdshop.service.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,7 +90,7 @@ public class UserServiceImpl implements IUserService {
 		
 		User existUser = userMapper.selectByOpenId(openId);
 		existUser.setHeaderUrl(userInfoVo.getHeadimgurl());
-		existUser.setNickName(userInfoVo.getNickname());
+		existUser.setNickName(URLEncoder.encode(userInfoVo.getNickname(), "UTF-8"));
 		userMapper.updateByPrimaryKeySelective(existUser);
 		
 		return userInfoVo;
@@ -128,18 +130,33 @@ public class UserServiceImpl implements IUserService {
 	}
 	@Override
 	public List<User> getSubUser(String publishId,String openId) throws Exception {
-		return userMapper.selectChildByPublishIdAndOpenId(publishId,openId);
+		List<User> userList = userMapper.selectChildByPublishIdAndOpenId(publishId,openId);
+		for (User user : userList) {
+			user.setNickName(URLDecoder.decode(user.getNickName(), "UTF-8"));
+		}
+		return userList;
 	}
 	
 	@Override
 	public List<HashMap<String,Object>> getFetchUser(String publisId) throws Exception {
-		return userMapper.selectFetchUser(publisId);
+		List<HashMap<String,Object>> fetchUserList = userMapper.selectFetchUser(publisId);
+		for (HashMap<String, Object> hashMap : fetchUserList) {
+			hashMap.put("nickName", URLDecoder.decode(hashMap.get("nickName")+"", "UTF-8"));
+		}
+		return fetchUserList;
 	}
 	
 	@Override
 	public List<HashMap<String, Object>> getPublishUser(PublishUserParam queryParam) throws Exception {
 		PageHelper.startPage(Integer.parseInt(queryParam.getCurPage()), Integer.parseInt(queryParam.getPageSize()),true);
-		return userMapper.selectPublishUser(queryParam);
+		List<HashMap<String,Object>> list = userMapper.selectPublishUser(queryParam);
+		/**
+		 * nickName解码
+		 */
+		for (HashMap<String, Object> hashMap : list) {
+			hashMap.put("nickName", URLDecoder.decode(hashMap.get("nickName")+"", "UTF-8"));
+		}
+		return list;
 	}
 	@Override
 	public int fetch(String publishId, String openId) throws Exception {
@@ -204,6 +221,12 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public User getUserInfo(String openId) throws Exception {
 		return userMapper.selectByOpenId(openId);
+	}
+	
+	@Override
+	public UserShare getUserShareInfo(String publishId,String openId) throws Exception {
+		UserShare userShare = userShareMapper.selectByPublishIdAndOpenId(publishId, openId);
+		return userShare;
 	}
 	
 	

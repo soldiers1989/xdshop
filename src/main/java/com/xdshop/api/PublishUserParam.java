@@ -1,13 +1,10 @@
 package com.xdshop.api;
 
-import java.util.List;
-
-import io.swagger.annotations.ApiModelProperty;
-
 public class PublishUserParam extends BaseParam{
 
 	private String name;
 	private String mobile;
+	private String finishType;
 	public String getName() {
 		return name;
 	}
@@ -20,6 +17,13 @@ public class PublishUserParam extends BaseParam{
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
+	public String getFinishType() {
+		return finishType;
+	}
+	public void setFinishType(String finishType) {
+		this.finishType = finishType;
+	}
+	
 	
 	
 

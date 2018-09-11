@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.xdshop.api.PublishUserParam;
 import com.xdshop.dal.domain.User;
+import com.xdshop.dal.domain.UserShare;
 import com.xdshop.vo.UserInfoVo;
 
 public interface IUserService {
@@ -54,6 +55,8 @@ public interface IUserService {
 	public String getPosterOssUrl(String publishId,String openId) throws Exception;
 	
 	public User getUserInfo(String openId) throws Exception;
+	
+	public UserShare getUserShareInfo(String publishId,String openId) throws Exception;
 	
 	
 	

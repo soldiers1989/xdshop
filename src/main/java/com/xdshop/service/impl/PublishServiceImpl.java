@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.net.URLDecoder;
 import java.util.Calendar;
 import java.util.List;
 
@@ -188,6 +189,8 @@ public class PublishServiceImpl implements IPublishService {
 		if(user == null){
 			throw new RuntimeCryptoException("用户openId:"+shareParamVo.getOpenId()+"不存在(未关注公众号)");
 		}
+		//昵称转码
+		user.setNickName(URLDecoder.decode(user.getNickName(), "UTF-8"));
 		/*user.setMobile(shareParamVo.getMobile());
 		user.setName(shareParamVo.getName());
 		userMapper.updateByPrimaryKeySelective(user);*/

@@ -1,5 +1,9 @@
 package com.xdshop.vo;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
 /**
  * 用户信息对象
  * 返回信息如下：
@@ -36,9 +40,20 @@ public class UserInfoVo {
 		this.openid = openid;
 	}
 	public String getNickname() {
-		return nickname;
+		String tempNickName = "";
+		try {
+			tempNickName = URLDecoder.decode(nickname, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return tempNickName;
 	}
 	public void setNickname(String nickname) {
+		try {
+			nickname = URLEncoder.encode(nickname, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		this.nickname = nickname;
 	}
 	public int getSex() {
