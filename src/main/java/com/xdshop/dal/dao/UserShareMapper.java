@@ -18,6 +18,8 @@ public interface UserShareMapper {
 	int updateByPrimaryKey(UserShare record);
 
 	
+
+	
     
     UserShare selectByPublishIdAndOpenId(@Param("publishId") String publishId,@Param("openId") String openId);
 

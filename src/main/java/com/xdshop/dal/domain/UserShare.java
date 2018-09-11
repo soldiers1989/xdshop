@@ -13,6 +13,10 @@ public class UserShare {
 
 	private Boolean fetchStatus;
 
+	private String name;
+
+	private String mobile;
+
 	public String getId() {
 		return id;
 	}
@@ -60,6 +64,24 @@ public class UserShare {
 	public void setFetchStatus(Boolean fetchStatus) {
 		this.fetchStatus = fetchStatus;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	
 
 	
 }

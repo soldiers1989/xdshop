@@ -22,6 +22,21 @@ import com.squareup.okhttp.HttpUrl;
 public class Utils {
 	
 	/**
+	 * 是否存在数据
+	 * 160068
+	 * 2018年9月11日 上午9:39:03
+	 * @param obj
+	 * @return
+	 */
+	public static boolean isExistValue(Object obj) {
+		boolean isExistValue= false;
+		if(obj != null && !"".equals(obj)) {
+			isExistValue = true;
+		}
+		return isExistValue;
+	}
+	
+	/**
 	 * url转码
 	 * 160068
 	 * 2018年9月10日 下午1:56:51

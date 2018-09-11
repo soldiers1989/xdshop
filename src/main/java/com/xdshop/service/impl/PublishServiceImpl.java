@@ -188,9 +188,9 @@ public class PublishServiceImpl implements IPublishService {
 		if(user == null){
 			throw new RuntimeCryptoException("用户openId:"+shareParamVo.getOpenId()+"不存在(未关注公众号)");
 		}
-		user.setMobile(shareParamVo.getMobile());
+		/*user.setMobile(shareParamVo.getMobile());
 		user.setName(shareParamVo.getName());
-		userMapper.updateByPrimaryKeySelective(user);
+		userMapper.updateByPrimaryKeySelective(user);*/
 		
 		/**
 		 * 获取发布信息
@@ -255,10 +255,10 @@ public class PublishServiceImpl implements IPublishService {
 		}else{
 			nickName = userServiceImpl.getUserInfo(openId, accessToken.getAccessToken()).getNickname();
 		}
-		BufferedImage nickNameImage = ImageUtils.createContentImage(nickName, 400, 40, 20,Color.black);
+		BufferedImage nickNameImage = ImageUtils.createContentImage(nickName, 400, 40, 30,Color.black);
 		int nickNameImageWidth =nickNameImage.getWidth();
 		int nickNameHeight =nickNameImage.getHeight();
-		g2d.drawImage(nickNameImage,headerImgWith +30 , bgHeight - qrImageHeight-20, nickNameImageWidth, nickNameHeight,null);
+		g2d.drawImage(nickNameImage,headerImgWith +30 , bgHeight - qrImageHeight-10, nickNameImageWidth, nickNameHeight,null);
 			
 		//写入：长按二维码进入领取
 		String pressTips = "长按二维码进入领取";
@@ -296,6 +296,8 @@ public class PublishServiceImpl implements IPublishService {
 		userShare.setPosterOssKey(sharePosterOssKey);
 		userShare.setPosterOssUrl(sharePicUrl);
 		userShare.setFetchStatus(false);
+		userShare.setName(shareParamVo.getName());
+		userShare.setMobile(shareParamVo.getMobile());
 		userShareServiceImpl.saveUserShare(userShare);
 		
 		return sharePicUrl;
@@ -359,7 +361,7 @@ public class PublishServiceImpl implements IPublishService {
 		int qrImageWidth = qrImage.getWidth()/2 + 50;
 		int qrImageHeight = qrImage.getHeight()/2 + 50;
 //		System.out.println("bgWith|qrImageWidth:"+bgWith+"|"+qrImageWidth);
-		g2d.drawImage(qrImage,  bgWith - qrImageWidth, bgHeight - qrImageHeight-30,qrImageWidth ,qrImageHeight ,null);
+		g2d.drawImage(qrImage,  bgWith - qrImageWidth - 30, bgHeight - qrImageHeight-30,qrImageWidth ,qrImageHeight ,null);
 			
 		//公众号名称
 		String ghName = "重庆旅游生活宝";

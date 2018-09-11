@@ -251,14 +251,14 @@
 			a.publish_id AS 'publishId',
 			a.open_id AS 'openId',
 			a.fetch_status AS 'fetchStatus',
+			a.NAME AS 'name',
+			a.mobile AS 'mobile',
 			b.title AS 'title',
 			b.ticket_total AS 'ticketTotal',
 			b.ticket_sale AS 'ticketSale',
 			b.ticket_remain AS 'ticketRemain',
 			b.sub_user_num AS 'subUserNum',
-			c.nick_name AS 'nickName',
-			c. NAME AS 'name',
-			c.mobile AS 'mobile'
+			c.nick_name AS 'nickName'
 		from
 			t_user_share a
 		inner JOIN t_publish b ON a.publish_id = b.id

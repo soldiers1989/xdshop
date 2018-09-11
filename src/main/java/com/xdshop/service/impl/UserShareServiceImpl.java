@@ -26,8 +26,14 @@ public class UserShareServiceImpl implements IUserShareService {
 			userShare.setFetchStatus(false);
 			userShareMapper.insertSelective(userShare);
 		}else{
-			existUserShare.setPosterOssKey(userShare.getPosterOssKey());
-			existUserShare.setPosterOssUrl(userShare.getPosterOssUrl());
+			if(Utils.isExistValue(userShare.getPosterOssKey()))
+				existUserShare.setPosterOssKey(userShare.getPosterOssKey());
+			if(Utils.isExistValue(userShare.getPosterOssUrl()))
+				existUserShare.setPosterOssUrl(userShare.getPosterOssUrl());
+			if(Utils.isExistValue(userShare.getName()))
+				existUserShare.setName(userShare.getName());
+			if(Utils.isExistValue(userShare.getMobile()))
+				existUserShare.setMobile(userShare.getMobile());
 			userShareMapper.updateByPrimaryKeySelective(existUserShare);
 			userShare = existUserShare;
 		}
