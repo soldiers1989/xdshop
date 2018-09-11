@@ -299,6 +299,71 @@
   </select>
   
   
+  <update id="updateTicketNumber" parameterType="com.xdshop.po.PublishPo">
+    update t_publish
+    <set>
+      <if test="title != null">
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="starNum != null">
+        STAR_NUM = #{starNum,jdbcType=REAL},
+      </if>
+      <if test="priceInit != null">
+        PRICE_INIT = #{priceInit,jdbcType=DOUBLE},
+      </if>
+      <if test="priceNow != null">
+        PRICE_NOW = #{priceNow,jdbcType=DOUBLE},
+      </if>
+      <if test="ticketTotal != null">
+        TICKET_TOTAL = #{ticketTotal,jdbcType=INTEGER},
+      </if>
+      <if test="ticketSale != null">
+        TICKET_SALE = #{ticketSale,jdbcType=INTEGER},
+      </if>
+      <if test="ticketRemain != null">
+        TICKET_REMAIN = #{ticketRemain,jdbcType=INTEGER},
+      </if>
+      <if test="posterOssKey != null">
+        POSTER_OSS_KEY = #{posterOssKey,jdbcType=VARCHAR},
+      </if>
+      <if test="posterUrl != null">
+        POSTER_URL = #{posterUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="publishRule != null">
+        PUBLISH_RULE = #{publishRule,jdbcType=VARCHAR},
+      </if>
+      <if test="scenicDesc != null">
+        SCENIC_DESC = #{scenicDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="timeBegin != null">
+        TIME_BEGIN = #{timeBegin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="timeEnd != null">
+        TIME_END = #{timeEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null">
+        CREATE_ID = #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="openFlag != null">
+        OPEN_FLAG = #{openFlag,jdbcType=BIT},
+      </if>
+      <if test="subUserNum != null">
+        SUB_USER_NUM = #{subUserNum,jdbcType=INTEGER},
+      </if>
+      <if test="pushPosterOssKey != null">
+        PUSH_POSTER_OSS_KEY = #{pushPosterOssKey,jdbcType=VARCHAR},
+      </if>
+      <if test="pushPosterUrl != null">
+        PUSH_POSTER_URL = #{pushPosterUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR} and ticket_remain=#{ticketRemainNow,jdbcType=INTEGER}
+  </update>
+  
+  
   
   
   

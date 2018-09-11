@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import com.xdshop.dal.dao.UserShareMapper;
 import com.xdshop.dal.domain.Publish;
 import com.xdshop.dal.domain.User;
 import com.xdshop.dal.domain.UserShare;
+import com.xdshop.po.PublishPo;
 import com.xdshop.service.IAccessTokenService;
 import com.xdshop.service.IOssService;
 import com.xdshop.service.IPublishService;
@@ -32,6 +34,7 @@ import com.xdshop.util.HttpsUtil;
 import com.xdshop.util.OkHttpUtil;
 import com.xdshop.util.QrCodeUtil;
 import com.xdshop.vo.OssBaseVo;
+import com.xdshop.vo.ResponseVo;
 import com.xdshop.vo.SceneVo;
 import com.xdshop.vo.UserInfoVo;
 
@@ -159,30 +162,57 @@ public class UserServiceImpl implements IUserService {
 		return list;
 	}
 	@Override
-	public int fetch(String publishId, String openId) throws Exception {
+	public ResponseVo fetch(String publishId, String openId) throws Exception {
+		ResponseVo rv = new ResponseVo();
+		//查询门票领取状态
+		UserShare userShare = userShareMapper.selectByPublishIdAndOpenId(publishId, openId);
+		if(userShare.getFetchStatus()) {
+			throw new RuntimeException("门票领取失败！您已经成功领取门票，请勿重复领取！");
+		}
 		int updateCount = 0;
 		/**
 		 * 变更publish 门票数量
 		 */
 		Publish publish = publishServiceImpl.getPublish(publishId);
+		//目前剩余票数
+		int ticketRemainNow = publish.getTicketRemain();
+		if(ticketRemainNow == 0) {
+			rv.setSuccessResponse(false);
+//			rv.setMessage("门票领取失败！当前活动门票已领完！");
+			throw new RuntimeException("门票领取失败！当前活动门票已领完！");
+		}
 		//门票总数
 		int ticketTotal = publish.getTicketTotal();
 		//已领取
-		int ticketSale = publish.getTicketSale() + 1;
+//		int ticketSale = publish.getTicketSale() + 1;
 		//剩余
-		int ticketRemain = ticketTotal - ticketSale;
+//		int ticketRemainNew = ticketTotal - ticketSale;
+		int ticketRemainNew = ticketRemainNow - 1;
 
-		publish.setTicketSale(ticketSale);
-		publish.setTicketRemain(ticketRemain);
-		publishMapper.updateByPrimaryKeySelective(publish);
+		publish.setTicketSale(ticketTotal - ticketRemainNew);
+		publish.setTicketRemain(ticketRemainNew);
+		/**
+		 * 更新剩余票数
+		 */
+		PublishPo publishPo = new PublishPo();
+		BeanUtils.copyProperties(publish, publishPo);
+		publishPo.setTicketRemainNow(ticketRemainNow);
+		updateCount = publishMapper.updateTicketNumber(publishPo);
+		if(updateCount == 1) {
+			rv.setSuccessResponse(true);
+			rv.setMessage("门票领取成功！");
+		}else {
+			rv.setSuccessResponse(false);
+			throw new RuntimeException("门票领取失败！当前编号门票已被其他顾客领取，请重新领取！");
+		}
 		
 		/**
 		 * 变更用户分享表门票领取状态
 		 */
-		UserShare userShare = userShareMapper.selectByPublishIdAndOpenId(publishId, openId);
 		userShare.setFetchStatus(true);
-		updateCount = userShareMapper.updateByPrimaryKeySelective(userShare);
-		return updateCount;
+		userShareMapper.updateByPrimaryKeySelective(userShare);
+		
+		return rv;
 	}
 	@Override
 	public int unfetch(String publishId, String openId) throws Exception {

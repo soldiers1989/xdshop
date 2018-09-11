@@ -8,6 +8,7 @@ import java.util.List;
 import com.xdshop.api.PublishUserParam;
 import com.xdshop.dal.domain.User;
 import com.xdshop.dal.domain.UserShare;
+import com.xdshop.vo.ResponseVo;
 import com.xdshop.vo.UserInfoVo;
 
 public interface IUserService {
@@ -35,7 +36,7 @@ public interface IUserService {
 	 * @return
 	 * @throws Exception
 	 */
-	public int fetch(String publishId,String openId) throws Exception;
+	public ResponseVo fetch(String publishId,String openId) throws Exception;
 	/**
 	 * 取消取票
 	 * @param publishId

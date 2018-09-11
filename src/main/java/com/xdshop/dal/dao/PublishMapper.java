@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.xdshop.api.BaseParam;
 import com.xdshop.dal.domain.Publish;
+import com.xdshop.po.PublishPo;
 
 public interface PublishMapper {
     int deleteByPrimaryKey(String id);
@@ -33,5 +34,8 @@ public interface PublishMapper {
 
 	
 	List<Publish> selectPublishList(@Param("queryParam")BaseParam queryParam);
+	
+	int updateTicketNumber(PublishPo record);
+	
 
 }

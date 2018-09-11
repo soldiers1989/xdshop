@@ -67,9 +67,7 @@ public class UserController extends BaseController {
 	@RequestMapping(value="/fetch/{publishId}/{openId}",method=RequestMethod.POST)
 	@ResponseBody
 	public ResponseVo fetch(HttpServletRequest request,@PathVariable String publishId,@PathVariable String openId) throws Exception{
-		userServiceImpl.fetch(publishId, openId);
-		ResponseVo rv = new ResponseVo();
-		rv.setSuccessResponse(true);
+		ResponseVo rv = userServiceImpl.fetch(publishId, openId);
 		return rv;
 	}
 	
