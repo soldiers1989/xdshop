@@ -235,8 +235,8 @@
   <select id="selectFetchUser" parameterType="java.lang.String" resultType="java.util.HashMap">
    select a.open_id as 'openId'
 		,a.nick_name as 'nickName'
-		,a.name as 'name'
-		,a.mobile as 'mobile'
+		,b.name as 'name'
+		,b.mobile as 'mobile'
 		,b.publish_id as 'publishId'
 		,b.fetch_status as 'fetchStatus'
 	from t_user a
@@ -288,9 +288,17 @@
   
   <select id="selectChildByPublishIdAndOpenId" parameterType="java.lang.String" resultMap="BaseResultMap">
     
-    select * from (
-    	SELECT
-			c.*
+    select * 
+	from (
+		SELECT
+			c.id,
+			c.open_id,
+			c.nick_name,
+			c.parent_open_id,
+			a.publish_id,
+			a.name,
+			a.mobile,
+			a.fetch_status
 		from
 			t_user_share a
 		inner JOIN t_publish b ON a.publish_id = b.id
