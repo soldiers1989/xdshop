@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.xdshop.dal.dao.UserMapper;
 import com.xdshop.dal.domain.AccessToken;
 import com.xdshop.dal.domain.Article;
-import com.xdshop.dal.domain.Publish;
 import com.xdshop.dal.domain.User;
 import com.xdshop.dal.domain.UserShare;
 import com.xdshop.service.IAccessTokenService;
@@ -78,13 +77,12 @@ public class EventServiceImpl implements IEventService {
 		}
 		
 		User parentUser = userMapper.selectByOpenId(parentOpenId);
+		
 		//关注状态，关注：true   取消关注：false
 		boolean subType = true;
-		
 		//保存客户信息
 		User existUser = userMapper.selectByOpenId(openId);
 		if(existUser == null){
-			
 			User user = new User();
 			user.setId(Utils.get16UUID());
 			user.setOpenId(openId);
@@ -96,15 +94,12 @@ public class EventServiceImpl implements IEventService {
 			user.setCreateTime(Calendar.getInstance().getTime());
 			user.setPublishId(publishId);
 			userMapper.insertSelective(user);
-			
 			//获取用户信息(微信头像，昵称等)
 			userServiceImpl.getUserInfo(openId, accessToken.getAccessToken());
-			
 		}else{
 			//如果之前客户关注过，但是取消了关注后，再次重新关注，直接将关注状态字段变更为：true;
 			existUser.setSubType(true);
 			userMapper.updateByPrimaryKeySelective(existUser);
-			
 			//获取用户信息(微信头像，昵称等)
 			userServiceImpl.getUserInfo(openId, accessToken.getAccessToken());
 		}
@@ -114,9 +109,6 @@ public class EventServiceImpl implements IEventService {
 		userShare.setOpenId(openId);
 		userShare.setPublishId(publishId);
 		userShareServiceImpl.saveUserShare(userShare);
-		
-		//当前发布活动
-		Publish currPublish = publishServiceImpl.getPublish(publishId);
 		
 		MsgRetVo msgRet = new MsgRetVo();
 		int articleCount = 1;
@@ -179,7 +171,7 @@ public class EventServiceImpl implements IEventService {
 //		String content = msgRcv.getContent().toLowerCase();
 		
 		//获取token
-//		AccessToken accessToken = accessTokenServiceImpl.getAccessToken();
+		AccessToken accessToken = accessTokenServiceImpl.getAccessToken();
 		//用户openId
 		String openId = fromUserName;
 		//场景值（推荐人openId）
@@ -195,15 +187,37 @@ public class EventServiceImpl implements IEventService {
 			publishId = qrSceneArray[1];
 		}
 		
-		//当前发布
-		Publish currPublish = publishServiceImpl.getPublish(publishId);
+		//关注状态，关注：true   取消关注：false
+		boolean subType = true;
+		//保存客户信息
+		User existUser = userMapper.selectByOpenId(openId);
+		if(existUser == null){
+			User user = new User();
+			user.setId(Utils.get16UUID());
+			user.setOpenId(openId);
+//			user.setNickName(userInfoVo.getNickname());
+//			user.setHeaderUrl(userInfoVo.getHeadimgurl());
+			user.setHeaderOssKey("");
+			user.setParentOpenId(parentOpenId);
+			user.setSubType(subType);
+			user.setCreateTime(Calendar.getInstance().getTime());
+			user.setPublishId(publishId);
+			userMapper.insertSelective(user);
+			//获取用户信息(微信头像，昵称等)
+			userServiceImpl.getUserInfo(openId, accessToken.getAccessToken());
+		}else{
+			//如果之前客户关注过，但是取消了关注后，再次重新关注，直接将关注状态字段变更为：true;
+			existUser.setSubType(true);
+			userMapper.updateByPrimaryKeySelective(existUser);
+			//获取用户信息(微信头像，昵称等)
+			userServiceImpl.getUserInfo(openId, accessToken.getAccessToken());
+		}
 		
 		//保存用户分享表
 		UserShare userShare = new UserShare();
 		userShare.setOpenId(openId);
 		userShare.setPublishId(publishId);
 		userShareServiceImpl.saveUserShare(userShare);
-		
 		
 		MsgRetVo msgRet = new MsgRetVo();
 		int articleCount = 1;

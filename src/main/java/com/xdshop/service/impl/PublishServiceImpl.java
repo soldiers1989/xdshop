@@ -236,20 +236,24 @@ public class PublishServiceImpl implements IPublishService {
 		int qrImageWidth = qrImage.getWidth()/2 + 50;
 		int qrImageHeight = qrImage.getHeight()/2 + 50;
 //		System.out.println("bgWith|qrImageWidth:"+bgWith+"|"+qrImageWidth);
-		g2d.drawImage(qrImage,  bgWith - qrImageWidth-30, bgHeight - qrImageHeight-20,qrImageWidth ,qrImageHeight ,null);
+		g2d.drawImage(qrImage,  bgWith - qrImageWidth-30, bgHeight - qrImageHeight-30,qrImageWidth ,qrImageHeight ,null);
 			
 		//获取用户数据：头像
 		String headerUrl = "";
+		int headerImgWith = 0;
+		int headerImgHeight = 0;
 		if(user.getHeaderUrl() != null){
 			headerUrl = user.getHeaderUrl();
 		}else{
 			headerUrl = userServiceImpl.getUserInfo(openId, accessToken.getAccessToken()).getHeadimgurl();
 		}
-		BufferedImage headerImage = ImageIO.read(userServiceImpl.getHeaderImg(headerUrl));
-		int headerImgWith = headerImage.getWidth()/2;
-		int headerImgHeight = headerImage.getHeight()/2;
-		System.out.println("头像宽|高:"+headerImgWith+"|"+headerImgHeight);
-		g2d.drawImage(headerImage, 20 , bgHeight - qrImageHeight-20, headerImgWith, headerImgHeight, null);
+		if(headerUrl != null && !"".equals(headerUrl)) {
+			BufferedImage headerImage = ImageIO.read(userServiceImpl.getHeaderImg(headerUrl));
+			headerImgWith = headerImage.getWidth()/2;
+			headerImgHeight = headerImage.getHeight()/2;
+			logger.info("头像宽|高(原始宽度，高度的二分之一):"+headerImgWith+"|"+headerImgHeight);
+			g2d.drawImage(headerImage, 20 , bgHeight - qrImageHeight-20, headerImgWith, headerImgHeight, null);
+		}
 		
 		//写入：别名
 		String nickName = "";
@@ -268,7 +272,7 @@ public class PublishServiceImpl implements IPublishService {
 		BufferedImage pressImage = ImageUtils.createContentImage(pressTips, 400, 40, 20,Color.black);
 		int pressImageWidth =pressImage.getWidth();
 		int pressImageHeight =pressImage.getHeight();
-		g2d.drawImage(pressImage,bgWith - qrImageWidth + 10 , bgHeight - qrImageHeight - 50, pressImageWidth, pressImageHeight,null);
+		g2d.drawImage(pressImage,bgWith - qrImageWidth + 10 , bgHeight - qrImageHeight - 70, pressImageWidth, pressImageHeight,null);
 
 		String operTips = "把海报分享到朋友圈和微信群可以更快获得免费门票哦";
 		BufferedImage operTipsImage = ImageUtils.createContentImage(operTips, 600, 100, 40,Color.black);
