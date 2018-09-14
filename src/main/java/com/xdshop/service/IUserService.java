@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
+import com.xdshop.api.FetchUserParam;
 import com.xdshop.api.PublishUserParam;
 import com.xdshop.dal.domain.User;
 import com.xdshop.dal.domain.UserShare;
@@ -26,7 +27,7 @@ public interface IUserService {
 	 * @return
 	 * @throws Exception
 	 */
-	List<HashMap<String,Object>> getFetchUser(String publisId) throws Exception;
+	List<HashMap<String,Object>> getFetchUser(FetchUserParam fetchUserParam) throws Exception;
 	
 	public List<HashMap<String,Object>> getPublishUser(PublishUserParam param) throws Exception;
 	/**

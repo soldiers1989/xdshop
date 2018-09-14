@@ -1,14 +1,12 @@
 package xdshop;
 
 import java.awt.AlphaComposite;
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.awt.font.FontRenderContext;
-import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -96,9 +94,9 @@ public class ImageTest {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		String accessToken = "13_aKf-EluwFt45xWS8tKK7IRuiqzSr0faoWj7vC-yio3px-wqftZczdLeDL8G-3SXxuA-AeuFOp9z2gGcSWsTGWgDeMPRaE1tq9iiIOlu9_f40jisPytqEf4hzaQqyBVVTna-QIYPetLtwo-YeVIMjACAHUY";
-		String openId = "oXmQ_1ddd8Yq4C_oAhq_OiMG181c";
-		String vopenId = "vopenid01";//首次生成分享图片,vopenId=vopenid01 如果是客户扫描转发的二维码海报，则vopenId = openId
+		String accessToken = "13_SW5WSU4eHHsh7QHtJblJzw5eOtNsXngqyEQSMDgzUXBLrFxoMEY84XKtufIuIt0mLjpmRyx1Q9S4OO-60D2fzrfobJkr-PnYUK_z2MC5kpedZOlTSpO5I7EUBOawd2P9i_g4HEG1ROEIsIOCEGFjAEAPRQ";
+		String openId = "o_eRa0y5TyfJDlgOw_R6sp9_m_hk";
+//		String vopenId = "vopenid01";//首次生成分享图片,vopenId=vopenid01 如果是客户扫描转发的二维码海报，则vopenId = openId
 		BufferedImage bgImage = ImageIO.read(new File("G:\\xdshop\\微信素材\\分享图背景.jpg"));
 		//背景宽
 		int bgWith = bgImage.getWidth();
@@ -109,7 +107,7 @@ public class ImageTest {
 		//获取公众号二维码
 //		BufferedImage qrImage = ImageIO.read(new File("G:\\xdshop\\AppID相关\\二维码-测试公众号-接口获取.jpg"));
 		SceneVo sceneVo = new SceneVo();
-		sceneVo.setOpenId(vopenId);
+		sceneVo.setOpenId(openId);
 		BufferedImage qrImage = ImageIO.read(new QrCodeTest().getQrPic(sceneVo,accessToken));
 		Graphics2D g2d = bgImage.createGraphics();
 		System.out.println(bgImage.getHeight()+"|"+bgImage.getWidth());
@@ -122,13 +120,18 @@ public class ImageTest {
 		g2d.drawImage(qrImage,  bgWith - qrImageWidth, bgHeight - qrImageHeight-60,qrImageWidth ,qrImageHeight ,null);
 		
 		//获取用户数据：头像
+		int headerImgWith = 0;
+		int headerImgHeight = 0;
 		UserInfoTest userInfoTest = new UserInfoTest();
 		UserInfoVo userInfoVo = userInfoTest.getUserInfo(openId, accessToken);
-		BufferedImage headerImage = ImageIO.read(userInfoTest.getHeaderImg(userInfoVo));
-		int headerImgWith = headerImage.getWidth()/2;
-		int headerImgHeight = headerImage.getHeight()/2;
-		System.out.println("头像宽|高:"+headerImgWith+"|"+headerImgHeight);
-		g2d.drawImage(headerImage, 20, bgHeight - qrImageHeight - 120, headerImgWith, headerImgHeight, null);
+		if(userInfoVo.getHeadimgurl() != null && !"".equals(userInfoVo.getHeadimgurl())) {
+			BufferedImage headerImage = ImageIO.read(userInfoTest.getHeaderImg(userInfoVo));
+			headerImgWith = headerImage.getWidth()/2;
+			headerImgHeight = headerImage.getHeight()/2;
+			System.out.println("头像宽|高:"+headerImgWith+"|"+headerImgHeight);
+			g2d.drawImage(headerImage, 20, bgHeight - qrImageHeight - 120, headerImgWith, headerImgHeight, null);
+		}
+		
 		
 		//写入：别名
 		String nickName = userInfoVo.getNickname();
@@ -160,7 +163,7 @@ public class ImageTest {
 		g2d.dispose();
 			
 		//输出合成图片
-		ImageIO.write(bgImage, "jpg", new File("d:\\背景合成二维码-xiaoshua.jpg"));
+		ImageIO.write(bgImage, "jpg", new File("d:\\背景合成二维码-头像地址为空.jpg"));
 		System.out.println("执行完成");
 		
 	}

@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
-import com.rabbitmq.http.client.domain.UserInfo;
 import com.squareup.okhttp.Response;
 import com.xdshop.util.HttpsUtil;
 import com.xdshop.util.OkHttpUtil;
@@ -59,8 +58,8 @@ public class UserInfoTest {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		String accessToken = "13_jxpHbX4Kxwuh4yP6sFLCxMGupQuweBJsvgD5NTH-ppjGNAaLaiuyhS1GEsNpkvI-A1gjababH4Yd5ugMbP85PseVAfhBDyS65XGV70OyFUYfDmiF3L-tJIUZ1quuRyLDoZa7OqPdRoY_bmFIGWSbAHABRN";
-		String openId = "o_eRa0_ilXHtq7bTo0RyRhC8LieA";
+		String accessToken = "13_SW5WSU4eHHsh7QHtJblJzw5eOtNsXngqyEQSMDgzUXBLrFxoMEY84XKtufIuIt0mLjpmRyx1Q9S4OO-60D2fzrfobJkr-PnYUK_z2MC5kpedZOlTSpO5I7EUBOawd2P9i_g4HEG1ROEIsIOCEGFjAEAPRQ";
+		String openId = "o_eRa0y5TyfJDlgOw_R6sp9_m_hk";
 		
 //		o_eRa0yrvq_trtqGRGukBwqfU8Qc   玲玲  
 //		oXmQ_1ddd8Yq4C_oAhq_OiMG181c   我

@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.squareup.okhttp.Response;
+import com.xdshop.api.FetchUserParam;
 import com.xdshop.api.PublishUserParam;
 import com.xdshop.dal.dao.PublishMapper;
 import com.xdshop.dal.dao.UserMapper;
@@ -141,8 +142,9 @@ public class UserServiceImpl implements IUserService {
 	}
 	
 	@Override
-	public List<HashMap<String,Object>> getFetchUser(String publisId) throws Exception {
-		List<HashMap<String,Object>> fetchUserList = userMapper.selectFetchUser(publisId);
+	public List<HashMap<String,Object>> getFetchUser(FetchUserParam queryParam) throws Exception {
+		PageHelper.startPage(Integer.parseInt(queryParam.getCurPage()), Integer.parseInt(queryParam.getPageSize()),true);
+		List<HashMap<String,Object>> fetchUserList = userMapper.selectFetchUser(queryParam);
 		for (HashMap<String, Object> hashMap : fetchUserList) {
 			hashMap.put("nickName", URLDecoder.decode(hashMap.get("nickName")+"", "UTF-8"));
 		}

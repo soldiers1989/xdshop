@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.xdshop.api.FetchUserParam;
 import com.xdshop.api.PublishUserParam;
 import com.xdshop.dal.domain.User;
 
@@ -35,7 +36,7 @@ public interface UserMapper {
     
     List<User> selectByParentOpenId(String parentOpenId);
     
-    List<HashMap<String,Object>> selectFetchUser(String publisId);
+    List<HashMap<String,Object>> selectFetchUser(@Param("param") FetchUserParam param);
     
     List<HashMap<String,Object>> selectPublishUser(@Param("param") PublishUserParam param);
     /**

@@ -3,26 +3,15 @@ package xdshop;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
-
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.FileUtils;
-
 import com.alibaba.fastjson.JSONObject;
 import com.xdshop.util.HttpsUtil;
-import com.xdshop.util.XMLUtils;
-import com.xdshop.vo.MsgRcvVo;
 import com.xdshop.vo.QrTicketVo;
 import com.xdshop.vo.SceneVo;
-
-import io.netty.handler.codec.base64.Base64Decoder;
-import io.netty.handler.codec.base64.Base64Encoder;
 
 /**
  * 二维码测试
@@ -46,7 +35,9 @@ public class QrCodeTest {
 		
 		JSONObject actionInfo = new JSONObject();
 		JSONObject scene = new JSONObject();
-		scene.put("scene_str", sceneVo.getOpenId());
+//		scene.put("scene_str", sceneVo.getOpenId());
+		System.out.println(JSONObject.toJSONString(sceneVo));
+		scene.put("scene_str", sceneVo.getOpenId()+"|"+sceneVo.getPublishId());
 //		scene.put("scene_id", 1234);
 		actionInfo.put("scene", scene);
 		bodyParams.put("action_info", actionInfo);
@@ -86,10 +77,11 @@ public class QrCodeTest {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		String accessToken = "13_jxpHbX4Kxwuh4yP6sFLCxMGupQuweBJsvgD5NTH-ppjGNAaLaiuyhS1GEsNpkvI-A1gjababH4Yd5ugMbP85PseVAfhBDyS65XGV70OyFUYfDmiF3L-tJIUZ1quuRyLDoZa7OqPdRoY_bmFIGWSbAHABRN";
+		String accessToken = "13_lK_DMHXVSoylh3QGE58as5P2yhV32ze36NB5HVz1iQRAJAkW6q3nRdq7sIoOhyD6Xh9_Vxo5OBC2xfhL_qRGp2vr77lKHzpLzEt6o9Siw_xhmEhYEGV5xjgeBYaLgel3iSn9a5-7RsHAOtlgIITjAIAMMX";
 		QrCodeTest qrCodeTest = new QrCodeTest();
 		SceneVo sceneVo = new SceneVo();
 		sceneVo.setOpenId("oXmQ_1ddd8Yq4C_oAhq_OiMG181c");
+		sceneVo.setPublishId("5555555555555");
 		qrCodeTest.getQrPic(sceneVo,accessToken);
 	}
 }

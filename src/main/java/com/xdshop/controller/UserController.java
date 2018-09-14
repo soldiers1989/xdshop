@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.Page;
+import com.xdshop.api.FetchUserParam;
 import com.xdshop.api.PublishUserParam;
 import com.xdshop.dal.domain.User;
 import com.xdshop.dal.domain.UserShare;
@@ -42,14 +43,14 @@ public class UserController extends BaseController {
 	}
 	
 	@ApiOperation(value="已免费领取客户")
-	@RequestMapping(value="/fetchuser/{publishId}",method=RequestMethod.GET)
+	@RequestMapping(value="/fetchuser",method=RequestMethod.GET)
 	@ResponseBody
-	public ResponseVo getFetchUser(HttpServletRequest request,@PathVariable String publishId) throws Exception{
-		List<HashMap<String,Object>> userList = userServiceImpl.getFetchUser(publishId);
-		ResponseVo responseVo = new ResponseVo();
-		responseVo.setData(userList);
-		responseVo.setSuccessResponse(true);
-		return responseVo;
+	public PageVo getFetchUser(HttpServletRequest request,FetchUserParam fetchUserParam) throws Exception{
+		List<HashMap<String,Object>> userList = userServiceImpl.getFetchUser(fetchUserParam);
+		PageVo page=new PageVo();
+		page.setTotalItem(((Page)userList).getTotal());
+		page.setData(userList);
+		return page;
 	}
 	
 	@ApiOperation(value="活动用户列表")

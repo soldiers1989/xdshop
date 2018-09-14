@@ -232,7 +232,7 @@
     
   </select>
   
-  <select id="selectFetchUser" parameterType="java.lang.String" resultType="java.util.HashMap">
+  <select id="selectFetchUser" parameterType="com.xdshop.api.FetchUserParam" resultType="java.util.HashMap">
    select a.open_id as 'openId'
 		,a.nick_name as 'nickName'
 		,b.name as 'name'
@@ -242,7 +242,7 @@
 	from t_user a
 	inner join t_user_share b
 	on a.open_id = b.open_id and b.fetch_status = 1 
-		and  b.publish_id = #{publisId}
+		and  b.publish_id = #{param.publishId}
   </select>
   
   <select id="selectPublishUser" parameterType="com.xdshop.api.PublishUserParam" resultType="java.util.HashMap">
