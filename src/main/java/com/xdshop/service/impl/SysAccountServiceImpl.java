@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
-import com.netflix.governator.annotations.AutoBind;
 import com.xdshop.api.BaseParam;
 import com.xdshop.dal.dao.SysAccountMapper;
 import com.xdshop.dal.domain.SysAccount;
