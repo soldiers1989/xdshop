@@ -371,7 +371,7 @@ public class PublishServiceImpl implements IPublishService {
 		g2d.drawImage(qrImage,  bgWith - qrImageWidth - 30, bgHeight - qrImageHeight-30,qrImageWidth ,qrImageHeight ,null);
 			
 		//公众号名称
-		String ghName = "重庆旅游生活宝";
+		String ghName = "重庆景区票务";
 		BufferedImage nickNameImage = ImageUtils.createContentImage(ghName, 400, 40, 30,Color.black);
 		int nickNameImageWidth =nickNameImage.getWidth();
 		int nickNameHeight =nickNameImage.getHeight();

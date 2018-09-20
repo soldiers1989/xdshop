@@ -198,6 +198,8 @@ public class EventServiceImpl implements IEventService {
 //			user.setNickName(userInfoVo.getNickname());
 //			user.setHeaderUrl(userInfoVo.getHeadimgurl());
 			user.setHeaderOssKey("");
+			//已关注过的用户，不参与助力，上级设置为虚拟openId
+			parentOpenId = "vopenid01";
 			user.setParentOpenId(parentOpenId);
 			user.setSubType(subType);
 			user.setCreateTime(Calendar.getInstance().getTime());
