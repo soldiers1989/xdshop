@@ -9,7 +9,7 @@ public class ContentUtils {
 		for (int i = 0; i < content.length(); i++) {
 			String tempStr = content.substring(i, i+1);
 			boolean isMatch = tempStr.matches(chnStrReg);
-			System.out.println(tempStr+"|"+isMatch);
+//			System.out.println(tempStr+"|"+isMatch);
 			if(isMatch)
 				totalByte = totalByte + 2;
 			else 

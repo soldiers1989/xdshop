@@ -59,6 +59,16 @@ public interface IUserService {
 	public User getUserInfo(String openId) throws Exception;
 	
 	public UserShare getUserShareInfo(String publishId,String openId) throws Exception;
+	/**
+	 * 获取门票领用状态
+	 * 160068
+	 * 2018年9月21日 下午4:23:47
+	 * @param publishId
+	 * @param openId
+	 * @return 已领取：true；未领取：false
+	 * @throws Exception
+	 */
+	public Boolean getFetchStatus(String publishId,String openId) throws Exception;
 	
 	
 	

@@ -260,6 +260,14 @@ public class UserServiceImpl implements IUserService {
 		UserShare userShare = userShareMapper.selectByPublishIdAndOpenId(publishId, openId);
 		return userShare;
 	}
+	@Override
+	public Boolean getFetchStatus(String publishId, String openId) throws Exception {
+		Boolean fetchStatus = false;
+		UserShare userShare = userShareMapper.selectByPublishIdAndOpenId(publishId, openId);
+		if(userShare != null)
+			fetchStatus = userShare.getFetchStatus();
+		return fetchStatus;
+	}
 	
 	
 }

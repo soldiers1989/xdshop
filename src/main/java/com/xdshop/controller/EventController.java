@@ -1,10 +1,7 @@
 package com.xdshop.controller;
 
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,9 +19,7 @@ import com.xdshop.service.IEventService;
 import com.xdshop.service.XdShopService;
 import com.xdshop.util.Utils;
 import com.xdshop.util.XMLUtils;
-import com.xdshop.vo.ArticleVo;
 import com.xdshop.vo.MsgRcvVo;
-import com.xdshop.vo.MsgRetVo;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -116,7 +111,7 @@ public class EventController {
 		}
 		msgRet.setArticles(articles);
 		String msgRetStr = XMLUtils.jaxBeanToXml(msgRet);*/
-		logger.info("返回报文：\n"+msgRetStr);
+//		logger.info("返回报文：\n"+msgRetStr);
 		return msgRetStr;
 	}
 	

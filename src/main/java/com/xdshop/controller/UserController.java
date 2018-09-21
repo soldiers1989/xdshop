@@ -105,6 +105,16 @@ public class UserController extends BaseController {
 		return rv;
 	}
 	
+	@ApiOperation(value="获取门票领用状态")
+	@RequestMapping(value="/fetchStatus/{publishId}/{openId}",method=RequestMethod.GET)
+	@ResponseBody
+	public ResponseVo getFetchStatus(HttpServletRequest request,@PathVariable String publishId,@PathVariable String openId) throws Exception{
+		Boolean fetchStatus = userServiceImpl.getFetchStatus(publishId, openId);
+		ResponseVo responseVo = new ResponseVo();
+		responseVo.setData(fetchStatus);
+		responseVo.setSuccessResponse(true);
+		return responseVo;
+	}
 	
 	
 }
