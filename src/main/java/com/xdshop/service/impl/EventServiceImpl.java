@@ -251,5 +251,23 @@ public class EventServiceImpl implements IEventService {
 		logger.info("返回报文：\n"+msgRetStr);
 		return msgRetStr;
 	}
+
+	@Override
+	public String genTextMsg(MsgRcvVo msgRcv) throws Exception {
+		String fromUserName = msgRcv.getFromUserName();
+		String toUserName = msgRcv.getToUserName();
+		
+		MsgRetVo msgRet = new MsgRetVo();
+		msgRet.setFromUserName(toUserName);
+		msgRet.setToUserName(fromUserName);
+		msgRet.setCreateTime(System.currentTimeMillis());
+		msgRet.setMsgType("text");
+		msgRet.setContent("温馨提示：可以在活动页面底部，查看您的助力好友!");
+		
+		String msgRetStr = XMLUtils.jaxBeanToXml(msgRet);
+		
+		logger.info("返回报文：\n"+msgRetStr);
+		return msgRetStr;
+	}
 	
 }

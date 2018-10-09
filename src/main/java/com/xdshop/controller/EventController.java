@@ -66,52 +66,31 @@ public class EventController {
 //		String toUserName = msgRcv.getToUserName();
 //		String content = msgRcv.getContent().toLowerCase();
 		
-		String event = msgRcv.getEvent().toLowerCase();
 		String msgRetStr = "";
-		switch(event){
-		case "subscribe":
-			msgRetStr = eventServiceImpl.subscribe(msgRcv);
-			break;
-		case "unsubscribe":
-			msgRetStr = eventServiceImpl.unsubscribe(msgRcv);
-			break;
-		case "scan":
-			msgRetStr = eventServiceImpl.scan(msgRcv);
-			break;
+		String eventName = msgRcv.getEvent();
+		
+		if(eventName != null){
+			/**
+			 * 接受到事件消息
+			 */
+			String event = eventName.toLowerCase();
+			switch(event){
+			case "subscribe":
+				msgRetStr = eventServiceImpl.subscribe(msgRcv);
+				break;
+			case "unsubscribe":
+				msgRetStr = eventServiceImpl.unsubscribe(msgRcv);
+				break;
+			case "scan":
+				msgRetStr = eventServiceImpl.scan(msgRcv);
+				break;
+			}
+		}else{
+			/**
+			 * 接受到其他消息
+			 */
+			msgRetStr = eventServiceImpl.genTextMsg(msgRcv);
 		}
-		
-		/**
-		 * 自动回复消息：文本消息
-		 */
-//		MsgRetVo  msgRet = new MsgRetVo();
-		//回复文本消息
-		/*msgRet.setFromUserName(toUserName);
-		msgRet.setToUserName(fromUserName);
-		msgRet.setContent("欢迎关注本公众号!");
-		msgRet.setCreateTime(System.currentTimeMillis());
-		msgRet.setMsgId(Utils.get16UUID());
-		msgRet.setMsgType("text");*/
-		
-		//回复图文消息(最多支持回复8条图文消息)
-		/*int articleCount = 1;
-		msgRet.setFromUserName(toUserName);
-		msgRet.setToUserName(fromUserName);
-		msgRet.setCreateTime(System.currentTimeMillis());
-		msgRet.setMsgType("news");
-		msgRet.setArticleCount(articleCount);	
-		
-		List<ArticleVo> articles = new ArrayList<ArticleVo>();
-		for(int i = 1 ; i <= articleCount;i++){
-			ArticleVo articleVo = new ArticleVo();
-			articleVo.setTitle("【爱在曼谷园】水陆联欢，日夜通玩，快带心爱的TA来免费畅玩吧！");
-//			articleVo.setDescription("描述：图文消息");
-			articleVo.setPicUrl("http://xdshop2018.oss-cn-hangzhou.aliyuncs.com/resource/微信图片_20180824114749.jpg");
-			articleVo.setUrl("http://zl.bnxly.top/app/xdshop_c/index_publish.html?_ijt=ojcbtgbgkgtu5q1ln6mstttpnv#/publishshow/oXmQ_1ddd8Yq4C_oAhq_OiMG181c/eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJpYXQiOjE1MzU4MTcxNTF9.hmszfiLDY8MZKbjYtJ_clhYlVRp75Ovt0q48wQGpsXI/a2ed849d18722273");
-			articles.add(articleVo);
-		}
-		msgRet.setArticles(articles);
-		String msgRetStr = XMLUtils.jaxBeanToXml(msgRet);*/
-//		logger.info("返回报文：\n"+msgRetStr);
 		return msgRetStr;
 	}
 	
