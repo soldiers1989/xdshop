@@ -5,7 +5,7 @@
 
 	<groupId>com.pujjr</groupId>
 	<artifactId>xdshop</artifactId>
-	<version>1.0.3.20181008.${profiles.active}</version>
+	<version>1.0.4.20181009.${profiles.active}</version>
 
 	<packaging>jar</packaging>
 
