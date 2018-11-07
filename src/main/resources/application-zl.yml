@@ -1,0 +1,81 @@
+spring:
+#rabbitMQ消息队列服务配置
+  rabbitmq:
+    host: 172.18.10.131
+    virtualHost: test
+    username: pjadmin
+    password: Purking0326
+#日志配置
+logging:
+  level:
+    root: debug
+#数据库数据源
+druid:
+  url: jdbc:mysql://47.95.242.205:3306/zl?characterEncoding=UTF-8
+  username: zl
+  password: zl
+  initial-size: 1
+  min-idle: 1
+  max-active: 50
+  test-on-borrow: true
+  driver: com.mysql.jdbc.Driver
+#---------------------------rest访问 相关---------------------------------    
+rest: 
+  pcms: 
+    url: http://172.18.10.82:9009/pcms-web-dev-1/pcms-web
+  pcms-query:
+    url: http://10.253.41.29:8080/pcms-web-query
+  #赛格上传gps数据地址
+  seg:
+    url: http://218.17.3.228:8000/pjjrserver/gps/addAddress
+
+#---------------------------赛格上传数据MD5 key值---------------------------------   
+segUpload:
+  md5Key: PUJINJINRONGGPS2018
+  successCode: 888888
+ 
+    
+#---------------------------定时任务 相关---------------------------------      
+#调度器是否启用
+schedule: 
+  start: false
+  #库存盘点时间
+  tokenRefresh: 
+    cronTime: 0 */1 * * * ? 
+    
+#---------------------------文件 相关---------------------------------          
+#excel下载，临时文件保存目录
+file: 
+  excelPath: temp   
+#---------------------------excel校验开关 相关---------------------------------            
+#excel导入gps编码规则校验开关(true:启用gps编码规则校验；false：关闭gps编码规则校验)
+excel: 
+  valid:
+    switch: true
+#重复gps编码校验开关(true:入库时，启用gps编码重复性校验；false：入库时，关闭gps编码重复性校验)
+gps:
+  duplicated:
+    switch: true
+    
+ #---------------------------微信相关--------------------------------- 
+weChat: 
+  #星都优选
+  #appId: wxcc4c443d5a08ed7d
+  #secret: 89ece1ca08163acc1737155060b33eb1
+  #测试微信公众号：brighttang2011
+  appId: wx55980339ef1cf5bd
+  secret: f36026086495e7e1658beb231440f6c4
+  token: 
+    #access_toke 刷新评率（间隔分钟数）
+    refreshFreq: 90
+ #---------------------------OSS相关---------------------------------   
+oss: 
+  endpoint: oss-cn-beijing.aliyuncs.com
+  accessKeyId: LTAIPWrOeUH57OJU
+  accessKeySecret: rIWYIxAbuJksQBUQxpCV4BR7hXZvzd
+  bucketName: zhuli2018
+#---------------------------关注后回复图文消息相关---------------------------------   
+article: 
+  #图片消息，基础跳转地址
+  picBaseUrl: "http://zl.bnxly.top/client/zl_client/index_publish.html?#/publishshow"
+#  picBaseUrl: "http://47.98.40.54/app/xdshop_c/index_publish.html?#/publishshow"

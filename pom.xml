@@ -282,7 +282,8 @@
 	</build>
 
 	<profiles>
-		<!-- <profile>
+	
+		<profile>
 			<id>dev</id>
 			<properties>
 				<profiles.active>dev</profiles.active>
@@ -290,30 +291,43 @@
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
-		</profile> -->
+		</profile>
+		
 		<profile>
-			<!-- 测试环境 -->
 			<id>test</id>
 			<properties>
 				<profiles.active>test</profiles.active>
 			</properties>
 		</profile>
+		
 		<profile>
-			<!-- UAT环境 -->
 			<id>uat</id>
 			<properties>
 				<profiles.active>uat</profiles.active>
 			</properties>
 		</profile>
+		
 		<profile>
-			<id>prod</id>
+			<id>zl</id>
 			<properties>
-				<profiles.active>prod</profiles.active>
+				<profiles.active>zl</profiles.active>
 			</properties>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 		</profile>
+		
+		<profile>
+			<id>jqpw</id>
+			<properties>
+				<profiles.active>jqpw</profiles.active>
+			</properties>
+		</profile>
+		
+		<profile>
+			<id>wkdly</id>
+			<properties>
+				<profiles.active>wkdly</profiles.active>
+			</properties>
+		</profile>
+		
 	</profiles>
 
 </project>
